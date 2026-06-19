@@ -100,7 +100,7 @@
       backface-visibility: hidden;
     }
 
-    /* Custom Scrollbar - Minimalist */
+    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 2px;
     }
@@ -507,7 +507,6 @@
 
     // --- V. ROBUST FETCH WRAPPER FOR ERROR EXTRACTION ---
     async function safeFetchJson(url, options = {}) {
-      // Setup browser Cache-Control headers natively instead of dynamic query params
       const headers = {
         ...options.headers,
         'Cache-Control': 'no-cache',
@@ -674,7 +673,8 @@
       dtList.innerHTML = ''; mbList.innerHTML = '';
 
       Object.keys(state.cart).forEach(id => {
-        const item = state.items.find(i => i.id === id);
+        // String conversion fixes standard integer db key lookup mismatches
+        const item = state.items.find(i => String(i.id) === String(id));
         if (item) {
           const q = state.cart[id];
           totalQty += q;
@@ -768,7 +768,6 @@
       showLoader(true);
 
       try {
-        // Query database safely without appending cached-busting REST parameters
         const dataArr = await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password&select=value`, {
           headers: {
             'apikey': supabaseAnonKey,
@@ -836,7 +835,6 @@
           body: JSON.stringify({ value: newPass, updated_at: new Date().toISOString() })
         });
 
-        // Verification query cycle confirming dynamic write commits natively
         const verifyData = await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password&select=value`, {
           headers: {
             'apikey': supabaseAnonKey,
@@ -942,7 +940,7 @@
       
       let total = 0;
       Object.keys(state.cart).forEach(id => {
-        const item = state.items.find(i => i.id === id);
+        const item = state.items.find(i => String(i.id) === String(id));
         if (item) total += item.price * state.cart[id];
       });
 
