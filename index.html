@@ -75,7 +75,7 @@
             </div>
             <!-- Brand Title & Access Toggle (Single Line Layout) -->
             <div class="flex items-center gap-2 md:gap-3 shrink-0">
-                <h1 class="text-[11px] md:text-sm tracking-wider font-bold text-stone-300 whitespace-nowrap uppercase">Marzoft Kitchen</h1>
+                <h1 class="text-[11px] md:text-sm tracking-wider font-bold text-stone-300 whitespace-nowrap uppercase font-semibold">Marzoft Kitchen</h1>
                 <button id="nav-toggle-btn" onclick="toggleRoute()" class="p-1.5 md:p-2 bg-stone-900/60 border border-stone-800 hover:border-stone-700 active:scale-95 rounded-xl text-stone-400 hover:text-amber-400 transition-all flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(0,0,0,0.4)]">
                     <i data-lucide="lock" id="nav-btn-icon" class="w-3.5 h-3.5 md:w-4 md:h-4"></i>
                 </button>
@@ -129,38 +129,78 @@
         </div>
     </main>
 
-    <!-- ADMIN VIEWPORT -->
-    <main id="admin-view" class="w-full hidden flex-col md:flex-row gap-8 max-w-[1600px] mx-auto px-4 md:px-8 pt-24 md:pt-28 pb-32 md:pb-36">
-        <!-- Left Area: Administrative Forms -->
-        <div class="w-full md:w-[380px] lg:w-[420px] shrink-0 flex flex-col gap-6">
-            <div class="mb-2 accelerated">
-                <p class="text-xs font-semibold text-amber-500 tracking-widest uppercase mb-1">Kitchen Dashboard</p>
-                <h2 class="text-2xl font-black tracking-tight text-stone-100">Manage Menu & Settings</h2>
+    <!-- ADMIN VIEWPORT (Operational Command Suite) -->
+    <main id="admin-view" class="w-full hidden flex-col gap-6 max-w-[1600px] mx-auto px-3.5 md:px-8 pt-24 md:pt-28 pb-32 md:pb-36">
+        <!-- Header -->
+        <div class="mb-2 accelerated">
+            <p class="text-xs font-semibold text-amber-500 tracking-widest uppercase mb-1">Command Suite</p>
+            <h2 class="text-2xl md:text-3xl font-black tracking-tight text-stone-100">Operational Dashboard</h2>
+        </div>
+
+        <!-- Horizontal Sub-navigation Docking System -->
+        <div class="glass-panel rounded-2xl p-1.5 flex gap-1.5 max-w-lg accelerated border border-white/5 shadow-2xl">
+            <button onclick="switchAdminTab('orders', this)" class="flex-1 py-2.5 rounded-xl text-[10px] uppercase tracking-widest font-bold text-stone-950 bg-amber-500 transition-all shadow-lg shadow-amber-500/10" id="btn-tab-orders">
+                Orders Desk
+            </button>
+            <button onclick="switchAdminTab('catalog', this)" class="flex-1 py-2.5 rounded-xl text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-200 transition-all" id="btn-tab-catalog">
+                Catalog Vault
+            </button>
+            <button onclick="switchAdminTab('security', this)" class="flex-1 py-2.5 rounded-xl text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-200 transition-all" id="btn-tab-security">
+                Security Keys
+            </button>
+        </div>
+
+        <!-- PANEL A: Incoming Live Orders -->
+        <div id="panel-orders" class="admin-tab-panel flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-stone-800 pb-3 mb-2">
+                <span class="text-xs font-bold text-stone-200 uppercase tracking-wider">Live Incoming Operations</span>
+                <span id="admin-count" class="text-[10px] text-stone-400 uppercase tracking-widest font-medium">0 Orders</span>
+            </div>
+            <div id="admin-list" class="grid grid-cols-1 md:grid-cols-2 gap-5 max-h-[800px] overflow-y-auto no-scrollbar pr-1">
+            </div>
+        </div>
+
+        <!-- PANEL B: Culinary Catalog Vault -->
+        <div id="panel-catalog" class="admin-tab-panel hidden grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Area: Add Product Form (grid col-1) -->
+            <div class="lg:col-span-1 flex flex-col gap-6">
+                <div class="glass-panel rounded-3xl p-5 shadow-2xl flex flex-col gap-4 border border-white/5">
+                    <h3 class="text-xs font-bold text-stone-200 uppercase tracking-wider border-b border-stone-800 pb-3">Add New Dish</h3>
+                    <form onsubmit="createProduct(event)" class="flex flex-col gap-4">
+                        <div>
+                            <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Dish Name</label>
+                            <input required id="form-name" type="text" placeholder="e.g., Obsidian Truffle" class="w-full bg-stone-900/60 border border-stone-800/80 focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/30 text-xs px-3.5 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Price (₹)</label>
+                            <input required id="form-price" type="number" min="1" placeholder="e.g., 1299" class="w-full bg-stone-900/60 border border-stone-800/80 focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/30 text-xs px-3.5 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Description / Ingredients</label>
+                            <textarea required id="form-desc" rows="3" placeholder="Dish specifications..." class="w-full bg-stone-900/60 border border-stone-800/80 focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/30 text-xs px-3.5 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none resize-none font-medium"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] text-stone-950 font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-amber-500/10 text-xs tracking-wider uppercase">
+                            Add to Menu
+                        </button>
+                    </form>
+                </div>
             </div>
 
-            <!-- Inject Entity Form -->
-            <div class="glass-panel rounded-3xl p-5 shadow-2xl flex flex-col gap-4 border border-white/5">
-                <h3 class="text-xs font-bold text-stone-200 uppercase tracking-wider border-b border-stone-800 pb-3">Add New Dish</h3>
-                <form onsubmit="createProduct(event)" class="flex flex-col gap-4">
-                    <div>
-                        <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Dish Name</label>
-                        <input required id="form-name" type="text" placeholder="e.g., Obsidian Truffle" class="w-full bg-stone-950/60 border border-stone-800/80 focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/30 text-xs px-3.5 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
+            <!-- Right Area: Inventory Dishes List (grid col-2) -->
+            <div class="lg:col-span-2 flex flex-col gap-4">
+                <div class="glass-panel rounded-3xl p-5 shadow-2xl flex flex-col h-full gap-4 border border-white/5">
+                    <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+                        <span class="text-xs font-bold text-stone-200 uppercase tracking-wider">Vault Stock</span>
+                        <span id="dishes-count" class="text-[10px] text-stone-400 uppercase tracking-widest font-medium">0 Dishes</span>
                     </div>
-                    <div>
-                        <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Price (₹)</label>
-                        <input required id="form-price" type="number" min="1" placeholder="e.g., 1299" class="w-full bg-stone-950/60 border border-stone-800/80 focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/30 text-xs px-3.5 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
+                    <div id="dishes-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto no-scrollbar pr-1">
                     </div>
-                    <div>
-                        <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Description / Ingredients</label>
-                        <textarea required id="form-desc" rows="3" placeholder="Dish specifications..." class="w-full bg-stone-900/60 border border-stone-800/80 focus:border-amber-500/80 focus:ring-1 focus:ring-amber-500/30 text-xs px-3.5 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none resize-none font-medium"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] text-stone-950 font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-amber-500/10 text-xs tracking-wider uppercase">
-                        Add to Menu
-                    </button>
-                </form>
+                </div>
             </div>
+        </div>
 
-            <!-- Security Override Form -->
+        <!-- PANEL C: System Keys & Security Overrides -->
+        <div id="panel-security" class="admin-tab-panel hidden max-w-xl flex-col gap-6">
             <div class="glass-panel rounded-3xl p-5 shadow-2xl flex flex-col gap-4 border border-white/5">
                 <h3 class="text-xs font-bold text-stone-200 uppercase tracking-wider border-b border-stone-800 pb-3">Change Admin Password</h3>
                 <form onsubmit="updateAdminPassword(event)" class="flex flex-col gap-4">
@@ -182,18 +222,6 @@
             <button onclick="logoutAdmin(this)" class="w-full bg-red-950/15 border border-red-900/30 hover:bg-red-950/20 active:scale-[0.98] text-red-500 font-bold py-4 rounded-xl transition-all text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(239,68,68,0.05)]">
                 Log Out
             </button>
-        </div>
-
-        <!-- Right Area: Order Tracking Operations Desk -->
-        <div class="flex-1 flex flex-col min-h-0 admin-panel-anim mt-10 md:mt-0">
-            <div class="glass-panel rounded-3xl p-5 shadow-2xl flex flex-col h-full gap-4 border border-white/5">
-                <div class="flex items-center justify-between border-b border-stone-800 pb-3">
-                    <span class="text-xs font-bold text-stone-200 uppercase tracking-wider">Operations Desk</span>
-                    <span id="admin-count" class="text-[10px] text-stone-400 uppercase tracking-widest font-medium">0 Orders</span>
-                </div>
-                <div id="admin-list" class="flex flex-col gap-4 max-h-[600px] overflow-y-auto no-scrollbar pr-1">
-                </div>
-            </div>
         </div>
     </main>
 
@@ -247,39 +275,41 @@
         </button>
     </div>
 
-    <!-- CLIENT FULFILLMENT MODAL -->
-    <div id="fulfillment-modal" class="fixed inset-0 bg-[#0a0a0a]/95 backdrop-blur-2xl z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none accelerated transition-colors duration-1000">
-        <div id="fulfillment-card" class="w-full max-w-md p-6 rounded-3xl glass-panel flex flex-col gap-5 transform scale-95 accelerated border border-white/5">
-            <div class="flex justify-between items-center border-b border-stone-800 pb-3">
-                <div>
-                    <h3 class="font-bold text-stone-200 text-sm uppercase tracking-wider">Fulfillment Parameters</h3>
-                    <p class="text-[10px] text-stone-400 mt-1 uppercase tracking-wider">Please supply delivery coordinates</p>
+    <!-- CLIENT FULFILLMENT OVERLAY SHEET/MODAL (Responsive layout side-sheet on desktop, bottom-sheet on mobile) -->
+    <div id="fulfillment-modal" class="fixed inset-0 bg-[#0a0a0a]/95 backdrop-blur-2xl z-50 flex items-end md:items-stretch md:justify-end p-0 opacity-0 pointer-events-none accelerated transition-colors duration-1000">
+        <div id="fulfillment-card" class="w-full md:w-[450px] p-6 md:p-8 bg-[#0a0a0a] glass-panel border-t border-white/5 md:border-t-0 md:border-l rounded-t-[2.5rem] md:rounded-t-none flex flex-col justify-between shadow-2xl accelerated transition-transform duration-500" style="transform: translateY(100%);">
+            <div class="flex flex-col gap-6 h-full justify-between min-h-0 overflow-y-auto no-scrollbar">
+                <div class="flex justify-between items-center border-b border-stone-800 pb-3">
+                    <div>
+                        <h3 class="font-bold text-stone-200 text-sm uppercase tracking-wider">Fulfillment Parameters</h3>
+                        <p class="text-[9px] text-stone-400 mt-1 uppercase tracking-wider">Please supply delivery coordinates</p>
+                    </div>
+                    <button onclick="toggleFulfillmentModal(false)" class="p-2 rounded-xl hover:bg-stone-900 transition-colors">
+                        <i data-lucide="x" class="w-4 h-4 text-stone-400"></i>
+                    </button>
                 </div>
-                <button onclick="toggleFulfillmentModal(false)" class="p-1 rounded-lg hover:bg-stone-850 transition-colors">
-                    <i data-lucide="x" class="w-4 h-4 text-stone-400"></i>
-                </button>
+                <form onsubmit="confirmFulfillment(event)" class="flex flex-col gap-5 flex-1 justify-center">
+                    <div>
+                        <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Full Name</label>
+                        <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-[#09090b] border border-white/5 focus:border-amber-500 focus:ring-0 text-xs px-4 py-3.5 rounded-xl text-stone-100 placeholder-stone-700 transition-all outline-none font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Contact Link</label>
+                        <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-[#09090b] border border-white/5 focus:border-amber-500 focus:ring-0 text-xs px-4 py-3.5 rounded-xl text-stone-100 placeholder-stone-700 transition-all outline-none font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Delivery Destination</label>
+                        <textarea required id="fullfill-address" rows="3" placeholder="Street, block, apartment no..." class="w-full bg-[#09090b] border border-white/5 focus:border-amber-500 focus:ring-0 text-xs px-4 py-3.5 rounded-xl text-stone-100 placeholder-stone-700 transition-all outline-none resize-none font-medium"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Proximate Landmark</label>
+                        <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-[#09090b] border border-white/5 focus:border-amber-500 focus:ring-0 text-xs px-4 py-3.5 rounded-xl text-stone-100 placeholder-stone-700 transition-all outline-none font-medium">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] text-stone-950 font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-amber-500/20 hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] text-xs tracking-wider uppercase">
+                        Confirm & Process Payment
+                    </button>
+                </form>
             </div>
-            <form onsubmit="confirmFulfillment(event)" class="flex flex-col gap-4">
-                <div>
-                    <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Full Name</label>
-                    <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-stone-900/60 border border-stone-800 focus:border-amber-500 text-xs px-4 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
-                </div>
-                <div>
-                    <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Contact Link</label>
-                    <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-stone-900/60 border border-stone-800 focus:border-amber-500 text-xs px-4 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
-                </div>
-                <div>
-                    <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Delivery Destination</label>
-                    <textarea required id="fullfill-address" rows="3" placeholder="Street, block, apartment no..." class="w-full bg-stone-900/60 border border-stone-800 focus:border-amber-500 text-xs px-4 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none resize-none font-medium"></textarea>
-                </div>
-                <div>
-                    <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Proximate Landmark</label>
-                    <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-stone-900/60 border border-stone-800 focus:border-amber-500 text-xs px-4 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] text-stone-950 font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-amber-500/20 hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] text-xs tracking-wider uppercase">
-                    Confirm & Process Payment
-                </button>
-            </form>
         </div>
     </div>
 
@@ -338,12 +368,13 @@
             cart: {},
             isAdmin: false,
             route: 'client',
-            mobileDrawerOpen: false
+            activeAdminTab: 'orders'
         };
 
         // --- II. INITIALIZATION LIFE CYCLE ---
         function initEngine() {
             safeCreateIcons();
+            setupFulfillmentAnimations();
             
             // Initial Page Motion Reveal
             gsap.to("#hero-text", { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.2 });
@@ -351,6 +382,18 @@
             window.addEventListener('hashchange', handleRoute);
             fetchData();
             handleRoute();
+        }
+
+        function setupFulfillmentAnimations() {
+            // Guarantee card is correctly positioned outside bounds on load
+            const card = document.getElementById('fulfillment-card');
+            if (card) {
+                if (window.innerWidth >= 768) {
+                    gsap.set(card, { x: "100%", y: 0 });
+                } else {
+                    gsap.set(card, { y: "100%", x: 0 });
+                }
+            }
         }
 
         function toggleRoute() {
@@ -390,8 +433,8 @@
                     const dtPanel = document.getElementById("desktop-cart-panel");
                     gsap.to(dtPanel, { x: 40, opacity: 0, duration: 0.6, ease: "power3.in" });
                     
-                    renderAdmin();
-                    gsap.fromTo(".admin-panel-anim", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" });
+                    // Initialize the Active Admin Tab View State
+                    switchAdminTab(state.activeAdminTab, document.getElementById(`btn-tab-${state.activeAdminTab}`));
                 }
             } else {
                 state.route = 'client';
@@ -648,7 +691,6 @@
         // --- VII. DRAWER INTERFACE TOGGLES ---
         let isCartOpen = false;
         function toggleCartDrawer() { isCartOpen ? closeCartDrawer() : openCartDrawer(); }
-        
         function openCartDrawer() {
             const drawer = document.getElementById("cart-drawer");
             drawer.classList.remove("translate-y-full");
@@ -659,7 +701,6 @@
             stickyBar.classList.add("translate-y-24", "opacity-0");
             stickyBar.style.pointerEvents = "none";
         }
-        
         function closeCartDrawer() {
             const drawer = document.getElementById("cart-drawer");
             if (drawer) {
@@ -671,7 +712,7 @@
             updateEngineState();
         }
 
-        // --- VIII. CLIENT INTAKE MODAL TRIGGERS ---
+        // --- VIII. CLIENT INTAKE MODAL & PAYMENT ---
         function toggleFulfillmentModal(show) {
             const modal = document.getElementById('fulfillment-modal');
             const card = document.getElementById('fulfillment-card');
@@ -679,12 +720,20 @@
             
             if (show) {
                 modal.classList.remove('pointer-events-none');
-                gsap.to(modal, { opacity: 1, duration: 0.6, ease: "power3.out" });
-                gsap.to(card, { scale: 1, duration: 0.8, ease: "power3.out" });
+                gsap.to(modal, { opacity: 1, duration: 0.5, ease: "power3.out" });
+                if (window.innerWidth >= 768) {
+                    gsap.to(card, { x: 0, y: 0, duration: 0.6, ease: "power3.out" });
+                } else {
+                    gsap.to(card, { y: 0, x: 0, duration: 0.6, ease: "power3.out" });
+                }
             } else {
                 modal.classList.add('pointer-events-none');
                 gsap.to(modal, { opacity: 0, duration: 0.4 });
-                gsap.to(card, { scale: 0.95, duration: 0.4 });
+                if (window.innerWidth >= 768) {
+                    gsap.to(card, { x: "100%", duration: 0.5, ease: "power3.in" });
+                } else {
+                    gsap.to(card, { y: "100%", duration: 0.5, ease: "power3.in" });
+                }
             }
         }
 
@@ -743,7 +792,7 @@
                     design_specs: designSpecs,
                     calculated_value: finalPayable,
                     transaction_reference: tr,
-                    verification_status: 'PENDING_HANDSHAKE',
+                    verification_status: 'PENDING',
                     created_at: new Date().toISOString()
                 };
                 
@@ -759,6 +808,10 @@
                 });
                 
                 showToast("Order logged. Launching gateway.");
+                state.cart = {};
+                renderMenuGrid();
+                updateEngineState();
+                
             } catch (err) {
                 console.error("Orders write failure (proceeding with payment):", err);
                 showToast("Sync offline. Proceeding with checkout...");
@@ -894,7 +947,7 @@
             }
         }
 
-        // --- X. REAL-TIME OPERATIONS TRACKING DESK ---
+        // --- X. REAL-TIME OPERATIONS TRACKING DESK & TABS ---
         async function fetchOrders() {
             try {
                 const data = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?select=*&order=created_at.desc`, {
@@ -910,16 +963,13 @@
             }
         }
 
-        async function cycleOrderStatus(orderId, currentStatus, badgeBtn) {
-            animateClick(badgeBtn);
+        async function updateOrderStatus(orderId, selectElement) {
+            const nextStatus = selectElement.value;
+            const currentStatus = selectElement.getAttribute('data-current');
             
-            let nextStatus = 'PENDING_HANDSHAKE';
-            if (currentStatus === 'PENDING_HANDSHAKE') {
-                nextStatus = 'DISPATCHED';
-            } else if (currentStatus === 'DISPATCHED') {
-                nextStatus = 'DELIVERED';
-            } else {
-                nextStatus = 'PENDING_HANDSHAKE';
+            if (!confirm(`Modify order state parameter to ${nextStatus}?`)) {
+                selectElement.value = currentStatus;
+                return;
             }
             
             showLoader(true);
@@ -935,13 +985,93 @@
                     body: JSON.stringify({ verification_status: nextStatus })
                 });
                 
+                selectElement.setAttribute('data-current', nextStatus);
                 showToast(`Status Updated to ${nextStatus}`);
                 await renderAdmin();
             } catch (err) {
-                console.error("Failed to cycle order status:", err);
+                console.error("Failed to update order status:", err);
                 showToast("Failed to update status on server.", "error");
+                selectElement.value = currentStatus;
             } finally {
                 showLoader(false);
+            }
+        }
+
+        async function deleteOrder(orderId, btnElement) {
+            animateClick(btnElement);
+            if (!confirm("Are you sure you want to permanently purge this order node from the cloud database?")) return;
+            
+            const cardNode = btnElement.closest('.order-card-node');
+            
+            showLoader(true);
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`
+                    }
+                });
+                
+                showToast("Order node purged.");
+                
+                if (cardNode) {
+                    gsap.to(cardNode, {
+                        opacity: 0,
+                        y: -20,
+                        scale: 0.95,
+                        duration: 0.4,
+                        ease: "power2.in",
+                        onComplete: async () => {
+                            cardNode.remove();
+                            await renderAdmin();
+                        }
+                    });
+                } else {
+                    await renderAdmin();
+                }
+            } catch (err) {
+                console.error("Purge failure:", err);
+                showToast("Failed to purge order from server.", "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function switchAdminTab(tabName, btnElement) {
+            if (btnElement) animateClick(btnElement);
+            state.activeAdminTab = tabName;
+
+            const panels = document.querySelectorAll('.admin-tab-panel');
+            const buttons = document.querySelectorAll('#admin-view button[id^="btn-tab-"]');
+
+            panels.forEach(panel => {
+                if (panel.id === `panel-${tabName}`) {
+                    panel.classList.remove('hidden');
+                    if (tabName === 'catalog') {
+                        panel.classList.add('grid');
+                    } else {
+                        panel.classList.add('flex');
+                    }
+                    gsap.fromTo(panel, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
+                } else {
+                    panel.classList.add('hidden');
+                    panel.classList.remove('grid', 'flex');
+                }
+            });
+
+            buttons.forEach(btn => {
+                if (btn.id === `btn-tab-${tabName}`) {
+                    btn.className = "flex-1 py-2.5 rounded-xl text-[10px] uppercase tracking-widest font-bold text-stone-950 bg-amber-500 transition-all shadow-lg shadow-amber-500/10";
+                } else {
+                    btn.className = "flex-1 py-2.5 rounded-xl text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-200 transition-all";
+                }
+            });
+
+            if (tabName === 'orders') {
+                renderAdmin();
+            } else if (tabName === 'catalog') {
+                renderCatalogVault();
             }
         }
 
@@ -953,7 +1083,7 @@
             list.innerHTML = `<div class="text-center py-8 text-[10px] text-stone-500 uppercase tracking-wider border border-dashed border-stone-800 rounded-xl col-span-full">Syncing Operations...</div>`;
             
             const orders = await fetchOrders();
-            document.getElementById('admin-count').textContent = `${orders.length} Dishes`;
+            document.getElementById('admin-count').textContent = `${orders.length} Orders`;
             list.innerHTML = '';
 
             if (orders.length === 0) {
@@ -962,45 +1092,57 @@
             }
 
             orders.forEach(item => {
-                let statusColor = "bg-stone-900 border-stone-800 text-stone-400";
-                if (item.verification_status === "DISPATCHED") {
-                    statusColor = "bg-amber-500/10 border-amber-500/30 text-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.05)]";
-                } else if (item.verification_status === "DELIVERED") {
+                const currentStatus = item.verification_status || 'PENDING';
+                let statusColor = "border-stone-800 text-stone-400 bg-stone-900";
+                if (currentStatus === "DELIVERED") {
                     statusColor = "bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.05)]";
                 }
 
                 list.innerHTML += `
-                  <div class="flex flex-col gap-4 p-5 rounded-2xl bg-stone-950/40 border border-stone-900 shadow-xl accelerated admin-panel-anim">
+                  <div class="order-card-node p-5 rounded-2xl bg-stone-950/40 border border-stone-900 shadow-xl flex flex-col gap-4 mb-2 hover:border-stone-800 transition-all">
                     <!-- Head Details -->
                     <div class="flex justify-between items-start border-b border-stone-900 pb-3">
                         <div class="flex flex-col gap-1">
                             <span class="text-[9px] text-stone-500 uppercase tracking-widest font-mono font-bold">${item.created_at ? new Date(item.created_at).toLocaleString('en-IN', { hour12: true }) : 'unknown'}</span>
                             <span class="text-[9px] text-amber-500 uppercase tracking-widest font-mono font-bold">REF: ${item.transaction_reference || 'N/A'}</span>
                         </div>
-                        <!-- Status click toggle badge -->
-                        <button onclick="cycleOrderStatus('${item.id}', '${item.verification_status}', this)" class="px-3 py-1.5 rounded-full text-[9px] uppercase tracking-widest font-bold font-mono transition-all hover:scale-105 active:scale-95 ${statusColor}">
-                            ${item.verification_status || 'PENDING_HANDSHAKE'}
-                        </button>
+                        
+                        <div class="flex items-center gap-2">
+                            <!-- Destructive Purge Control -->
+                            <button onclick="deleteOrder('${item.id}', this)" class="p-2 bg-red-950/20 text-red-500 border border-red-900/30 hover:bg-red-950/40 rounded-xl transition-all active:scale-95 flex items-center justify-center">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+
+                            <!-- Dropdown State Override -->
+                            <select onchange="updateOrderStatus('${item.id}', this)" data-current="${currentStatus}" class="bg-stone-900 border border-stone-800 text-stone-300 text-[10px] font-bold rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-amber-500 transition-all font-mono ${statusColor}">
+                                <option value="PENDING" ${currentStatus === 'PENDING' ? 'selected' : ''}>PENDING</option>
+                                <option value="DELIVERED" ${currentStatus === 'DELIVERED' ? 'selected' : ''}>DELIVERED</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Customer Profile & Metadata -->
-                    <div class="flex flex-col gap-1.5 text-xs">
-                        <div class="flex items-center gap-2">
-                            <span class="text-stone-400 font-medium">Customer:</span>
-                            <span class="text-stone-200 font-bold">${item.client_name || 'N/A'}</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                        <div class="flex flex-col gap-1.5">
+                            <span class="text-[9px] text-stone-500 uppercase tracking-widest font-bold">Profile Info</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-stone-400 font-medium">Customer:</span>
+                                <span class="text-stone-200 font-bold">${item.client_name || 'N/A'}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-stone-400 font-medium">Contact:</span>
+                                <a href="tel:${item.client_phone}" class="text-amber-400 hover:text-amber-300 font-bold transition-colors underline decoration-amber-500/30">${item.client_phone || 'N/A'}</a>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-stone-400 font-medium">Contact:</span>
-                            <a href="tel:${item.client_phone}" class="text-amber-400 hover:text-amber-300 font-bold transition-colors underline decoration-amber-500/30">${item.client_phone || 'N/A'}</a>
+                        <div class="flex flex-col gap-1.5">
+                            <span class="text-[9px] text-stone-500 uppercase tracking-widest font-bold">Proximate Landmark</span>
+                            <span class="text-stone-300 font-medium">${item.timelinetext || 'N/A'}</span>
                         </div>
-                        <div class="flex flex-col gap-1 mt-1">
-                            <span class="text-stone-400 font-medium">Destination coordinates:</span>
-                            <p class="text-stone-300 font-light leading-relaxed bg-stone-950/30 border border-stone-900/60 p-3 rounded-xl text-[11px]">${item.design_specs || 'N/A'}</p>
-                        </div>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-stone-400 font-medium">Proximate landmark:</span>
-                            <span class="text-stone-300 font-light">${item.timelinetext || 'N/A'}</span>
-                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 mt-1">
+                        <span class="text-[9px] text-stone-500 uppercase tracking-widest font-bold">Destination coordinates</span>
+                        <p class="text-stone-300 font-light leading-relaxed bg-[#09090b] border border-white/5 p-3.5 rounded-xl text-[11px]">${item.design_specs || 'N/A'}</p>
                     </div>
 
                     <!-- Order breakdown & financial total -->
@@ -1016,7 +1158,34 @@
                     </div>
                   </div>`;
             });
-            lucide.createIcons();
+            safeCreateIcons();
+        }
+
+        function renderCatalogVault() {
+            const list = document.getElementById('dishes-list');
+            if(!list) return;
+            
+            document.getElementById('dishes-count').textContent = `${state.items.length} Dishes`;
+            list.innerHTML = '';
+
+            if (state.items.length === 0) {
+                list.innerHTML = `<div class="text-center py-8 text-[10px] text-stone-500 uppercase tracking-wider border border-dashed border-stone-800 rounded-xl col-span-full">No active dishes found in database</div>`;
+                return;
+            }
+
+            state.items.forEach(item => {
+                list.innerHTML += `
+                  <div class="flex items-center justify-between p-4 rounded-xl bg-stone-900/30 border border-stone-800/80 hover:border-stone-700/80 transition-colors accelerated">
+                    <div class="flex flex-col gap-1 max-w-[75%]">
+                      <span class="text-sm font-semibold text-stone-200 truncate tracking-wide">${item.name}</span>
+                      <span class="text-[10px] text-amber-400 font-bold tracking-wider">₹${item.price}</span>
+                    </div>
+                    <button onclick="deleteProduct('${item.id}', this)" class="p-2.5 rounded-xl bg-red-950/20 text-red-500 border border-red-900/30 hover:bg-red-950/40 hover:border-red-900/50 transition-all active:scale-95 flex items-center justify-center">
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </div>`;
+            });
+            safeCreateIcons();
         }
 
         async function createProduct(e) {
