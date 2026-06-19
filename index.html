@@ -100,7 +100,7 @@
       backface-visibility: hidden;
     }
 
-    /* Custom Scrollbar */
+    /* Custom Scrollbar - Minimalist */
     ::-webkit-scrollbar {
       width: 2px;
     }
@@ -181,7 +181,7 @@
 
   <main class="flex-1 w-full max-w-[1800px] mx-auto relative flex flex-col">
 
-    <!-- I. CLIENT VIEWPORT -->
+    <!-- I. CLIENT INTERFACE -->
     <div id="client-view" class="w-full flex flex-col md:flex-row gap-6 p-4 lg:p-8">
       
       <div class="flex-1 flex flex-col min-h-0">
@@ -232,7 +232,7 @@
       </div>
     </div>
 
-    <!-- II. ADMIN VIEWPORT -->
+    <!-- II. ADMIN INTERFACE -->
     <div id="admin-view" class="w-full hidden flex-col md:flex-row gap-6 p-4 lg:p-8">
       
       <div class="w-full md:w-[420px] shrink-0 relative">
@@ -245,7 +245,7 @@
             </div>
           </div>
 
-          <!-- Entity injection -->
+          <!-- Add Product Form -->
           <div class="editorial-glass rounded-3xl p-8 flex flex-col gap-6 shrink-0 admin-panel-anim hw-accel">
             <h3 class="text-[10px] font-medium text-theme-main tracking-editorial uppercase border-b border-theme-border pb-4">Inject Entity</h3>
             
@@ -268,7 +268,7 @@
             </form>
           </div>
 
-          <!-- Dynamic Cipher Overrides -->
+          <!-- Security Update Form -->
           <div class="editorial-glass rounded-3xl p-8 flex flex-col gap-6 shrink-0 admin-panel-anim hw-accel">
             <h3 class="text-[10px] font-medium text-theme-main tracking-editorial uppercase border-b border-theme-border pb-4">Security Override</h3>
             
@@ -310,7 +310,7 @@
 
   </main>
 
-  <!-- III. MOBILE LAYOUT UTILS -->
+  <!-- III. MOBILE DRAWER -->
   <div id="mobile-drawer" class="fixed bottom-0 left-0 right-0 editorial-glass border-t border-theme-border rounded-t-[2rem] p-6 md:hidden z-40 translate-y-full flex flex-col gap-6 hw-accel">
     <div class="flex items-center justify-between">
       <div class="flex flex-col">
@@ -333,6 +333,7 @@
     </button>
   </div>
 
+  <!-- IV. AUTHENTICATION GATES -->
   <div id="auth-modal" class="fixed inset-0 bg-theme-bg/95 backdrop-blur-3xl z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none hw-accel transition-colors duration-1000">
     <div id="auth-card" class="w-full max-w-[380px] p-10 rounded-3xl editorial-glass text-center flex flex-col gap-8 transform scale-95 hw-accel">
       <div class="w-16 h-16 bg-transparent border border-theme-border rounded-full flex items-center justify-center mx-auto text-theme-main shadow-[0_0_30px_rgba(0,0,0,0.05)]">
@@ -356,6 +357,7 @@
     </div>
   </div>
 
+  <!-- V. STATUS SYNCHRONIZER -->
   <div id="loader" class="fixed inset-0 bg-theme-bg/95 backdrop-blur-3xl z-[100] flex flex-col items-center justify-center opacity-0 pointer-events-none hw-accel transition-colors duration-1000">
     <div class="relative w-24 h-24 flex items-center justify-center">
       <div class="absolute inset-0 border border-theme-border rounded-full"></div>
@@ -365,8 +367,10 @@
     <span class="mt-10 text-[9px] font-medium text-theme-main tracking-editorial uppercase">Synchronizing</span>
   </div>
 
+  <!-- VI. TOAST NOTIFIER -->
   <div id="toast-container" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] flex flex-col gap-4 pointer-events-none w-[90%] max-w-[400px] hw-accel"></div>
 
+  <!-- APPLICATION LOGIC -->
   <script>
     // --- I. CONFIGURATION ---
     const supabaseUrl = "https://ehwaahbtaqnvjuuzdaqd.supabase.co";
@@ -698,7 +702,7 @@
       showToast("Ledger purged.");
     }
 
-    // --- VII. ADMIN & SECURITY HANDSHAKE (Real-time Cloud Sync) ---
+    // --- VII. ADMIN & SECURITY HANDSHAKE ---
     function showAuthModal(show) {
       const modal = document.getElementById('auth-modal');
       const card = document.getElementById('auth-card');
@@ -742,10 +746,21 @@
           }
         });
         
-        if (!response.ok) throw new Error("Handshake validation exception");
+        if (!response.ok) {
+          let errText = `Server responded with status ${response.status}`;
+          try {
+            const errJson = await response.json();
+            errText = errJson.message || errJson.hint || errText;
+          } catch(e) {}
+          throw new Error(errText);
+        }
         
         const dataArr = await response.json();
-        const securePasswordNode = dataArr && dataArr[0] ? dataArr[0].value : null;
+        if (!dataArr || dataArr.length === 0) {
+          throw new Error("Password entry not found in system_settings table.");
+        }
+        
+        const securePasswordNode = dataArr[0].value;
 
         if (securePasswordNode && inputPass === securePasswordNode) {
           state.isAdmin = true;
@@ -754,13 +769,16 @@
           showToast("Access granted.");
           setTimeout(() => handleRoute(), 200);
         } else {
-          throw new Error("Invalid signature matching criteria");
+          throw new Error("Password mismatch.");
         }
       } catch (err) {
         showLoader(false);
         gsap.to(card, { x: [-8, 8, -6, 6, -3, 3, 0], duration: 0.5, ease: "power2.inOut" });
-        showToast("Access denied: Signature rejection.", "error");
-        setTimeout(() => { window.location.hash = '#store'; showAuthModal(false); }, 600);
+        showToast(`Auth Error: ${err.message}`, "error");
+        setTimeout(() => { 
+          window.location.hash = '#store'; 
+          showAuthModal(false); 
+        }, 4500);
       }
     }
 
@@ -800,7 +818,7 @@
 
         if (!response.ok) throw new Error("System parameters sync error");
 
-        // Forced confirmation cycle to ensure values are securely written on the cloud before returning success state
+        // Verification query cycle confirming dynamic write commits
         const verifyRes = await fetch(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password&select=value&_t=${Date.now()}`, {
           headers: {
             'apikey': supabaseAnonKey,
