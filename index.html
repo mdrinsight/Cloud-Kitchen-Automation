@@ -15,13 +15,35 @@
             -webkit-backdrop-filter: blur(45px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        /* Crisp, clean, non-glowing golden highlight card layout with absolute background blocking */
+        /* Refactored professional high-end luxury ambient checkout glow with muted, sophisticated light values */
         .glow-checkout {
-            background: radial-gradient(circle at 50% 0%, #1b130a 0%, #0a0a0a 100%) !important;
-            backdrop-filter: blur(50px) saturate(160%) !important;
-            -webkit-backdrop-filter: blur(50px) saturate(160%) !important;
-            border: 1.5px solid rgba(245, 158, 11, 0.45) !important;
-            box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.95) !important;
+            background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, rgba(10, 10, 10, 0.99) 85%) !important;
+            backdrop-filter: blur(45px) saturate(160%) !important;
+            -webkit-backdrop-filter: blur(45px) saturate(160%) !important;
+            border: 1px solid rgba(245, 158, 11, 0.22) !important;
+            box-shadow: inset 0 0 20px 0px rgba(245, 158, 11, 0.08),
+                        0 15px 40px -10px rgba(245, 158, 11, 0.12),
+                        0 25px 50px -12px rgba(0, 0, 0, 0.95) !important;
+        }
+        /* Ultra-premium culinary card look with top internal bevel highlight and smooth kinetic transitions */
+        .premium-card {
+            background: linear-gradient(145deg, rgba(16, 16, 16, 0.92) 0%, rgba(8, 8, 8, 0.99) 100%) !important;
+            backdrop-filter: blur(30px) saturate(140%);
+            -webkit-backdrop-filter: blur(30px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.8),
+                        inset 0 1px 1px 0px rgba(255, 255, 255, 0.08);
+            transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @media (hover: hover) {
+            .premium-card:hover {
+                border-color: rgba(245, 158, 11, 0.35);
+                box-shadow: 0 0 30px -5px rgba(245, 158, 11, 0.08),
+                            0 20px 40px -15px rgba(0, 0, 0, 0.95);
+                transform: translateY(-3px);
+            }
         }
         /* Hardware acceleration layer optimization */
         .accelerated {
@@ -162,14 +184,14 @@
             </button>
         </div>
 
-        <!-- Right Area: Inventory Stream (Expanded to horizontal landscape on PC) -->
+        <!-- Right Area: Order Tracking Operations Desk -->
         <div class="flex-1 flex flex-col min-h-0 admin-panel-anim mt-10 md:mt-0">
             <div class="glass-panel rounded-3xl p-5 shadow-2xl flex flex-col h-full gap-4 border border-white/5">
                 <div class="flex items-center justify-between border-b border-stone-800 pb-3">
-                    <span class="text-xs font-bold text-stone-200 uppercase tracking-wider">Active Menu</span>
-                    <span id="admin-count" class="text-[10px] text-stone-400 uppercase tracking-widest font-medium">0 Dishes</span>
+                    <span class="text-xs font-bold text-stone-200 uppercase tracking-wider">Operations Desk</span>
+                    <span id="admin-count" class="text-[10px] text-stone-400 uppercase tracking-widest font-medium">0 Orders</span>
                 </div>
-                <div id="admin-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto no-scrollbar">
+                <div id="admin-list" class="flex flex-col gap-4 max-h-[600px] overflow-y-auto no-scrollbar pr-1">
                 </div>
             </div>
         </div>
@@ -223,6 +245,42 @@
                 <i data-lucide="chevron-up" class="w-3.5 h-3.5 text-stone-500"></i>
             </div>
         </button>
+    </div>
+
+    <!-- CLIENT FULFILLMENT MODAL -->
+    <div id="fulfillment-modal" class="fixed inset-0 bg-[#0a0a0a]/95 backdrop-blur-2xl z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none accelerated transition-colors duration-1000">
+        <div id="fulfillment-card" class="w-full max-w-md p-6 rounded-3xl glass-panel flex flex-col gap-5 transform scale-95 accelerated border border-white/5">
+            <div class="flex justify-between items-center border-b border-stone-800 pb-3">
+                <div>
+                    <h3 class="font-bold text-stone-200 text-sm uppercase tracking-wider">Fulfillment Parameters</h3>
+                    <p class="text-[10px] text-stone-400 mt-1 uppercase tracking-wider">Please supply delivery coordinates</p>
+                </div>
+                <button onclick="toggleFulfillmentModal(false)" class="p-1 rounded-lg hover:bg-stone-850 transition-colors">
+                    <i data-lucide="x" class="w-4 h-4 text-stone-400"></i>
+                </button>
+            </div>
+            <form onsubmit="confirmFulfillment(event)" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Full Name</label>
+                    <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-stone-900/60 border border-stone-800 focus:border-amber-500 text-xs px-4 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Contact Link</label>
+                    <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-stone-900/60 border border-stone-800 focus:border-amber-500 text-xs px-4 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Delivery Destination</label>
+                    <textarea required id="fullfill-address" rows="3" placeholder="Street, block, apartment no..." class="w-full bg-stone-900/60 border border-stone-800 focus:border-amber-500 text-xs px-4 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none resize-none font-medium"></textarea>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase text-stone-400 tracking-wider mb-1.5 font-bold">Proximate Landmark</label>
+                    <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-stone-900/60 border border-stone-800 focus:border-amber-500 text-xs px-4 py-3 rounded-xl text-stone-100 placeholder-stone-600 transition-all outline-none font-medium">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] text-stone-950 font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-amber-500/20 hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] text-xs tracking-wider uppercase">
+                    Confirm & Process Payment
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- ADMIN LOGIN GATE MODAL -->
@@ -279,7 +337,8 @@
             items: [],
             cart: {},
             isAdmin: false,
-            route: 'client'
+            route: 'client',
+            mobileDrawerOpen: false
         };
 
         // --- II. INITIALIZATION LIFE CYCLE ---
@@ -445,9 +504,9 @@
                             <div id="actions-${item.id}">
                                 ${qty > 0 ? `
                                     <div class="flex items-center gap-2.5 bg-amber-500 text-stone-950 font-black p-0.5 rounded-lg shadow-lg shadow-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-                                        <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-7 h-5.5 flex items-center justify-center rounded-md hover:bg-amber-600/30 transition-colors"><i data-lucide="minus" class="w-3.5 h-3.5"></i></button>
+                                        <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-7 h-5.5 flex items-center justify-center rounded-md hover:bg-amber-600/30 transition-colors"><i data-lucide="minus" class="w-3 h-3"></i></button>
                                         <span class="text-xs px-1 min-w-[14px] text-center">${qty}</span>
-                                        <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-7 h-5.5 flex items-center justify-center rounded-md hover:bg-amber-600/30 transition-colors"><i data-lucide="plus" class="w-3.5 h-3.5"></i></button>
+                                        <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-7 h-5.5 flex items-center justify-center rounded-md hover:bg-amber-600/30 transition-colors"><i data-lucide="plus" class="w-3 h-3"></i></button>
                                     </div>
                                 ` : `
                                     <button onclick="addToCart('${item.id}', this)" class="bg-stone-800/80 border border-stone-700 hover:border-stone-500 hover:bg-stone-800 px-3.5 py-1.5 rounded-xl text-[10px] md:text-xs font-bold tracking-wide transition-all active:scale-95 flex items-center gap-1.5 text-stone-200">
@@ -589,6 +648,7 @@
         // --- VII. DRAWER INTERFACE TOGGLES ---
         let isCartOpen = false;
         function toggleCartDrawer() { isCartOpen ? closeCartDrawer() : openCartDrawer(); }
+        
         function openCartDrawer() {
             const drawer = document.getElementById("cart-drawer");
             drawer.classList.remove("translate-y-full");
@@ -599,6 +659,7 @@
             stickyBar.classList.add("translate-y-24", "opacity-0");
             stickyBar.style.pointerEvents = "none";
         }
+        
         function closeCartDrawer() {
             const drawer = document.getElementById("cart-drawer");
             if (drawer) {
@@ -610,39 +671,82 @@
             updateEngineState();
         }
 
-        // --- VIII. NATIVE PAYMENT GATEWAY BRIDGE ---
-        async function executeUpiPaymentLink() {
+        // --- VIII. CLIENT INTAKE MODAL TRIGGERS ---
+        function toggleFulfillmentModal(show) {
+            const modal = document.getElementById('fulfillment-modal');
+            const card = document.getElementById('fulfillment-card');
+            if (!modal || !card) return;
+            
+            if (show) {
+                modal.classList.remove('pointer-events-none');
+                gsap.to(modal, { opacity: 1, duration: 0.6, ease: "power3.out" });
+                gsap.to(card, { scale: 1, duration: 0.8, ease: "power3.out" });
+            } else {
+                modal.classList.add('pointer-events-none');
+                gsap.to(modal, { opacity: 0, duration: 0.4 });
+                gsap.to(card, { scale: 0.95, duration: 0.4 });
+            }
+        }
+
+        function executeUpiPaymentLink() {
             let totalAmount = 0;
             Object.keys(state.cart).forEach(id => {
                 const item = state.items.find(i => String(i.id) === String(id));
                 if (item) totalAmount += (item.price * state.cart[id]);
             });
             
-            if(totalAmount <= 0) return showToast("Your basket is empty.", "error");
+            if (totalAmount <= 0) return showToast("Your basket is empty.", "error");
+            
+            // Intercept checkout and open Fulfillment Modal to gather delivery coordinates
+            toggleFulfillmentModal(true);
+        }
+
+        async function confirmFulfillment(e) {
+            e.preventDefault();
+            
+            const clientName = document.getElementById('fullfill-name').value.trim();
+            const clientPhone = document.getElementById('fullfill-phone').value.trim();
+            const designSpecs = document.getElementById('fullfill-address').value.trim();
+            const timelineText = document.getElementById('fullfill-landmark').value.trim();
+            
+            let totalAmount = 0;
+            let selectedCoreArray = [];
+            Object.keys(state.cart).forEach(id => {
+                const item = state.items.find(i => String(i.id) === String(id));
+                if (item) {
+                    totalAmount += (item.price * state.cart[id]);
+                    selectedCoreArray.push(`${item.name} x${state.cart[id]}`);
+                }
+            });
             
             const finalPayable = totalAmount + SYSTEM_CONFIG.deliveryFee;
-
+            const selectedCore = selectedCoreArray.join(', ');
             const tr = `MZFT${Date.now()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+            
             const upiId = encodeURIComponent(SYSTEM_CONFIG.vendorUpiId);
             const merchantName = encodeURIComponent(SYSTEM_CONFIG.vendorName);
-            const transactionNote = encodeURIComponent("Marzoft Cloud Order Verification");
+            const transactionNote = encodeURIComponent(`Order for ${clientName} - Ref: ${tr}`);
             const rawAmount = finalPayable.toFixed(2);
-
+            
             const upiIntentUrl = `upi://pay?pa=${upiId}&pn=${merchantName}&tn=${transactionNote}&am=${rawAmount}&cu=${SYSTEM_CONFIG.currency}&tr=${tr}`;
-
+            
+            toggleFulfillmentModal(false);
             showLoader(true);
             showToast("Registering transaction...");
-
+            
             try {
-                // Post asynchronous logging payload to server
                 const payload = {
-                    items: state.cart,
-                    total_price: finalPayable,
+                    client_name: clientName,
+                    client_phone: clientPhone,
+                    selected_core: selectedCore,
+                    timelinetext: timelineText,
+                    design_specs: designSpecs,
+                    calculated_value: finalPayable,
                     transaction_reference: tr,
-                    status: 'pending',
+                    verification_status: 'PENDING_HANDSHAKE',
                     created_at: new Date().toISOString()
                 };
-
+                
                 await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders`, {
                     method: 'POST',
                     headers: {
@@ -653,14 +757,12 @@
                     },
                     body: JSON.stringify(payload)
                 });
-
+                
                 showToast("Order logged. Launching gateway.");
             } catch (err) {
-                // Background Fallback: Log the failure to console but DO NOT block the payment flow!
                 console.error("Orders write failure (proceeding with payment):", err);
                 showToast("Sync offline. Proceeding with checkout...");
             } finally {
-                // ALWAYS launch the UPI gateway after a brief delay
                 setTimeout(() => {
                     showLoader(false);
                     window.location.href = upiIntentUrl;
@@ -792,30 +894,129 @@
             }
         }
 
-        function renderAdmin() {
+        // --- X. REAL-TIME OPERATIONS TRACKING DESK ---
+        async function fetchOrders() {
+            try {
+                const data = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?select=*&order=created_at.desc`, {
+                    headers: { 
+                        'apikey': supabaseAnonKey, 
+                        'Authorization': `Bearer ${supabaseAnonKey}` 
+                    }
+                });
+                return data || [];
+            } catch (err) {
+                console.error("Failed to fetch live orders:", err);
+                return [];
+            }
+        }
+
+        async function cycleOrderStatus(orderId, currentStatus, badgeBtn) {
+            animateClick(badgeBtn);
+            
+            let nextStatus = 'PENDING_HANDSHAKE';
+            if (currentStatus === 'PENDING_HANDSHAKE') {
+                nextStatus = 'DISPATCHED';
+            } else if (currentStatus === 'DISPATCHED') {
+                nextStatus = 'DELIVERED';
+            } else {
+                nextStatus = 'PENDING_HANDSHAKE';
+            }
+            
+            showLoader(true);
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify({ verification_status: nextStatus })
+                });
+                
+                showToast(`Status Updated to ${nextStatus}`);
+                await renderAdmin();
+            } catch (err) {
+                console.error("Failed to cycle order status:", err);
+                showToast("Failed to update status on server.", "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        async function renderAdmin() {
             const list = document.getElementById('admin-list');
             if(!list) return;
-            document.getElementById('admin-count').textContent = `${state.items.length} Dishes`;
+            
+            document.getElementById('admin-count').textContent = "Loading...";
+            list.innerHTML = `<div class="text-center py-8 text-[10px] text-stone-500 uppercase tracking-wider border border-dashed border-stone-800 rounded-xl col-span-full">Syncing Operations...</div>`;
+            
+            const orders = await fetchOrders();
+            document.getElementById('admin-count').textContent = `${orders.length} Dishes`;
             list.innerHTML = '';
 
-            if (state.items.length === 0) {
-                list.innerHTML = `<div class="text-center py-8 text-[10px] text-stone-500 uppercase tracking-wider border border-dashed border-stone-800 rounded-xl col-span-full">No database items found</div>`;
+            if (orders.length === 0) {
+                list.innerHTML = `<div class="text-center py-8 text-[10px] text-stone-500 uppercase tracking-wider border border-dashed border-stone-800 rounded-xl col-span-full">No active orders logged</div>`;
                 return;
             }
 
-            state.items.forEach(item => {
+            orders.forEach(item => {
+                let statusColor = "bg-stone-900 border-stone-800 text-stone-400";
+                if (item.verification_status === "DISPATCHED") {
+                    statusColor = "bg-amber-500/10 border-amber-500/30 text-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.05)]";
+                } else if (item.verification_status === "DELIVERED") {
+                    statusColor = "bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.05)]";
+                }
+
                 list.innerHTML += `
-                  <div class="flex items-center justify-between p-4 rounded-xl bg-stone-900/30 border border-stone-800/80 hover:border-stone-700/80 transition-colors accelerated admin-panel-anim">
-                    <div class="flex flex-col gap-1.5 max-w-[75%]">
-                      <span class="text-sm font-semibold text-stone-200 truncate tracking-wide">${item.name}</span>
-                      <span class="text-[10px] text-amber-400 font-bold tracking-wider">₹${item.price}</span>
+                  <div class="flex flex-col gap-4 p-5 rounded-2xl bg-stone-950/40 border border-stone-900 shadow-xl accelerated admin-panel-anim">
+                    <!-- Head Details -->
+                    <div class="flex justify-between items-start border-b border-stone-900 pb-3">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[9px] text-stone-500 uppercase tracking-widest font-mono font-bold">${item.created_at ? new Date(item.created_at).toLocaleString('en-IN', { hour12: true }) : 'unknown'}</span>
+                            <span class="text-[9px] text-amber-500 uppercase tracking-widest font-mono font-bold">REF: ${item.transaction_reference || 'N/A'}</span>
+                        </div>
+                        <!-- Status click toggle badge -->
+                        <button onclick="cycleOrderStatus('${item.id}', '${item.verification_status}', this)" class="px-3 py-1.5 rounded-full text-[9px] uppercase tracking-widest font-bold font-mono transition-all hover:scale-105 active:scale-95 ${statusColor}">
+                            ${item.verification_status || 'PENDING_HANDSHAKE'}
+                        </button>
                     </div>
-                    <button onclick="deleteProduct('${item.id}', this)" class="p-2.5 rounded-xl bg-red-950/20 text-red-500 border border-red-900/30 hover:bg-red-950/40 hover:border-red-900/50 transition-all active:scale-95 flex items-center justify-center">
-                      <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>
+
+                    <!-- Customer Profile & Metadata -->
+                    <div class="flex flex-col gap-1.5 text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="text-stone-400 font-medium">Customer:</span>
+                            <span class="text-stone-200 font-bold">${item.client_name || 'N/A'}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-stone-400 font-medium">Contact:</span>
+                            <a href="tel:${item.client_phone}" class="text-amber-400 hover:text-amber-300 font-bold transition-colors underline decoration-amber-500/30">${item.client_phone || 'N/A'}</a>
+                        </div>
+                        <div class="flex flex-col gap-1 mt-1">
+                            <span class="text-stone-400 font-medium">Destination coordinates:</span>
+                            <p class="text-stone-300 font-light leading-relaxed bg-stone-950/30 border border-stone-900/60 p-3 rounded-xl text-[11px]">${item.design_specs || 'N/A'}</p>
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-stone-400 font-medium">Proximate landmark:</span>
+                            <span class="text-stone-300 font-light">${item.timelinetext || 'N/A'}</span>
+                        </div>
+                    </div>
+
+                    <!-- Order breakdown & financial total -->
+                    <div class="border-t border-stone-900 pt-3 flex justify-between items-end mt-1">
+                        <div class="flex flex-col gap-1 max-w-[70%]">
+                            <span class="text-[9px] text-stone-500 uppercase tracking-widest font-bold">Consumables</span>
+                            <p class="text-[11px] text-stone-300 font-medium truncate">${item.selected_core || 'N/A'}</p>
+                        </div>
+                        <div class="flex flex-col items-end shrink-0">
+                            <span class="text-[9px] text-stone-500 uppercase tracking-widest font-bold">Calculated Amount</span>
+                            <span class="text-sm font-extrabold text-stone-100">₹${item.calculated_value || '0'}</span>
+                        </div>
+                    </div>
                   </div>`;
             });
-            safeCreateIcons();
+            lucide.createIcons();
         }
 
         async function createProduct(e) {
@@ -879,7 +1080,7 @@
             showToast("Ledger purged.");
         }
 
-        // --- X. UTILITY HELPER FUNCS ---
+        // --- XI. UTILITY HELPER FUNCS ---
         function animateClick(element) {
             if(!element) return;
             const tl = gsap.timeline();
@@ -893,7 +1094,7 @@
             if(!l) return;
             if (show && state.route === 'admin') { // Active synchronizer loader is restricted strictly to admin panels
                 l.classList.remove('pointer-events-none');
-                gsap.to(l, { opacity: 1, duration: 0.6, ease: "power3.out" });
+                gsap.to(l, { opacity: 1, duration: 0.4, ease: "power3.out" });
             } else {
                 l.classList.add('pointer-events-none');
                 gsap.to(l, { opacity: 0, duration: 0.3, ease: "power3.out" });
