@@ -100,7 +100,7 @@
       backface-visibility: hidden;
     }
 
-    /* Custom Scrollbar - Minimalist */
+    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 2px;
     }
@@ -181,6 +181,7 @@
 
   <main class="flex-1 w-full max-w-[1800px] mx-auto relative flex flex-col">
 
+    <!-- I. CLIENT VIEWPORT -->
     <div id="client-view" class="w-full flex flex-col md:flex-row gap-6 p-4 lg:p-8">
       
       <div class="flex-1 flex flex-col min-h-0">
@@ -192,7 +193,7 @@
         </div>
 
         <div id="client-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-32 md:pb-10">
-          </div>
+        </div>
       </div>
 
       <div class="w-full md:w-[420px] shrink-0 hidden md:block relative">
@@ -204,7 +205,7 @@
             </div>
 
             <div id="desktop-cart-list" class="flex-1 overflow-y-auto custom-scroll py-6 space-y-5" data-lenis-prevent>
-              </div>
+            </div>
 
             <div class="border-t border-theme-border pt-6 space-y-5 shrink-0">
               <div class="space-y-3">
@@ -231,6 +232,7 @@
       </div>
     </div>
 
+    <!-- II. ADMIN VIEWPORT -->
     <div id="admin-view" class="w-full hidden flex-col md:flex-row gap-6 p-4 lg:p-8">
       
       <div class="w-full md:w-[420px] shrink-0 relative">
@@ -243,6 +245,7 @@
             </div>
           </div>
 
+          <!-- Entity injection -->
           <div class="editorial-glass rounded-3xl p-8 flex flex-col gap-6 shrink-0 admin-panel-anim hw-accel">
             <h3 class="text-[10px] font-medium text-theme-main tracking-editorial uppercase border-b border-theme-border pb-4">Inject Entity</h3>
             
@@ -265,6 +268,7 @@
             </form>
           </div>
 
+          <!-- Dynamic Cipher Overrides -->
           <div class="editorial-glass rounded-3xl p-8 flex flex-col gap-6 shrink-0 admin-panel-anim hw-accel">
             <h3 class="text-[10px] font-medium text-theme-main tracking-editorial uppercase border-b border-theme-border pb-4">Security Override</h3>
             
@@ -298,7 +302,7 @@
           </div>
 
           <div id="admin-list" class="flex-1 flex flex-col gap-4">
-            </div>
+          </div>
         </div>
       </div>
 
@@ -306,6 +310,7 @@
 
   </main>
 
+  <!-- III. MOBILE LAYOUT UTILS -->
   <div id="mobile-drawer" class="fixed bottom-0 left-0 right-0 editorial-glass border-t border-theme-border rounded-t-[2rem] p-6 md:hidden z-40 translate-y-full flex flex-col gap-6 hw-accel">
     <div class="flex items-center justify-between">
       <div class="flex flex-col">
@@ -316,7 +321,7 @@
     </div>
 
     <div id="mb-cart-list" class="max-h-[180px] overflow-y-auto custom-scroll space-y-4 py-3 border-y border-theme-border" data-lenis-prevent>
-      </div>
+    </div>
 
     <div class="flex justify-between items-end pt-2">
       <span class="text-theme-muted text-[9px] uppercase tracking-editorial mb-1">Total Valuation</span>
@@ -535,6 +540,7 @@
     // --- VI. CLIENT RENDER & LOGIC ---
     function renderClient() {
       const grid = document.getElementById('client-grid');
+      if(!grid) return;
       grid.innerHTML = '';
 
       if (state.items.length === 0) {
@@ -692,7 +698,7 @@
       showToast("Ledger purged.");
     }
 
-    // --- VII. ADMIN & SECURITY OVERHAUL (SUPABASE ASYNC Handshake) ---
+    // --- VII. ADMIN & SECURITY HANDSHAKE (Real-time Cloud Sync) ---
     function showAuthModal(show) {
       const modal = document.getElementById('auth-modal');
       const card = document.getElementById('auth-card');
@@ -728,8 +734,8 @@
       showLoader(true);
 
       try {
-        // Query the live system settings table directly to get the current system password text definition
-        const response = await fetch(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password&select=value`, {
+        // Appended t timestamp to break local routing/GET cache states
+        const response = await fetch(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password&select=value&_t=${Date.now()}`, {
           headers: {
             'apikey': supabaseAnonKey,
             'Authorization': `Bearer ${supabaseAnonKey}`
@@ -793,6 +799,19 @@
         });
 
         if (!response.ok) throw new Error("System parameters sync error");
+
+        // Forced confirmation cycle to ensure values are securely written on the cloud before returning success state
+        const verifyRes = await fetch(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password&select=value&_t=${Date.now()}`, {
+          headers: {
+            'apikey': supabaseAnonKey,
+            'Authorization': `Bearer ${supabaseAnonKey}`
+          }
+        });
+        
+        const verifyData = await verifyRes.json();
+        if (!verifyRes.ok || !verifyData || verifyData[0].value !== newPass) {
+          throw new Error("Verification write mismatch");
+        }
 
         document.getElementById('form-new-pass').value = '';
         document.getElementById('form-confirm-pass').value = '';
