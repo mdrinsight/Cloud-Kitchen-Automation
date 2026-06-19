@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased" data-theme="burgundy">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <title>Marzoft Studio | Editorial Luxury</title>
+  
+  <!-- Fonts: Ultra-Premium Minimalist Selection -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Frameworks -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          colors: {
+            theme: {
+              bg: 'var(--bg-color)',
+              main: 'var(--text-main)',
+              muted: 'var(--text-muted)',
+              accent: 'var(--accent)',
+              accentBg: 'var(--accent-bg)',
+              border: 'var(--glass-border)',
+            }
+          },
+          letterSpacing: {
+            'editorial': '0.18em',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Theme Variable Definitions */
+    :root, [data-theme="corporate"] {
+      --bg-color: #121212;
+      --glass-bg: rgba(28, 28, 30, 0.5);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+      --text-main: #FFFFFF;
+      --text-muted: #8E8E93;
+      --accent: #E2E8F0;
+      --accent-bg: rgba(226, 232, 240, 0.1);
+    }
+
+    [data-theme="organic"] {
+      --bg-color: #FAFAF9;
+      --glass-bg: rgba(255, 255, 255, 0.4);
+      --glass-border: rgba(0, 0, 0, 0.05);
+      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.02);
+      --text-main: #1A1A1A;
+      --text-muted: #798472;
+      --accent: #C6A49A;
+      --accent-bg: rgba(198, 164, 154, 0.15);
+    }
+
+    [data-theme="burgundy"] {
+      --bg-color: #1C1C1E;
+      --glass-bg: rgba(28, 28, 30, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.05);
+      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+      --text-main: #F5F5F7;
+      --text-muted: #D1D1D6;
+      --accent: #581C1C;
+      --accent-bg: rgba(88, 28, 28, 0.2);
+    }
+
+    [data-theme="romance"] {
+      --bg-color: #F5F5F3;
+      --glass-bg: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.5);
+      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.03);
+      --text-main: #3A3A36;
+      --text-muted: #8E8E93;
+      --accent: #E5D4C0;
+      --accent-bg: rgba(229, 212, 192, 0.3);
+    }
+
+    /* Core Viewport & Hardware Acceleration */
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      overscroll-behavior-y: contain;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.8s ease, color 0.8s ease;
+    }
+
+    .hw-accel {
+      transform: translate3d(0, 0, 0);
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+    }
+
+    /* Custom Scrollbar - Minimalist */
+    ::-webkit-scrollbar {
+      width: 2px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      opacity: 0.3;
+    }
+
+    /* Editorial Frosted Glassmorphism */
+    .editorial-glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(40px) saturate(130%);
+      -webkit-backdrop-filter: blur(40px) saturate(130%);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+    }
+
+    /* Interactive UI Elements */
+    .editorial-btn {
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease, border-color 0.4s ease;
+    }
+    @media (hover: hover) {
+      .editorial-btn:hover {
+        opacity: 0.75;
+      }
+    }
+    .editorial-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Minimalist Input Focus */
+    .editorial-focus {
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .editorial-focus:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+      outline: none;
+    }
+
+    /* Lenis Smooth Scroll Base */
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+  </style>
+</head>
+<body class="w-full min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <!-- Fluid Backdrop Canvas -->
+  <div class="fixed inset-0 z-[-1] pointer-events-none bg-theme-bg transition-colors duration-1000 hw-accel"></div>
+
+  <!-- HEADER -->
+  <header class="w-full h-[80px] px-6 lg:px-10 editorial-glass border-t-0 border-l-0 border-r-0 flex items-center justify-between z-40 sticky top-0 hw-accel">
+    <div class="flex flex-col header-reveal">
+      <span class="text-[9px] tracking-editorial text-theme-muted font-medium uppercase">Editorial Studio</span>
+      <h1 class="text-lg md:text-xl font-medium tracking-wide text-theme-main flex items-center gap-3 mt-0.5">
+        Marzoft <span class="text-theme-muted text-xs font-light tracking-editorial uppercase mt-1">Elite</span>
+      </h1>
+    </div>
+    <div class="flex items-center gap-6">
+      <!-- Theme Switcher -->
+      <div class="hidden md:flex items-center gap-3 header-reveal">
+        <button onclick="setTheme('organic')" class="w-3 h-3 rounded-full bg-[#FAFAF9] border border-[#798472] editorial-btn" title="Fresh Organic"></button>
+        <button onclick="setTheme('corporate')" class="w-3 h-3 rounded-full bg-[#121212] border border-[#E2E8F0] editorial-btn" title="Corporate Elite"></button>
+        <button onclick="setTheme('burgundy')" class="w-3 h-3 rounded-full bg-[#1C1C1E] border border-[#581C1C] editorial-btn" title="Spice & Fire"></button>
+        <button onclick="setTheme('romance')" class="w-3 h-3 rounded-full bg-[#F5F5F3] border border-[#E5D4C0] editorial-btn" title="Boutique Romance"></button>
+      </div>
+      
+      <button id="nav-toggle-btn" onclick="toggleRoute()" class="editorial-btn px-6 py-2.5 rounded-full text-[10px] font-medium tracking-editorial uppercase flex items-center gap-2 border border-theme-border text-theme-main bg-theme-accentBg hw-accel">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        <span id="nav-btn-text">Admin Gate</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN VIEWPORT -->
+  <main class="flex-1 w-full max-w-[1800px] mx-auto relative flex flex-col">
+
+    <!-- I. CLIENT INTERFACE -->
+    <div id="client-view" class="w-full flex flex-col md:flex-row gap-6 p-4 lg:p-8">
+      
+      <!-- Left: Grid -->
+      <div class="flex-1 flex flex-col min-h-0">
+        <div class="flex items-end justify-between mb-8 px-2 header-reveal">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-medium text-theme-main tracking-wide">The Collection</h2>
+            <p class="text-[10px] text-theme-muted tracking-editorial uppercase mt-3">Curated Culinary Art</p>
+          </div>
+        </div>
+
+        <div id="client-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-32 md:pb-10">
+          <!-- Cards injected here -->
+        </div>
+      </div>
+
+      <!-- Right: Desktop Billing Dashboard (Sticky) -->
+      <div class="w-full md:w-[420px] shrink-0 hidden md:block relative">
+        <div id="desktop-cart-panel" class="sticky top-[104px] h-[calc(100vh-130px)] editorial-glass rounded-3xl p-8 flex flex-col justify-between hw-accel opacity-0 translate-x-10">
+          <div class="flex flex-col min-h-0 h-full">
+            <div class="border-b border-theme-border pb-6 shrink-0">
+              <h3 class="text-lg font-medium text-theme-main tracking-wide">Active Ledger</h3>
+              <p class="text-[9px] text-theme-muted tracking-editorial uppercase mt-2">Real-Time Valuation</p>
+            </div>
+
+            <div id="desktop-cart-list" class="flex-1 overflow-y-auto custom-scroll py-6 space-y-5" data-lenis-prevent>
+              <!-- Cart items injected here -->
+            </div>
+
+            <div class="border-t border-theme-border pt-6 space-y-5 shrink-0">
+              <div class="space-y-3">
+                <div class="flex justify-between text-xs text-theme-muted font-light">
+                  <span class="uppercase tracking-editorial text-[9px]">Subtotal</span>
+                  <span id="dt-subtotal" class="font-medium text-theme-main text-xs">₹0</span>
+                </div>
+                <div class="flex justify-between text-xs text-theme-muted font-light">
+                  <span class="uppercase tracking-editorial text-[9px]">Delivery Protocol</span>
+                  <span id="dt-delivery" class="font-medium text-theme-main text-xs">₹0</span>
+                </div>
+                <div class="flex justify-between text-sm font-medium border-t border-theme-border pt-4 text-theme-main tracking-wide">
+                  <span class="uppercase tracking-editorial text-[10px]">Total</span>
+                  <span id="dt-total">₹0</span>
+                </div>
+              </div>
+
+              <button onclick="executeUPIPayment(this)" class="editorial-btn w-full py-4 rounded-2xl bg-theme-main text-theme-bg font-medium text-[10px] tracking-editorial uppercase hw-accel">
+                Initialize Checkout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- II. ADMIN INTERFACE -->
+    <div id="admin-view" class="w-full hidden flex-col md:flex-row gap-6 p-4 lg:p-8">
+      
+      <!-- Left: Forms (Sticky) -->
+      <div class="w-full md:w-[420px] shrink-0 relative">
+        <div class="md:sticky md:top-[104px] flex flex-col gap-6 pb-10 md:pb-0">
+          
+          <div class="flex items-end justify-between border-b border-theme-border pb-4 px-2 header-reveal">
+            <div>
+              <h2 class="text-2xl md:text-3xl font-medium text-theme-main tracking-wide">Terminal</h2>
+              <p class="text-[10px] text-theme-muted tracking-editorial uppercase mt-3">System Configuration</p>
+            </div>
+          </div>
+
+          <!-- Add Product Form -->
+          <div class="editorial-glass rounded-3xl p-8 flex flex-col gap-6 shrink-0 admin-panel-anim hw-accel">
+            <h3 class="text-[10px] font-medium text-theme-main tracking-editorial uppercase border-b border-theme-border pb-4">Inject Entity</h3>
+            
+            <form onsubmit="createProduct(event)" class="flex flex-col gap-5">
+              <div>
+                <label class="block text-[9px] uppercase text-theme-muted tracking-editorial mb-2">Designation</label>
+                <input required id="form-name" type="text" placeholder="e.g., Obsidian Truffle" class="w-full bg-transparent border border-theme-border editorial-focus text-sm px-4 py-3.5 rounded-xl text-theme-main placeholder-theme-muted/50 transition-all hw-accel font-light">
+              </div>
+              <div>
+                <label class="block text-[9px] uppercase text-theme-muted tracking-editorial mb-2">Value (INR)</label>
+                <input required id="form-price" type="number" min="1" placeholder="e.g., 1299" class="w-full bg-transparent border border-theme-border editorial-focus text-sm px-4 py-3.5 rounded-xl text-theme-main placeholder-theme-muted/50 transition-all hw-accel font-light">
+              </div>
+              <div>
+                <label class="block text-[9px] uppercase text-theme-muted tracking-editorial mb-2">Parameters</label>
+                <textarea required id="form-desc" rows="3" placeholder="Entity specifications..." class="w-full bg-transparent border border-theme-border editorial-focus text-sm px-4 py-3.5 rounded-xl text-theme-main placeholder-theme-muted/50 transition-all resize-none hw-accel font-light"></textarea>
+              </div>
+              <button type="submit" class="editorial-btn w-full py-4 rounded-xl bg-theme-main text-theme-bg font-medium text-[10px] tracking-editorial uppercase mt-2 hw-accel">
+                Execute Write
+              </button>
+            </form>
+          </div>
+
+          <!-- Security Update Form -->
+          <div class="editorial-glass rounded-3xl p-8 flex flex-col gap-6 shrink-0 admin-panel-anim hw-accel">
+            <h3 class="text-[10px] font-medium text-theme-main tracking-editorial uppercase border-b border-theme-border pb-4">Security Override</h3>
+            
+            <form onsubmit="updateAdminPassword(event)" class="flex flex-col gap-5">
+              <div>
+                <label class="block text-[9px] uppercase text-theme-muted tracking-editorial mb-2">New Cipher</label>
+                <input required id="form-new-pass" type="password" placeholder="••••••••" class="w-full bg-transparent border border-theme-border editorial-focus text-sm px-4 py-3.5 rounded-xl text-theme-main placeholder-theme-muted/50 transition-all tracking-widest hw-accel font-light">
+              </div>
+              <div>
+                <label class="block text-[9px] uppercase text-theme-muted tracking-editorial mb-2">Confirm Cipher</label>
+                <input required id="form-confirm-pass" type="password" placeholder="••••••••" class="w-full bg-transparent border border-theme-border editorial-focus text-sm px-4 py-3.5 rounded-xl text-theme-main placeholder-theme-muted/50 transition-all tracking-widest hw-accel font-light">
+              </div>
+              <button type="submit" class="editorial-btn w-full py-4 rounded-xl bg-transparent border border-theme-border text-theme-main font-medium text-[10px] tracking-editorial uppercase hover:bg-theme-accentBg mt-2 hw-accel">
+                Patch Memory
+              </button>
+            </form>
+          </div>
+
+          <button onclick="logoutAdmin(this)" class="editorial-btn w-full py-4 rounded-xl editorial-glass border-red-900/30 text-red-500 font-medium text-[10px] tracking-editorial uppercase hover:bg-red-900/10 hw-accel">
+            Disconnect Terminal
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Right: Inventory Stream -->
+      <div class="flex-1 flex flex-col min-h-0 admin-panel-anim">
+        <div class="editorial-glass rounded-3xl p-8 flex flex-col h-full hw-accel">
+          <div class="flex items-center justify-between border-b border-theme-border pb-6 mb-6 shrink-0">
+            <span class="text-[10px] font-medium tracking-editorial text-theme-main uppercase">Data Stream</span>
+            <span id="admin-count" class="text-[9px] text-theme-muted tracking-editorial uppercase">0 Nodes</span>
+          </div>
+
+          <div id="admin-list" class="flex-1 flex flex-col gap-4">
+            <!-- Admin items injected here -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- III. MOBILE BOTTOM DRAWER -->
+  <div id="mobile-drawer" class="fixed bottom-0 left-0 right-0 editorial-glass border-t border-theme-border rounded-t-[2rem] p-6 md:hidden z-40 translate-y-full flex flex-col gap-6 hw-accel">
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col">
+        <span class="text-[9px] text-theme-muted tracking-editorial uppercase font-medium">Active Ledger</span>
+        <span id="mb-count" class="text-xs text-theme-main mt-1 font-light tracking-wide">0 Entities</span>
+      </div>
+      <button onclick="clearCart(this)" class="text-[9px] text-theme-muted uppercase tracking-editorial hover:text-theme-main transition-colors border border-theme-border px-5 py-2.5 rounded-full editorial-btn">Purge</button>
+    </div>
+
+    <div id="mb-cart-list" class="max-h-[180px] overflow-y-auto custom-scroll space-y-4 py-3 border-y border-theme-border" data-lenis-prevent>
+      <!-- Mobile cart items -->
+    </div>
+
+    <div class="flex justify-between items-end pt-2">
+      <span class="text-theme-muted text-[9px] uppercase tracking-editorial mb-1">Total Valuation</span>
+      <span id="mb-total" class="text-theme-main text-xl font-medium tracking-wide">₹0</span>
+    </div>
+
+    <button onclick="executeUPIPayment(this)" class="editorial-btn w-full py-4 rounded-2xl bg-theme-main text-theme-bg font-medium text-[10px] tracking-editorial uppercase hw-accel">
+      Initialize Checkout
+    </button>
+  </div>
+
+  <!-- IV. LOGIN GATE MODAL -->
+  <div id="auth-modal" class="fixed inset-0 bg-theme-bg/95 backdrop-blur-3xl z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none hw-accel transition-colors duration-1000">
+    <div id="auth-card" class="w-full max-w-[380px] p-10 rounded-3xl editorial-glass text-center flex flex-col gap-8 transform scale-95 hw-accel">
+      <div class="w-16 h-16 bg-transparent border border-theme-border rounded-full flex items-center justify-center mx-auto text-theme-main shadow-[0_0_30px_rgba(0,0,0,0.05)]">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      </div>
+      <div>
+        <h4 class="text-sm font-medium text-theme-main tracking-editorial uppercase">Restricted Area</h4>
+        <p class="text-[9px] text-theme-muted mt-3 tracking-editorial uppercase">Input cipher to proceed</p>
+      </div>
+      <form onsubmit="verifyLogin(event)" class="flex flex-col gap-5">
+        <input required id="auth-pass" type="password" placeholder="••••••••" class="w-full bg-transparent border border-theme-border text-center tracking-[0.4em] editorial-focus text-sm px-4 py-4 rounded-xl text-theme-main placeholder-theme-muted/50 transition-all hw-accel font-light">
+        <div class="flex gap-4 mt-2">
+          <button type="button" onclick="cancelLogin(this)" class="editorial-btn flex-1 py-3.5 text-[9px] font-medium tracking-editorial uppercase rounded-xl bg-transparent border border-theme-border text-theme-muted hw-accel">
+            Abort
+          </button>
+          <button type="submit" class="editorial-btn flex-1 py-3.5 text-[9px] font-medium tracking-editorial uppercase rounded-xl bg-theme-main text-theme-bg hw-accel">
+            Decrypt
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- V. GLOBAL LOADER -->
+  <div id="loader" class="fixed inset-0 bg-theme-bg/95 backdrop-blur-3xl z-[100] flex flex-col items-center justify-center opacity-0 pointer-events-none hw-accel transition-colors duration-1000">
+    <div class="relative w-24 h-24 flex items-center justify-center">
+      <div class="absolute inset-0 border border-theme-border rounded-full"></div>
+      <div class="absolute inset-0 border border-t-theme-main border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+      <div class="w-2 h-2 bg-theme-main rounded-full animate-pulse"></div>
+    </div>
+    <span class="mt-10 text-[9px] font-medium text-theme-main tracking-editorial uppercase">Synchronizing</span>
+  </div>
+
+  <!-- VI. TOAST CONTAINER -->
+  <div id="toast-container" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] flex flex-col gap-4 pointer-events-none w-[90%] max-w-[400px] hw-accel"></div>
+
+  <!-- APPLICATION LOGIC -->
+  <script>
+    // --- I. CONFIGURATION ---
+    const supabaseUrl = "https://ehwaahbtaqnvjuuzdaqd.supabase.co";
+    const supabaseAnonKey = "sb_publishable_ktU939z_D3DL3VrNNXw8Qg_dtjHGcnE";
+
+    const SYSTEM_CONFIG = {
+      adminPassword: "MARZOFT_SECURE_PASS_2026",
+      vendorUpiId: "rmaaz1612@okhdfcbank",
+      vendorName: "Marzoft Studio",
+      deliveryFee: 49
+    };
+
+    const state = {
+      items: [],
+      cart: {},
+      isAdmin: false,
+      route: 'client'
+    };
+
+    // --- II. MOTION ENGINE (GSAP + LENIS) ---
+    let lenis;
+
+    function initMotionEngine() {
+      // Initialize Lenis dynamic damping configuration
+      lenis = new Lenis({
+        duration: 2.0,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        touchMultiplier: 2,
+      });
+
+      lenis.on('scroll', ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+
+      // Initial Header Reveal
+      gsap.from(".header-reveal", { y: 30, opacity: 0, duration: 1.2, stagger: 0.1, ease: "power3.out", delay: 0.1 });
+    }
+
+    function attachScrollTriggers() {
+      ScrollTrigger.refresh();
+      gsap.utils.toArray('.reveal-card').forEach(card => {
+        gsap.fromTo(card, 
+          { y: 30, opacity: 0 }, 
+          { 
+            y: 0, opacity: 1, 
+            duration: 1.2, 
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 95%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      });
+    }
+
+    function animateClick(element) {
+      if(!element) return;
+      const tl = gsap.timeline();
+      tl.to(element, { scale: 0.97, duration: 0.1, ease: "power2.out" })
+        .to(element, { scale: 1.0, duration: 0.2, ease: "power2.out" });
+    }
+
+    // --- III. THEME SWITCHER ---
+    function setTheme(themeName) {
+      document.documentElement.setAttribute('data-theme', themeName);
+      localStorage.setItem('mzft_theme', themeName);
+    }
+
+    // --- IV. INITIALIZATION & ROUTING ---
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.registerPlugin(ScrollTrigger);
+      
+      // Default to "Spice & Fire" (burgundy) if no previous preference is recorded
+      const savedTheme = localStorage.getItem('mzft_theme') || 'burgundy';
+      setTheme(savedTheme);
+
+      if (sessionStorage.getItem('mzft_admin') === 'true') state.isAdmin = true;
+      initMotionEngine();
+      window.addEventListener('hashchange', handleRoute);
+      fetchData();
+      handleRoute();
+    });
+
+    function toggleRoute() {
+      const btn = document.getElementById('nav-toggle-btn');
+      animateClick(btn);
+      setTimeout(() => {
+        window.location.hash = state.route === 'client' ? '#admin' : '#store';
+      }, 150);
+    }
+
+    function handleRoute() {
+      const hash = window.location.hash;
+      const clientView = document.getElementById('client-view');
+      const adminView = document.getElementById('admin-view');
+      const navBtnText = document.getElementById('nav-btn-text');
+
+      if (hash === '#admin') {
+        if (!state.isAdmin) {
+          showAuthModal(true);
+        } else {
+          state.route = 'admin';
+          showAuthModal(false);
+          navBtnText.textContent = "Store View";
+          clientView.classList.add('hidden');
+          clientView.classList.remove('flex');
+          adminView.classList.remove('hidden');
+          adminView.classList.add('flex');
+          
+          gsap.to('#mobile-drawer', { yPercent: 100, duration: 1.2, ease: "power3.inOut" });
+          
+          renderAdmin();
+          gsap.fromTo(".admin-panel-anim", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "power3.out" });
+        }
+      } else {
+        state.route = 'client';
+        showAuthModal(false);
+        navBtnText.textContent = "Admin Gate";
+        clientView.classList.remove('hidden');
+        clientView.classList.add('flex');
+        adminView.classList.add('hidden');
+        adminView.classList.remove('flex');
+        
+        if(document.getElementById('client-grid').innerHTML === '') {
+            renderClient();
+        }
+        updateCartUI();
+      }
+      
+      if(lenis) lenis.scrollTo(0, { immediate: true });
+    }
+
+    // --- V. DATABASE SYNCHRONIZATION ---
+    async function fetchData() {
+      showLoader(true);
+      if (!supabaseUrl) {
+        finalizeFetch("Database configurations missing.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${supabaseUrl}/rest/v1/menu_items?select=*&order=id.asc`, {
+          headers: { 
+            'apikey': supabaseAnonKey, 
+            'Authorization': `Bearer ${supabaseAnonKey}` 
+          }
+        });
+        if (!res.ok) throw new Error("Could not reach table data");
+        const data = await res.json();
+        state.items = data || [];
+        finalizeFetch("Neural link established.");
+      } catch (err) {
+        state.items = [];
+        finalizeFetch("Link status: Offline.");
+      }
+    }
+
+    function finalizeFetch(msg) {
+      if (state.route === 'client') {
+        renderClient();
+        updateCartUI();
+      } else {
+        renderAdmin();
+      }
+      showLoader(false);
+      showToast(msg);
+    }
+
+    // --- VI. CLIENT RENDER & LOGIC ---
+    function renderClient() {
+      const grid = document.getElementById('client-grid');
+      grid.innerHTML = '';
+
+      if (state.items.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-20 text-center border border-dashed border-theme-border rounded-3xl p-8">
+            <span class="text-[9px] uppercase tracking-editorial text-theme-muted font-medium">Empty Catalog</span>
+            <p class="text-xs text-theme-muted mt-2 font-light">No records found on the host server.</p>
+          </div>
+        `;
+        return;
+      }
+
+      state.items.forEach((item) => {
+        const qty = state.cart[item.id] || 0;
+        const card = document.createElement('div');
+        card.className = "reveal-card editorial-glass rounded-3xl p-8 flex flex-col justify-between gap-6 hw-accel";
+        card.id = `card-${item.id}`;
+        
+        card.innerHTML = `
+          <div class="flex flex-col gap-4">
+            <div class="flex justify-between items-start gap-4">
+              <h4 class="text-lg font-medium text-theme-main leading-tight tracking-wide">${item.name}</h4>
+              <span class="text-[10px] font-medium text-theme-main bg-theme-accentBg px-3 py-1.5 rounded-full shrink-0 tracking-widest uppercase">₹${item.price}</span>
+            </div>
+            <p class="text-xs text-theme-muted leading-relaxed font-light tracking-wide">${item.description}</p>
+          </div>
+          <div class="flex items-center justify-between border-t border-theme-border pt-6 mt-auto">
+            <span class="text-[9px] uppercase tracking-editorial text-theme-muted font-medium">Quantity</span>
+            <div id="ctrl-${item.id}" class="flex items-center gap-3">
+              ${qty > 0 ? `
+                <button onclick="modifyCart('${item.id}', -1, this)" class="editorial-btn w-8 h-8 rounded-full border border-theme-border bg-transparent text-theme-main flex items-center justify-center hw-accel">
+                  <span class="text-lg leading-none mb-0.5 font-light">-</span>
+                </button>
+                <span id="qty-${item.id}" class="text-xs font-medium text-theme-main min-w-[16px] text-center hw-accel">${qty}</span>
+              ` : ''}
+              <button onclick="modifyCart('${item.id}', 1, this)" class="editorial-btn w-8 h-8 rounded-full bg-theme-accentBg border border-theme-border text-theme-main flex items-center justify-center hw-accel">
+                <span class="text-lg leading-none mb-0.5 font-light">+</span>
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      
+      setTimeout(attachScrollTriggers, 50);
+    }
+
+    function modifyCart(id, diff, btnElement) {
+      animateClick(btnElement);
+      
+      const currentQty = state.cart[id] || 0;
+      const newQty = currentQty + diff;
+
+      if (newQty <= 0) {
+        delete state.cart[id];
+      } else {
+        state.cart[id] = newQty;
+      }
+      
+      updateCardControls(id);
+      updateCartUI();
+    }
+
+    function updateCardControls(id) {
+      const ctrlDiv = document.getElementById(`ctrl-${id}`);
+      if (!ctrlDiv) return;
+      
+      const qty = state.cart[id] || 0;
+
+      if (qty > 0) {
+        ctrlDiv.innerHTML = `
+          <button onclick="modifyCart('${id}', -1, this)" class="editorial-btn w-8 h-8 rounded-full border border-theme-border bg-transparent text-theme-main flex items-center justify-center hw-accel">
+            <span class="text-lg leading-none mb-0.5 font-light">-</span>
+          </button>
+          <span id="qty-${id}" class="text-xs font-medium text-theme-main min-w-[16px] text-center hw-accel">${qty}</span>
+          <button onclick="modifyCart('${id}', 1, this)" class="editorial-btn w-8 h-8 rounded-full bg-theme-accentBg border border-theme-border text-theme-main flex items-center justify-center hw-accel">
+            <span class="text-lg leading-none mb-0.5 font-light">+</span>
+          </button>
+        `;
+        const badge = document.getElementById(`qty-${id}`);
+        gsap.fromTo(badge, { scale: 1 }, { scale: 1.2, duration: 0.3, yoyo: true, repeat: 1, ease: "power2.out" });
+      } else {
+        ctrlDiv.innerHTML = `
+          <button onclick="modifyCart('${id}', 1, this)" class="editorial-btn w-8 h-8 rounded-full bg-theme-accentBg border border-theme-border text-theme-main flex items-center justify-center hw-accel">
+            <span class="text-lg leading-none mb-0.5 font-light">+</span>
+          </button>
+        `;
+      }
+    }
+
+    function updateCartUI() {
+      let totalQty = 0;
+      let subtotal = 0;
+      const dtList = document.getElementById('desktop-cart-list');
+      const mbList = document.getElementById('mb-cart-list');
+      dtList.innerHTML = ''; mbList.innerHTML = '';
+
+      Object.keys(state.cart).forEach(id => {
+        const item = state.items.find(i => i.id === id);
+        if (item) {
+          const q = state.cart[id];
+          totalQty += q;
+          subtotal += item.price * q;
+
+          dtList.innerHTML += `
+            <div class="flex justify-between items-center gap-3 text-xs border-b border-theme-border pb-4">
+              <div class="flex flex-col">
+                <span class="font-medium text-theme-main tracking-wide">${item.name}</span>
+                <span class="text-[9px] text-theme-muted uppercase tracking-editorial mt-1">${q} × ₹${item.price}</span>
+              </div>
+              <span class="text-theme-main font-medium">₹${item.price * q}</span>
+            </div>`;
+          
+          mbList.innerHTML += `
+            <div class="flex justify-between items-center text-[11px] text-theme-muted font-light">
+              <span class="tracking-wide">${item.name} <span class="text-theme-main ml-2 font-medium">x${q}</span></span>
+              <span class="text-theme-main font-medium">₹${item.price * q}</span>
+            </div>`;
+        }
+      });
+
+      if (totalQty === 0) {
+        const emptyMsg = `<div class="text-center py-8 text-[9px] text-theme-muted uppercase tracking-editorial">No entities selected</div>`;
+        dtList.innerHTML = emptyMsg;
+        mbList.innerHTML = emptyMsg;
+      }
+
+      const delivery = totalQty > 0 ? SYSTEM_CONFIG.deliveryFee : 0;
+      const total = subtotal + delivery;
+      
+      document.getElementById('dt-subtotal').textContent = `₹${subtotal}`;
+      document.getElementById('dt-delivery').textContent = `₹${delivery}`;
+      document.getElementById('dt-total').textContent = `₹${total}`;
+      document.getElementById('mb-count').textContent = `${totalQty} Entities`;
+      document.getElementById('mb-total').textContent = `₹${total}`;
+
+      const mbDrawer = document.getElementById('mobile-drawer');
+      const dtPanel = document.getElementById('desktop-cart-panel');
+      
+      if (totalQty > 0 && state.route === 'client') {
+        gsap.to(mbDrawer, { yPercent: 0, duration: 1.2, ease: "power3.inOut" });
+        gsap.to(dtPanel, { x: 0, opacity: 1, duration: 1.2, ease: "power3.inOut" });
+      } else {
+        gsap.to(mbDrawer, { yPercent: 100, duration: 1.0, ease: "power3.inOut" });
+        gsap.to(dtPanel, { x: 40, opacity: 0, duration: 1.0, ease: "power3.inOut" });
+      }
+    }
+
+    function clearCart(btn) {
+      if(btn) animateClick(btn);
+      state.cart = {};
+      renderClient();
+      updateCartUI();
+      showToast("Ledger purged.");
+    }
+
+    // --- VII. ADMIN & SECURITY ---
+    function showAuthModal(show) {
+      const modal = document.getElementById('auth-modal');
+      const card = document.getElementById('auth-card');
+      const input = document.getElementById('auth-pass');
+      
+      if (show) {
+        modal.classList.remove('pointer-events-none');
+        gsap.to(modal, { opacity: 1, duration: 0.6, ease: "power3.out" });
+        gsap.to(card, { scale: 1, duration: 0.8, ease: "power3.out" });
+        setTimeout(() => input.focus(), 100);
+      } else {
+        modal.classList.add('pointer-events-none');
+        gsap.to(modal, { opacity: 0, duration: 0.4 });
+        gsap.to(card, { scale: 0.95, duration: 0.4 });
+        input.value = '';
+      }
+    }
+
+    function cancelLogin(btn) {
+      animateClick(btn);
+      setTimeout(() => {
+        showAuthModal(false);
+        window.location.hash = '#store';
+      }, 150);
+    }
+
+    function verifyLogin(e) {
+      e.preventDefault();
+      const pass = document.getElementById('auth-pass').value;
+      const card = document.getElementById('auth-card');
+      const btn = e.target.querySelector('button[type="submit"]');
+      animateClick(btn);
+
+      if (pass === SYSTEM_CONFIG.adminPassword) {
+        state.isAdmin = true;
+        sessionStorage.setItem('mzft_admin', 'true');
+        showToast("Access granted.");
+        setTimeout(() => handleRoute(), 200);
+      } else {
+        gsap.to(card, { x: [-8, 8, -6, 6, -3, 3, 0], duration: 0.5, ease: "power2.inOut" });
+        showToast("Access denied.", "error");
+        setTimeout(() => { window.location.hash = '#store'; showAuthModal(false); }, 600);
+      }
+    }
+
+    function logoutAdmin(btn) {
+      animateClick(btn);
+      state.isAdmin = false;
+      sessionStorage.removeItem('mzft_admin');
+      showToast("Disconnected.");
+      setTimeout(() => { window.location.hash = '#store'; }, 200);
+    }
+
+    function updateAdminPassword(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      animateClick(btn);
+      
+      const newPass = document.getElementById('form-new-pass').value;
+      const confirmPass = document.getElementById('form-confirm-pass').value;
+
+      if (newPass !== confirmPass) {
+        showToast("Ciphers do not match.", "error");
+        return;
+      }
+
+      SYSTEM_CONFIG.adminPassword = newPass;
+      document.getElementById('form-new-pass').value = '';
+      document.getElementById('form-confirm-pass').value = '';
+      showToast("Memory patched. Cipher updated.");
+    }
+
+    function renderAdmin() {
+      const list = document.getElementById('admin-list');
+      document.getElementById('admin-count').textContent = `${state.items.length} Nodes`;
+      list.innerHTML = '';
+
+      if (state.items.length === 0) {
+        list.innerHTML = `<div class="text-center py-8 text-[9px] text-theme-muted uppercase tracking-editorial border border-dashed border-theme-border rounded-xl">No nodes found</div>`;
+        return;
+      }
+
+      state.items.forEach(item => {
+        list.innerHTML += `
+          <div class="flex items-center justify-between p-5 rounded-xl bg-transparent border border-theme-border hover:border-theme-muted/30 transition-colors hw-accel">
+            <div class="flex flex-col gap-1.5 max-w-[75%]">
+              <span class="text-sm font-medium text-theme-main truncate tracking-wide">${item.name}</span>
+              <span class="text-[10px] text-theme-muted font-light tracking-wider">₹${item.price}</span>
+            </div>
+            <button onclick="deleteProduct('${item.id}', this)" class="editorial-btn w-8 h-8 rounded-lg bg-red-900/10 text-red-500 flex items-center justify-center hw-accel">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>`;
+      });
+    }
+
+    async function createProduct(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      animateClick(btn);
+
+      const name = document.getElementById('form-name').value.trim();
+      const price = parseFloat(document.getElementById('form-price').value);
+      const desc = document.getElementById('form-desc').value.trim();
+
+      showLoader(true);
+      try {
+        const res = await fetch(`${supabaseUrl}/rest/v1/menu_items`, {
+          method: 'POST',
+          headers: { 
+            'apikey': supabaseAnonKey, 
+            'Authorization': `Bearer ${supabaseAnonKey}`, 
+            'Content-Type': 'application/json' 
+          },
+          body: JSON.stringify({ name, price, description: desc })
+        });
+        if(!res.ok) throw new Error("Creation error");
+        document.getElementById('form-name').value = '';
+        document.getElementById('form-price').value = '';
+        document.getElementById('form-desc').value = '';
+        await fetchData();
+        showToast("Database node injected.");
+      } catch (err) {
+        showLoader(false);
+        showToast("Injection failed.", "error");
+      }
+    }
+
+    async function deleteProduct(id, btn) {
+      animateClick(btn);
+      if (!confirm("Purge this node permanently?")) return;
+      showLoader(true);
+
+      try {
+        const res = await fetch(`${supabaseUrl}/rest/v1/menu_items?id=eq.${id}`, {
+          method: 'DELETE',
+          headers: { 
+            'apikey': supabaseAnonKey, 
+            'Authorization': `Bearer ${supabaseAnonKey}` 
+          }
+        });
+        if(!res.ok) throw new Error("Deletion error");
+        delete state.cart[id];
+        await fetchData();
+        showToast("Database node purged.");
+      } catch (err) {
+        showLoader(false);
+        showToast("Purge failed.", "error");
+      }
+    }
+
+    // --- VIII. UPI & ASYNC ORDER DATABASE WRITES ---
+    async function executeUPIPayment(btn) {
+      animateClick(btn);
+      
+      let total = 0;
+      Object.keys(state.cart).forEach(id => {
+        const item = state.items.find(i => i.id === id);
+        if (item) total += item.price * state.cart[id];
+      });
+
+      if (total === 0) {
+        showToast("Ledger is empty.", "error");
+        return;
+      }
+
+      total += SYSTEM_CONFIG.deliveryFee;
+
+      const tr = `MZFT${Date.now()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      const uri = `upi://pay?pa=${encodeURIComponent(SYSTEM_CONFIG.vendorUpiId)}&pn=${encodeURIComponent(SYSTEM_CONFIG.vendorName)}&am=${total.toFixed(2)}&cu=INR&tr=${tr}&tn=Studio Order`;
+
+      showLoader(true);
+      showToast("Registering transaction...");
+
+      try {
+        const payload = {
+          items: state.cart,
+          total_price: total,
+          transaction_reference: tr,
+          status: 'pending',
+          created_at: new Date().toISOString()
+        };
+
+        const res = await fetch(`${supabaseUrl}/rest/v1/studio_orders`, {
+          method: 'POST',
+          headers: {
+            'apikey': supabaseAnonKey,
+            'Authorization': `Bearer ${supabaseAnonKey}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          throw new Error("Unable to log order payload.");
+        }
+
+        showToast("Order synchronized. Launching payment link.");
+        setTimeout(() => {
+          showLoader(false);
+          window.location.href = uri;
+        }, 1000);
+
+      } catch (err) {
+        showLoader(false);
+        showToast("Synchronization offline. Order not loggable.", "error");
+        console.error("Orders write failure: ", err);
+      }
+    }
+
+    function showLoader(show) {
+      const l = document.getElementById('loader');
+      if (show) {
+        l.classList.remove('pointer-events-none');
+        gsap.to(l, { opacity: 1, duration: 0.6, ease: "power3.out" });
+      } else {
+        l.classList.add('pointer-events-none');
+        gsap.to(l, { opacity: 0, duration: 0.4, ease: "power3.out" });
+      }
+    }
+
+    function showToast(msg, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const color = type === 'success' ? 'border-theme-border text-theme-main' : 'border-red-500/30 text-red-500';
+      
+      toast.className = `w-full editorial-glass rounded-xl p-5 flex items-center justify-center gap-3 ${color} hw-accel`;
+      toast.innerHTML = `<span class="text-[9px] font-medium tracking-editorial uppercase text-center">${msg}</span>`;
+      
+      container.appendChild(toast);
+      
+      gsap.fromTo(toast, 
+        { y: 40, opacity: 0, scale: 0.98 }, 
+        { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }
+      );
+
+      setTimeout(() => {
+        gsap.to(toast, { 
+          y: 20, opacity: 0, scale: 0.98, duration: 0.6, ease: "power3.in", 
+          onComplete: () => toast.remove() 
+        });
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
