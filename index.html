@@ -100,16 +100,16 @@
       backface-visibility: hidden;
     }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 2px;
+    /* Suppress visual scrollbars globally while preserving scroll function */
+    * {
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
     }
-    ::-webkit-scrollbar-track {
+    *::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+      width: 0;
+      height: 0;
       background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--text-muted);
-      opacity: 0.3;
     }
 
     /* Editorial Frosted Glassmorphism */
@@ -196,6 +196,7 @@
         </div>
       </div>
 
+      <!-- Right: Desktop Billing Dashboard -->
       <div class="w-full md:w-[420px] shrink-0 hidden md:block relative">
         <div id="desktop-cart-panel" class="sticky top-[104px] h-[calc(100vh-130px)] editorial-glass rounded-3xl p-8 flex flex-col justify-between hw-accel opacity-0 translate-x-10">
           <div class="flex flex-col min-h-0 h-full">
@@ -204,7 +205,7 @@
               <p class="text-[9px] text-theme-muted tracking-editorial uppercase mt-2">Real-Time Valuation</p>
             </div>
 
-            <div id="desktop-cart-list" class="flex-1 overflow-y-auto custom-scroll py-6 space-y-5" data-lenis-prevent>
+            <div id="desktop-cart-list" class="flex-1 overflow-y-auto py-6 space-y-5" data-lenis-prevent>
             </div>
 
             <div class="border-t border-theme-border pt-6 space-y-5 shrink-0">
@@ -310,8 +311,12 @@
 
   </main>
 
-  <!-- III. MOBILE DRAWER -->
-  <div id="mobile-drawer" class="fixed bottom-0 left-0 right-0 editorial-glass border-t border-theme-border rounded-t-[2rem] p-6 md:hidden z-40 translate-y-full flex flex-col gap-6 hw-accel">
+  <!-- III. MOBILE BOTTOM DRAWER (Fully feature-matched with PC) -->
+  <div id="mobile-drawer" class="fixed bottom-0 left-0 right-0 editorial-glass border-t border-theme-border rounded-t-[2.5rem] p-6 md:hidden z-40 translate-y-full flex flex-col gap-5 hw-accel">
+    
+    <!-- Drag Accent -->
+    <div class="w-12 h-1 bg-theme-border rounded-full mx-auto mb-1"></div>
+
     <div class="flex items-center justify-between">
       <div class="flex flex-col">
         <span class="text-[9px] text-theme-muted tracking-editorial uppercase font-medium">Active Ledger</span>
@@ -320,12 +325,24 @@
       <button onclick="clearCart(this)" class="text-[9px] text-theme-muted uppercase tracking-editorial hover:text-theme-main transition-colors border border-theme-border px-5 py-2.5 rounded-full editorial-btn">Purge</button>
     </div>
 
-    <div id="mb-cart-list" class="max-h-[180px] overflow-y-auto custom-scroll space-y-4 py-3 border-y border-theme-border" data-lenis-prevent>
+    <!-- Mobile Scroll List -->
+    <div id="mb-cart-list" class="max-h-[160px] overflow-y-auto space-y-4 py-3 border-y border-theme-border" data-lenis-prevent>
     </div>
 
-    <div class="flex justify-between items-end pt-2">
-      <span class="text-theme-muted text-[9px] uppercase tracking-editorial mb-1">Total Valuation</span>
-      <span id="mb-total" class="text-theme-main text-xl font-medium tracking-wide">₹0</span>
+    <!-- Pricing Breakdown Parity -->
+    <div class="space-y-3">
+      <div class="flex justify-between text-[10px] text-theme-muted font-light">
+        <span class="uppercase tracking-editorial text-[8px]">Subtotal</span>
+        <span id="mb-subtotal" class="font-medium text-theme-main">₹0</span>
+      </div>
+      <div class="flex justify-between text-[10px] text-theme-muted font-light">
+        <span class="uppercase tracking-editorial text-[8px]">Delivery Protocol</span>
+        <span id="mb-delivery" class="font-medium text-theme-main">₹0</span>
+      </div>
+      <div class="flex justify-between text-xs font-medium border-t border-theme-border pt-3 text-theme-main tracking-wide">
+        <span class="uppercase tracking-editorial text-[9px]">Total</span>
+        <span id="mb-total" class="font-semibold">₹0</span>
+      </div>
     </div>
 
     <button onclick="executeUPIPayment(this)" class="editorial-btn w-full py-4 rounded-2xl bg-theme-main text-theme-bg font-medium text-[10px] tracking-editorial uppercase hw-accel">
@@ -673,14 +690,13 @@
       dtList.innerHTML = ''; mbList.innerHTML = '';
 
       Object.keys(state.cart).forEach(id => {
-        // String conversion fixes standard integer db key lookup mismatches
         const item = state.items.find(i => String(i.id) === String(id));
         if (item) {
           const q = state.cart[id];
           totalQty += q;
           subtotal += item.price * q;
 
-          dtList.innerHTML += `
+          const rowHTML = `
             <div class="flex justify-between items-center gap-3 text-xs border-b border-theme-border pb-4">
               <div class="flex flex-col">
                 <span class="font-medium text-theme-main tracking-wide">${item.name}</span>
@@ -688,12 +704,9 @@
               </div>
               <span class="text-theme-main font-medium">₹${item.price * q}</span>
             </div>`;
-          
-          mbList.innerHTML += `
-            <div class="flex justify-between items-center text-[11px] text-theme-muted font-light">
-              <span class="tracking-wide">${item.name} <span class="text-theme-main ml-2 font-medium">x${q}</span></span>
-              <span class="text-theme-main font-medium">₹${item.price * q}</span>
-            </div>`;
+
+          dtList.innerHTML += rowHTML;
+          mbList.innerHTML += rowHTML;
         }
       });
 
@@ -706,10 +719,15 @@
       const delivery = totalQty > 0 ? SYSTEM_CONFIG.deliveryFee : 0;
       const total = subtotal + delivery;
       
+      // Update Desktop Elements
       document.getElementById('dt-subtotal').textContent = `₹${subtotal}`;
       document.getElementById('dt-delivery').textContent = `₹${delivery}`;
       document.getElementById('dt-total').textContent = `₹${total}`;
+      
+      // Update Mobile Elements (Achieves full parity with PC active ledger)
       document.getElementById('mb-count').textContent = `${totalQty} Entities`;
+      document.getElementById('mb-subtotal').textContent = `₹${subtotal}`;
+      document.getElementById('mb-delivery').textContent = `₹${delivery}`;
       document.getElementById('mb-total').textContent = `₹${total}`;
 
       const mbDrawer = document.getElementById('mobile-drawer');
