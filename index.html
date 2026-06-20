@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Marzoft Engine | Premium Cloud Kitchen</title>
-    <!-- Premium Google Font Import: Plus Jakarta Sans for razor-sharp geometric alignment on HD displays -->
+    <!-- Premium Google Font Import -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,23 +21,21 @@
             font-smooth: always !important;
         }
 
-        /* --- II. "TOKYO SLATE & TERRACOTTA EMBER" CANVAS RESETS --- */
+        /* Lock the body to prevent full-page scrolling. App-like behavior. */
         body {
             background-color: #12161a !important;
             background-image: radial-gradient(circle at 50% 50%, #1c2128 0%, #12161a 100%) !important;
-            background-attachment: fixed;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            overflow: hidden !important;
+            height: 100vh;
+            width: 100vw;
         }
 
-        /* Deep, solid, non-blurry Tokyo Slate surface matrix */
         .glass-panel {
             background: #1a2026 !important;
             border: 1px solid rgba(255, 255, 255, 0.05) !important;
             box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.6) !important;
         }
 
-        /* Upgraded product card layout matrices with microscopic track edges */
         .premium-card {
             background: #1a2026 !important;
             border: 1px solid rgba(255, 255, 255, 0.05) !important;
@@ -56,7 +54,6 @@
             }
         }
 
-        /* Terracotta Ember dynamic status and highlights styling */
         .glow-checkout {
             background: radial-gradient(circle at 50% 0%, rgba(211, 84, 0, 0.04) 0%, #1a2026 85%) !important;
             border: 1px solid rgba(211, 84, 0, 0.22) !important;
@@ -64,81 +61,46 @@
                         0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
         }
 
-        select, select option {
-            background-color: #1a2026 !important;
-            color: #faf9f6 !important;
+        .custom-dropdown-btn {
+            background-color: #12161a !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg fill='%23d35400' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 18px;
-            padding-right: 36px !important;
-        }
-        select:focus {
-            outline: none !important;
-            border-color: #d35400 !important;
+        
+        .custom-dropdown-btn:hover {
+            border-color: rgba(211, 84, 0, 0.5) !important;
+            box-shadow: 0 0 15px rgba(211, 84, 0, 0.15);
         }
 
-        /* Hardware acceleration specs */
         .accelerated {
             will-change: transform, opacity;
             transform: translate3d(0, 0, 0);
         }
 
-        /* Custom scrollbars reset styles */
-        * {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        *::-webkit-scrollbar {
-            display: none;
-            width: 0;
-            height: 0;
-            background: transparent;
-        }
+        * { scrollbar-width: none; -ms-overflow-style: none; }
+        *::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
 
-        /* --- III. EXPLICIT SCROLL & VIGNETTE GRADIENT OVERLAYS --- */
         .premium-scroll-viewport {
             overflow-x: hidden !important;
             overflow-y: auto !important;
-            padding-right: 8px !important;
+            padding-right: 4px !important;
             will-change: transform, scroll-position;
             -webkit-overflow-scrolling: touch;
         }
-
-        .cinematic-scroll-mask {
-            mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%) !important;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%) !important;
-        }
-
-        /* Dynamic 3D entry reveal initial setups */
-        .cinematic-entry {
-            opacity: 0;
-            transform: translateY(24px) scale(0.97) rotateX(4deg);
-            transform-style: preserve-3d;
-            will-change: transform, opacity;
-            backface-visibility: hidden;
-        }
     </style>
 </head>
-<body class="text-[#faf9f6] min-h-screen selection:bg-[#d35400]/30 overflow-x-hidden antialiased">
+<body class="text-[#faf9f6] selection:bg-[#d35400]/30 antialiased">
 
-    <!-- NAVIGATION BAR -->
-    <header class="fixed top-0 left-0 w-full z-40 px-4 pt-4 md:px-8 md:pt-6 accelerated">
-        <div class="max-w-[1700px] mx-auto glass-panel rounded-2xl px-5 py-4 flex items-center justify-between">
-            <!-- Pulsing Store Badge -->
+    <!-- NAVIGATION BAR (STATIC) -->
+    <header class="fixed top-0 left-0 w-full z-40 px-3 pt-3 md:px-6 md:pt-4 accelerated pointer-events-none">
+        <div class="max-w-[1700px] mx-auto glass-panel rounded-2xl px-4 py-3 flex items-center justify-between pointer-events-auto">
             <div class="flex items-center gap-3 shrink-0">
                 <div class="w-2.5 h-2.5 rounded-full bg-[#d35400] animate-pulse shadow-[0_0_12px_rgba(211,84,0,0.9)]"></div>
                 <span class="text-xs uppercase tracking-widest font-black text-[#d35400] whitespace-nowrap">Live Store</span>
             </div>
-            <!-- Identity Title & Navigation Toggle Trigger -->
             <div class="flex items-center gap-4 shrink-0">
                 <h1 class="text-xs md:text-sm tracking-widest font-black text-[#faf9f6] whitespace-nowrap uppercase">Marzoft Kitchen</h1>
-                <button id="nav-toggle-btn" onclick="toggleRoute()" class="p-2.5 bg-[#12161a] border border-white/5 hover:border-[#d35400]/40 active:scale-95 rounded-xl text-[#8e9aa0] hover:text-[#d35400] transition-all flex items-center justify-center shrink-0">
+                <button id="nav-toggle-btn" onclick="toggleRoute()" class="p-2 bg-[#12161a] border border-white/5 hover:border-[#d35400]/40 active:scale-95 rounded-xl text-[#8e9aa0] hover:text-[#d35400] transition-all flex items-center justify-center shrink-0">
                     <i data-lucide="lock" id="nav-btn-icon" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -146,47 +108,42 @@
     </header>
 
     <!-- CLIENT VIEWPORT -->
-    <main id="client-view" class="max-w-[1700px] mx-auto px-4 md:px-8 pt-28 md:pt-36 pb-36 md:pb-40 min-h-screen flex flex-col lg:flex-row gap-10 justify-between">
+    <main id="client-view" class="max-w-[1700px] mx-auto px-3 md:px-6 h-screen pt-20 md:pt-24 pb-4 flex flex-col lg:flex-row gap-6 justify-between">
         
-        <!-- Left Area: Responsive dynamic item grid catalogs -->
-        <div class="flex-1 flex flex-col w-full transition-all duration-500 ease-in-out">
-            <div id="hero-text" class="mb-8 md:mb-10 accelerated opacity-0">
-                <p class="text-xs font-black text-[#d35400] tracking-[0.2em] uppercase mb-2">Premium Culinary Experience</p>
-                <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight bg-gradient-to-r from-[#faf9f6] via-[#faf9f6] to-[#8e9aa0] bg-clip-text text-transparent leading-tight">
+        <!-- Left Side: Static Hero + Scrolling Grid -->
+        <div class="flex-1 flex flex-col w-full h-full min-h-0">
+            <!-- STATIC HERO TEXT -->
+            <div id="hero-text" class="shrink-0 pb-4 accelerated opacity-0">
+                <p class="text-[10px] md:text-xs font-black text-[#d35400] tracking-[0.2em] uppercase mb-1.5">Premium Culinary Experience</p>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight bg-gradient-to-r from-[#faf9f6] via-[#faf9f6] to-[#8e9aa0] bg-clip-text text-transparent leading-tight">
                     Curated Flavors.<br>Ordered Instantly.
                 </h2>
             </div>
-
-            <!-- Highly resolved cards layout -->
-            <section id="menu-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 pb-10 px-1"></section>
+            <!-- SCROLLING GRID -->
+            <section id="menu-container" class="flex-1 premium-scroll-viewport grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 content-start pb-20 lg:pb-4"></section>
         </div>
 
-        <!-- Right Area: Sidebar Drawer panels -->
-        <div id="desktop-sidebar-container" class="shrink-0 hidden lg:block overflow-hidden transition-all duration-500 ease-in-out w-0 opacity-0 relative">
-            <div id="desktop-cart-panel" class="w-[400px] xl:w-[460px] h-[calc(100vh-160px)] glass-panel glow-checkout rounded-[2rem] flex flex-col justify-between accelerated pointer-events-none" style="transform: translateX(40px);">
+        <!-- Right Side: Desktop Cart -->
+        <div id="desktop-sidebar-container" class="shrink-0 hidden lg:block overflow-hidden transition-all duration-500 ease-in-out w-0 opacity-0 relative h-full">
+            <div id="desktop-cart-panel" class="w-[380px] xl:w-[420px] h-full glass-panel glow-checkout rounded-[1.5rem] flex flex-col justify-between accelerated pointer-events-none" style="transform: translateX(40px);">
                 <div class="flex flex-col min-h-0 h-full">
-                    <div class="border-b border-white/5 pb-5 shrink-0 pt-7 px-8">
-                        <h3 class="text-base font-black tracking-wide text-[#faf9f6] uppercase">Your Selection</h3>
-                        <p id="dt-cart-item-count" class="text-xs font-semibold text-[#8e9aa0] mt-1">0 items composition</p>
+                    <div class="border-b border-white/5 pb-4 shrink-0 pt-5 px-5">
+                        <h3 class="text-sm font-black tracking-wide text-[#faf9f6] uppercase">Your Selection</h3>
+                        <p id="dt-cart-item-count" class="text-[10px] font-semibold text-[#8e9aa0] mt-1">0 items composition</p>
                     </div>
-
-                    <!-- Non-clipping scroll logs with smooth top/bottom edge dissolve layout -->
-                    <div id="dt-cart-items-list" class="flex-1 premium-scroll-viewport cinematic-scroll-mask py-4 px-8"></div>
-
-                    <hr class="border-white/5 my-3 shrink-0 mx-8">
-
-                    <div class="space-y-2 text-xs font-semibold text-[#8e9aa0] mb-5 shrink-0 px-8">
+                    <div id="dt-cart-items-list" class="flex-1 premium-scroll-viewport py-3 px-5"></div>
+                    <hr class="border-white/5 my-2 shrink-0 mx-5">
+                    <div class="space-y-1.5 text-[11px] font-semibold text-[#8e9aa0] mb-4 shrink-0 px-5">
                         <div class="flex justify-between"><span>Subtotal</span><span id="dt-summary-subtotal" class="text-[#faf9f6] font-bold">₹0</span></div>
                         <div class="flex justify-between"><span>Delivery & Packaging</span><span id="dt-summary-delivery" class="text-[#faf9f6] font-bold">₹0</span></div>
-                        <div class="flex justify-between text-sm font-black text-[#faf9f6] pt-1">
+                        <div class="flex justify-between text-xs font-black text-[#faf9f6] pt-1">
                             <span>Total Amount</span>
-                            <span id="dt-summary-total" class="text-[#d35400] text-lg font-black">₹0</span>
+                            <span id="dt-summary-total" class="text-[#d35400] text-base font-black">₹0</span>
                         </div>
                     </div>
-
-                    <div class="px-8 pb-7 shrink-0">
-                        <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 hover:shadow-[0_0_25px_rgba(211,84,0,0.4)] flex items-center justify-center gap-2 tracking-widest text-xs uppercase">
-                            <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+                    <div class="px-5 pb-5 shrink-0">
+                        <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-3.5 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 hover:shadow-[0_0_20px_rgba(211,84,0,0.4)] flex items-center justify-center gap-2 tracking-widest text-[10px] uppercase">
+                            <i data-lucide="zap" class="w-3.5 h-3.5 fill-current"></i>
                             <span>PAY INSTANTLY VIA UPI</span>
                         </button>
                     </div>
@@ -195,185 +152,231 @@
         </div>
     </main>
 
-    <!-- ADMIN VIEWPORT (Integrated SaaS Operational Terminals) -->
-    <main id="admin-view" class="w-full hidden flex-col gap-8 max-w-[1700px] mx-auto px-4 md:px-8 pt-32 md:pt-44 pb-32 md:pb-36">
-        <!-- Header -->
-        <div class="mb-2 accelerated">
-            <p class="text-xs font-bold text-[#d35400] tracking-widest uppercase mb-1.5">Command Suite</p>
-            <h2 class="text-3xl md:text-4xl font-black tracking-tight text-[#faf9f6]">Operational Dashboard</h2>
-        </div>
-
-        <!-- Tab Dock Header Selection Suite -->
-        <div class="glass-panel rounded-2xl p-2 flex flex-nowrap gap-2 overflow-x-auto max-w-2xl accelerated shadow-2xl shrink-0">
-            <button onclick="switchAdminTab('orders', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center" id="btn-tab-orders">
-                LIVE ORDERS
-            </button>
-            <button onclick="switchAdminTab('catalog', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-catalog">
-                MENU CATALOG
-            </button>
-            <button onclick="switchAdminTab('security', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-security">
-                SETTINGS
-            </button>
-        </div>
-
-        <!-- TAB 1: Incoming Real-Time Operations Desk -->
-        <div id="panel-orders" class="admin-tab-panel flex flex-col gap-6">
-            <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-2 px-1">
-                <span class="text-xs font-bold text-[#faf9f6] uppercase tracking-wider">Live System Tracks</span>
-                <span id="admin-count" class="text-xs text-[#8e9aa0] uppercase tracking-widest font-black">0 Orders</span>
+    <!-- ADMIN VIEWPORT -->
+    <main id="admin-view" class="w-full hidden flex-col max-w-[1700px] mx-auto px-3 md:px-6 h-screen pt-20 md:pt-24 pb-4 relative">
+        
+        <!-- STATIC ADMIN HEADER & TABS -->
+        <div class="shrink-0 flex flex-col gap-4 pb-4">
+            <div class="accelerated">
+                <p class="text-[10px] font-bold text-[#d35400] tracking-widest uppercase mb-1">Command Suite</p>
+                <h2 class="text-2xl md:text-3xl font-black tracking-tight text-[#faf9f6]">Operational Dashboard</h2>
             </div>
-            <!-- Scroll stream displaying orders with fade layout edge protection -->
-            <div id="admin-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-[850px] premium-scroll-viewport cinematic-scroll-mask py-6 px-1"></div>
+
+            <div class="glass-panel rounded-xl p-1.5 flex flex-nowrap gap-1.5 overflow-x-auto max-w-2xl accelerated shadow-xl shrink-0">
+                <button onclick="switchAdminTab('orders', this)" class="flex-1 py-2.5 px-4 rounded-lg text-[10px] uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-md shadow-[#d35400]/10 whitespace-nowrap text-center" id="btn-tab-orders">
+                    LIVE ORDERS
+                </button>
+                <button onclick="switchAdminTab('catalog', this)" class="flex-1 py-2.5 px-4 rounded-lg text-[10px] uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-catalog">
+                    MENU CATALOG
+                </button>
+                <button onclick="switchAdminTab('bin', this)" class="flex-1 py-2.5 px-4 rounded-lg text-[10px] uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-bin">
+                    RECYCLE BIN
+                </button>
+                <button onclick="switchAdminTab('security', this)" class="flex-1 py-2.5 px-4 rounded-lg text-[10px] uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-security">
+                    SETTINGS
+                </button>
+            </div>
         </div>
 
-        <!-- TAB 2: Culinary Catalog Vault -->
-        <div id="panel-catalog" class="admin-tab-panel hidden grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Grid: 1/3 product entry forms layout -->
-            <div class="lg:col-span-1 flex flex-col gap-6">
-                <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col gap-6">
-                    <h3 class="text-xs font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-3">Add New Dish</h3>
-                    <form onsubmit="createProduct(event)" class="flex flex-col gap-5">
+        <!-- SCROLLING ADMIN PANELS -->
+        <div class="flex-1 premium-scroll-viewport min-h-0 pb-20 lg:pb-4">
+            
+            <!-- TAB 1: Live Orders Workspace -->
+            <div id="panel-orders" class="admin-tab-panel flex flex-col gap-3 relative">
+                <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                    <span class="text-[11px] font-bold text-[#faf9f6] uppercase tracking-wider">Live System Tracks</span>
+                    <div class="flex items-center gap-3">
+                        <button id="btn-bulk-select-all" onclick="toggleSelectAllOrders()" class="text-[9px] font-black tracking-widest text-[#8e9aa0] hover:text-[#faf9f6] uppercase transition-colors">Select All</button>
+                        <span id="admin-count" class="text-[10px] text-[#8e9aa0] uppercase tracking-widest font-black">0 Orders</span>
+                    </div>
+                </div>
+                <div id="admin-list" class="grid grid-cols-1 lg:grid-cols-2 gap-3 py-1 content-start"></div>
+            </div>
+
+            <!-- TAB 2: Catalog Vault -->
+            <div id="panel-catalog" class="admin-tab-panel hidden grid-cols-1 lg:grid-cols-3 gap-4">
+                <div class="lg:col-span-1 flex flex-col gap-4">
+                    <div class="glass-panel rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                        <h3 class="text-[11px] font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-2">Add New Dish</h3>
+                        <form onsubmit="createProduct(event)" class="flex flex-col gap-4">
+                            <div>
+                                <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Dish Name</label>
+                                <input required id="form-name" type="text" placeholder="e.g., Charcoal Smoked Ribs" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Price (₹)</label>
+                                <input required id="form-price" type="number" min="1" placeholder="e.g., 1299" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Description / Ingredients</label>
+                                <textarea required id="form-desc" rows="2" placeholder="Dish specifications..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-lg transition-all shadow-md shadow-[#d35400]/10 text-[10px] tracking-wider uppercase">
+                                Add to Menu
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 flex flex-col gap-3">
+                    <div class="glass-panel rounded-2xl p-5 shadow-xl flex flex-col h-full gap-3">
+                        <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span class="text-[11px] font-black text-[#faf9f6] uppercase tracking-wider">Active Menu</span>
+                            <span id="dishes-count" class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">0 Dishes</span>
+                        </div>
+                        <div id="dishes-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 py-1 content-start"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: Recycle Bin Desk -->
+            <div id="panel-bin" class="admin-tab-panel hidden flex-col gap-3 relative">
+                <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                    <span class="text-[11px] font-bold text-[#faf9f6] uppercase tracking-wider">Recycle Bin Workspace</span>
+                    <div class="flex items-center gap-3">
+                        <button id="btn-bin-select-all" onclick="toggleSelectAllBin()" class="text-[9px] font-black tracking-widest text-[#8e9aa0] hover:text-[#faf9f6] uppercase transition-colors">Select All</button>
+                        <span id="bin-count" class="text-[10px] text-[#8e9aa0] uppercase tracking-widest font-black">0 Items</span>
+                    </div>
+                </div>
+                <div id="bin-list" class="grid grid-cols-1 lg:grid-cols-2 gap-3 py-1 content-start"></div>
+            </div>
+
+            <!-- TAB 4: Security Cipher Matrix -->
+            <div id="panel-security" class="admin-tab-panel hidden max-w-xl flex-col gap-4">
+                <div class="glass-panel rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                    <h3 class="text-[11px] font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-2">Change Admin Password</h3>
+                    <form onsubmit="updateAdminPassword(event)" class="flex flex-col gap-4">
                         <div>
-                            <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">Dish Name</label>
-                            <input required id="form-name" type="text" placeholder="e.g., Charcoal Smoked Ribs" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                            <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">New Password</label>
+                            <input required id="form-new-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                         </div>
                         <div>
-                            <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">Price (₹)</label>
-                            <input required id="form-price" type="number" min="1" placeholder="e.g., 1299" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                            <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Confirm Password</label>
+                            <input required id="form-confirm-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                         </div>
-                        <div>
-                            <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">Description / Ingredients</label>
-                            <textarea required id="form-desc" rows="3" placeholder="Dish specifications..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/10 text-xs tracking-wider uppercase">
-                            Add to Menu
+                        <button type="submit" class="w-full border border-white/10 hover:bg-white/5 hover:border-white/20 active:scale-[0.98] text-[#faf9f6] font-bold py-3 rounded-lg transition-all text-[10px] tracking-wider uppercase">
+                            Update Password
                         </button>
                     </form>
                 </div>
-            </div>
-
-            <!-- Right Grid: 2/3 wide inventory matrix -->
-            <div class="lg:col-span-2 flex flex-col gap-4">
-                <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col h-full gap-5">
-                    <div class="flex items-center justify-between border-b border-white/5 pb-3">
-                        <span class="text-xs font-black text-[#faf9f6] uppercase tracking-wider">Active Menu</span>
-                        <span id="dishes-count" class="text-[10px] text-[#8e9aa0] uppercase tracking-widest font-bold">0 Dishes</span>
-                    </div>
-                    <!-- Upgraded scroll menu with zero characters cutoff -->
-                    <div id="dishes-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] premium-scroll-viewport cinematic-scroll-mask py-6"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: Security Cipher Matrix -->
-        <div id="panel-security" class="admin-tab-panel hidden max-w-xl flex-col gap-6">
-            <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col gap-5">
-                <h3 class="text-xs font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-3">Change Admin Password</h3>
-                <form onsubmit="updateAdminPassword(event)" class="flex flex-col gap-4">
-                    <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">New Password</label>
-                        <input required id="form-new-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">Confirm Password</label>
-                        <input required id="form-confirm-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
-                    </div>
-                    <button type="submit" class="w-full border border-white/10 hover:bg-white/5 hover:border-white/20 active:scale-[0.98] text-[#faf9f6] font-bold py-3.5 rounded-xl transition-all text-xs tracking-wider uppercase">
-                        Update Password
-                    </button>
-                </form>
-            </div>
-
-            <button onclick="logoutAdmin(this)" class="w-full bg-[#d35400]/10 border border-[#d35400]/30 hover:bg-[#d35400]/20 active:scale-[0.98] text-[#d35400] font-bold py-4 rounded-xl transition-all text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(211,84,0,0.05)]">
-                Log Out
-            </button>
-        </div>
-    </main>
-
-    <!-- MOBILE EXPANDED DETAILED CART DRAWER -->
-    <div id="cart-drawer" class="fixed bottom-0 left-0 w-full z-50 px-4 pb-4 transition-transform duration-300 translate-y-full lg:hidden accelerated">
-        <div class="max-w-md mx-auto glass-panel glow-checkout rounded-[2.5rem] p-6 shadow-2xl">
-            <div class="flex justify-between items-center mb-4 px-4">
-                <div>
-                    <h3 class="font-bold text-[#faf9f6] text-sm">Your Cart</h3>
-                    <p id="cart-item-count" class="text-[10px] font-medium text-[#8e9aa0]">0 items selected</p>
-                </div>
-                <button onclick="toggleCartDrawer()" class="p-2 rounded-full hover:bg-white/5 transition-colors">
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-[#8e9aa0]"></i>
+                <button onclick="logoutAdmin(this)" class="w-full bg-[#d35400]/10 border border-[#d35400]/30 hover:bg-[#d35400]/20 active:scale-[0.98] text-[#d35400] font-bold py-3 rounded-lg transition-all text-[10px] tracking-widest uppercase shadow-[0_0_10px_rgba(211,84,0,0.05)]">
+                    Log Out
                 </button>
             </div>
 
-            <!-- Highly resilient scroll item layout -->
-            <div id="cart-items-list" class="max-h-48 premium-scroll-viewport cinematic-scroll-mask mb-4"></div>
+        </div>
 
-            <hr class="border-white/5 my-3 mx-4">
-
-            <div class="space-y-1.5 text-[11px] font-semibold text-[#8e9aa0] mb-4 px-4">
-                <div class="flex justify-between"><span>Subtotal</span><span id="summary-subtotal" class="text-[#faf9f6]">₹0</span></div>
-                <div class="flex justify-between"><span>Delivery & Packaging</span><span id="summary-delivery" class="text-[#faf9f6]">₹0</span></div>
-                <div class="flex justify-between text-xs font-bold text-[#faf9f6] pt-1">
-                    <span>Total Amount</span>
-                    <span id="summary-total" class="text-[#d35400] text-sm font-extrabold">₹0</span>
+        <!-- CONTEXTUAL ACTION CAPSULE DASHBOARD (UNIVERSALLY DRAGGABLE) -->
+        <div id="contextual-action-capsule" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex items-center p-1 bg-[#1a2026]/95 border border-white/10 rounded-full shadow-[0_15px_40px_rgba(0,0,0,0.8)] backdrop-blur-md accelerated pointer-events-none opacity-0 translate-y-8 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-grab touch-none">
+            
+            <!-- View A: Drag Handle & Badge -->
+            <div id="capsule-drag-handle" class="flex items-center gap-2 px-3 py-2 bg-[#12161a] rounded-full border border-white/5 select-none shrink-0 pointer-events-none">
+                <div class="flex items-center justify-center w-4 h-4 rounded-full bg-[#d35400]/20 text-[#d35400]">
+                    <i data-lucide="grip-horizontal" class="w-2.5 h-2.5"></i>
                 </div>
+                <span id="capsule-count" class="text-[10px] font-black text-[#faf9f6] uppercase tracking-widest whitespace-nowrap">0 Selected</span>
+                <button id="capsule-toggle-btn" onclick="toggleCapsuleExpand(event)" class="p-0.5 hover:bg-white/10 rounded-full transition-colors cursor-pointer pointer-events-auto">
+                    <i data-lucide="chevron-right" id="capsule-toggle-icon" class="w-3.5 h-3.5 text-[#8e9aa0] transition-transform duration-300"></i>
+                </button>
             </div>
 
-            <div class="px-4">
-                <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 flex items-center justify-center gap-2 tracking-wide text-xs uppercase">
-                    <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+            <!-- View B: Action Buttons Wrapper -->
+            <div id="capsule-actions-wrapper" class="flex items-center overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] max-w-[600px] opacity-100 px-1.5 gap-1.5 pointer-events-auto">
+                
+                <!-- Orders Actions -->
+                <div id="capsule-actions-orders" class="flex items-center gap-1.5">
+                    <button onclick="executeBulkStatus('PENDING')" class="px-3 py-2 bg-[#12161a] border border-[#d35400]/40 hover:bg-[#d35400] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Set Pending</button>
+                    <button onclick="executeBulkStatus('DELIVERED')" class="px-3 py-2 bg-[#12161a] border border-[#d35400]/40 hover:bg-[#d35400] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Set Delivered</button>
+                    <button onclick="executeBulkDelete()" class="px-3 py-2 bg-[#c0392b]/20 border border-[#c0392b]/40 hover:bg-[#c0392b] hover:text-white rounded-full text-[9px] font-black tracking-widest text-[#c0392b] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Delete Selection</button>
+                </div>
+                
+                <!-- Bin Actions -->
+                <div id="capsule-actions-bin" class="hidden items-center gap-1.5">
+                    <button onclick="executeBulkRestore()" class="px-3 py-2 bg-[#12161a] border border-[#d35400]/40 hover:bg-[#d35400] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Restore</button>
+                    <button onclick="executeBulkDeletePermanent()" class="px-3 py-2 bg-[#c0392b]/20 border border-[#c0392b]/40 hover:bg-[#c0392b] hover:text-white rounded-full text-[9px] font-black tracking-widest text-[#c0392b] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Delete Permanently</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MOBILE EXPANDED DETAILED CART DRAWER & STICKY BAR -->
+    <div id="cart-drawer" class="fixed bottom-0 left-0 w-full z-50 px-3 pb-3 transition-transform duration-300 translate-y-full lg:hidden accelerated">
+        <div class="max-w-md mx-auto glass-panel glow-checkout rounded-[2rem] p-5 shadow-2xl">
+            <div class="flex justify-between items-center mb-3 px-3">
+                <div>
+                    <h3 class="font-bold text-[#faf9f6] text-xs">Your Cart</h3>
+                    <p id="cart-item-count" class="text-[9px] font-medium text-[#8e9aa0]">0 items selected</p>
+                </div>
+                <button onclick="toggleCartDrawer()" class="p-1.5 rounded-full hover:bg-white/5 transition-colors">
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-[#8e9aa0]"></i>
+                </button>
+            </div>
+            <div id="cart-items-list" class="max-h-40 premium-scroll-viewport mb-3"></div>
+            <hr class="border-white/5 my-2 mx-3">
+            <div class="space-y-1 text-[10px] font-semibold text-[#8e9aa0] mb-3 px-3">
+                <div class="flex justify-between"><span>Subtotal</span><span id="summary-subtotal" class="text-[#faf9f6]">₹0</span></div>
+                <div class="flex justify-between"><span>Delivery & Packaging</span><span id="summary-delivery" class="text-[#faf9f6]">₹0</span></div>
+                <div class="flex justify-between text-[11px] font-bold text-[#faf9f6] pt-1">
+                    <span>Total Amount</span>
+                    <span id="summary-total" class="text-[#d35400] text-xs font-extrabold">₹0</span>
+                </div>
+            </div>
+            <div class="px-3">
+                <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 flex items-center justify-center gap-2 tracking-wide text-[10px] uppercase">
+                    <i data-lucide="zap" class="w-3.5 h-3.5 fill-current"></i>
                     <span>PAY INSTANTLY VIA UPI</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MOBILE STICKY ACTION TRIGGER BAR -->
-    <div id="sticky-bar" class="fixed bottom-5 left-0 w-full px-4 z-30 transition-all duration-300 translate-y-24 opacity-0 lg:hidden accelerated">
-        <button onclick="toggleCartDrawer()" class="max-w-md mx-auto w-full bg-[#1a2026] border border-white/10 hover:border-[#d35400]/40 py-3.5 px-4 rounded-xl shadow-2xl flex justify-between items-center text-xs font-semibold glow-checkout">
-            <div class="flex items-center gap-2.5">
-                <div class="relative bg-[#d35400]/10 p-2 rounded-lg text-[#d35400]">
-                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
-                    <span id="badge-count" class="absolute -top-1.5 -right-1.5 bg-[#d35400] text-[#12161a] text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_6px_rgba(211,84,0,0.5)]">0</span>
+    <div id="sticky-bar" class="fixed bottom-4 left-0 w-full px-3 z-30 transition-all duration-300 translate-y-24 opacity-0 lg:hidden accelerated">
+        <button onclick="toggleCartDrawer()" class="max-w-md mx-auto w-full bg-[#1a2026] border border-white/10 hover:border-[#d35400]/40 py-3 px-4 rounded-xl shadow-2xl flex justify-between items-center text-[11px] font-semibold glow-checkout">
+            <div class="flex items-center gap-2">
+                <div class="relative bg-[#d35400]/10 p-1.5 rounded-lg text-[#d35400]">
+                    <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+                    <span id="badge-count" class="absolute -top-1.5 -right-1.5 bg-[#d35400] text-[#12161a] text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_6px_rgba(211,84,0,0.5)]">0</span>
                 </div>
                 <span class="text-[#faf9f6] font-bold">View Cart</span>
             </div>
             <div class="flex items-center gap-1">
-                <span id="sticky-total" class="font-extrabold text-[#d35400] text-sm">₹0</span>
-                <i data-lucide="chevron-up" class="w-4 h-4 text-[#8e9aa0]"></i>
+                <span id="sticky-total" class="font-extrabold text-[#d35400] text-xs">₹0</span>
+                <i data-lucide="chevron-up" class="w-3.5 h-3.5 text-[#8e9aa0]"></i>
             </div>
         </button>
     </div>
 
     <!-- CLIENT FULFILLMENT DESTINATION OVERLAY SHEET -->
     <div id="fulfillment-modal" class="fixed inset-0 bg-[#12161a]/95 z-50 flex items-end md:items-stretch md:justify-end p-0 opacity-0 pointer-events-none accelerated transition-all duration-500">
-        <div id="fulfillment-card" class="w-full md:w-[450px] p-6 md:p-8 bg-[#1a2026] border-t border-white/10 md:border-t-0 md:border-l rounded-t-[2.5rem] md:rounded-t-none flex flex-col justify-between shadow-2xl accelerated transition-transform duration-500" style="transform: translateY(100%);">
-            <div class="flex flex-col gap-6 h-full justify-between min-h-0 overflow-y-auto">
-                <div class="flex justify-between items-center border-b border-white/5 pb-3">
+        <div id="fulfillment-card" class="w-full md:w-[400px] p-5 md:p-6 bg-[#1a2026] border-t border-white/10 md:border-t-0 md:border-l rounded-t-[2rem] md:rounded-t-none flex flex-col justify-between shadow-2xl accelerated transition-transform duration-500" style="transform: translateY(100%);">
+            <div class="flex flex-col gap-5 h-full justify-between min-h-0 overflow-y-auto">
+                <div class="flex justify-between items-center border-b border-white/5 pb-2">
                     <div>
-                        <h3 class="font-black text-[#faf9f6] text-sm uppercase tracking-wider">Fulfillment Destination</h3>
-                        <p class="text-[9px] text-[#8e9aa0] mt-1 uppercase tracking-wider">Please supply delivery coordinates</p>
+                        <h3 class="font-black text-[#faf9f6] text-xs uppercase tracking-wider">Fulfillment Destination</h3>
+                        <p class="text-[8px] text-[#8e9aa0] mt-0.5 uppercase tracking-wider">Please supply delivery coordinates</p>
                     </div>
-                    <button onclick="toggleFulfillmentModal(false)" class="p-2 rounded-xl hover:bg-white/5 transition-colors">
+                    <button onclick="toggleFulfillmentModal(false)" class="p-1.5 rounded-lg hover:bg-white/5 transition-colors">
                         <i data-lucide="x" class="w-4 h-4 text-[#8e9aa0]"></i>
                     </button>
                 </div>
-                <form onsubmit="confirmFulfillment(event)" class="flex flex-col gap-5 flex-1 justify-center">
+                <form onsubmit="confirmFulfillment(event)" class="flex flex-col gap-4 flex-1 justify-center">
                     <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Full Name</label>
-                        <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                        <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1 font-bold">Full Name</label>
+                        <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Contact Number</label>
-                        <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                        <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1 font-bold">Contact Number</label>
+                        <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Complete Delivery Address</label>
-                        <textarea required id="fullfill-address" rows="3" placeholder="Street, block, apartment no..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
+                        <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1 font-bold">Complete Delivery Address</label>
+                        <textarea required id="fullfill-address" rows="2" placeholder="Street, block, apartment no..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Nearby Landmark / Area Code</label>
-                        <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                        <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1 font-bold">Nearby Landmark / Area Code</label>
+                        <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
-                    <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 text-xs tracking-wider uppercase">
+                    <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-lg transition-all shadow-md shadow-[#d35400]/20 text-[10px] tracking-wider uppercase">
                         Confirm & Process Payment
                     </button>
                 </form>
@@ -383,21 +386,21 @@
 
     <!-- ADMIN LOGIN GATE MODAL -->
     <div id="auth-modal" class="fixed inset-0 bg-[#12161a]/95 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none accelerated transition-all duration-500">
-        <div id="auth-card" class="w-full max-w-sm p-8 rounded-[2rem] glass-panel text-center flex flex-col gap-6 transform scale-95 accelerated">
-            <div class="w-14 h-16 bg-[#12161a] border border-white/10 rounded-full flex items-center justify-center mx-auto text-[#d35400] shadow-xl">
-                <i data-lucide="shield-alert" class="w-6 h-6"></i>
+        <div id="auth-card" class="w-full max-w-xs p-6 rounded-[1.5rem] glass-panel text-center flex flex-col gap-5 transform scale-95 accelerated">
+            <div class="w-12 h-12 bg-[#12161a] border border-white/10 rounded-full flex items-center justify-center mx-auto text-[#d35400] shadow-lg">
+                <i data-lucide="shield-alert" class="w-5 h-5"></i>
             </div>
             <div>
-                <h4 class="text-base font-black text-[#faf9f6] uppercase tracking-widest leading-none">Admin Login</h4>
-                <p class="text-xs font-bold text-[#8e9aa0] mt-3 uppercase tracking-widest leading-relaxed">Enter password to continue</p>
+                <h4 class="text-sm font-black text-[#faf9f6] uppercase tracking-widest leading-none">Admin Login</h4>
+                <p class="text-[10px] font-bold text-[#8e9aa0] mt-2 uppercase tracking-widest leading-relaxed">Enter password to continue</p>
             </div>
-            <form onsubmit="verifyLogin(event)" class="flex flex-col gap-5">
-                <input required id="auth-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-center tracking-[0.4em] text-sm md:text-base px-4 py-4 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-bold">
-                <div class="flex gap-3 mt-1">
-                    <button type="button" onclick="cancelLogin(this)" class="flex-1 py-3 text-[10px] font-black tracking-widest uppercase rounded-xl border border-white/10 hover:bg-white/5 text-[#8e9aa0] transition-all active:scale-95">
+            <form onsubmit="verifyLogin(event)" class="flex flex-col gap-4">
+                <input required id="auth-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-center tracking-[0.4em] text-xs px-3 py-3 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-bold">
+                <div class="flex gap-2 mt-1">
+                    <button type="button" onclick="cancelLogin(this)" class="flex-1 py-2.5 text-[9px] font-black tracking-widest uppercase rounded-lg border border-white/10 hover:bg-white/5 text-[#8e9aa0] transition-all active:scale-95">
                         Cancel
                     </button>
-                    <button type="submit" class="flex-1 py-3 text-[10px] font-black tracking-widest uppercase rounded-xl bg-[#d35400] text-[#12161a] transition-all active:scale-95 shadow-[0_0_15px_rgba(211,84,0,0.2)]">
+                    <button type="submit" class="flex-1 py-2.5 text-[9px] font-black tracking-widest uppercase rounded-lg bg-[#d35400] text-[#12161a] transition-all active:scale-95 shadow-[0_0_10px_rgba(211,84,0,0.2)]">
                         Login
                     </button>
                 </div>
@@ -407,16 +410,16 @@
 
     <!-- STATUS SYNCHRONIZER LOADER -->
     <div id="loader" class="fixed inset-0 bg-[#12161a]/95 z-[100] flex flex-col items-center justify-center opacity-0 pointer-events-none accelerated transition-all duration-500">
-        <div class="relative w-16 h-20 flex items-center justify-center">
+        <div class="relative w-12 h-16 flex items-center justify-center">
             <div class="absolute inset-0 border border-white/5 rounded-full"></div>
             <div class="absolute inset-0 border border-t-[#d35400] border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
-            <div class="w-2 h-2 bg-[#d35400] rounded-full animate-pulse shadow-[0_0_8px_rgba(211,84,0,0.8)]"></div>
+            <div class="w-1.5 h-1.5 bg-[#d35400] rounded-full animate-pulse shadow-[0_0_6px_rgba(211,84,0,0.8)]"></div>
         </div>
-        <span class="mt-6 text-[9px] font-bold text-[#faf9f6] tracking-widest uppercase animate-pulse">Synchronizing...</span>
+        <span class="mt-4 text-[8px] font-bold text-[#faf9f6] tracking-widest uppercase animate-pulse">Synchronizing...</span>
     </div>
 
     <!-- TOAST PORTAL -->
-    <div id="toast-container" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] flex flex-col gap-4 pointer-events-none w-[90%] max-w-[400px]"></div>
+    <div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[110] flex flex-col gap-3 pointer-events-none w-[90%] max-w-[350px]"></div>
 
     <!-- SYSTEM SCRIPTS -->
     <script>
@@ -436,26 +439,39 @@
             cart: {},
             isAdmin: false,
             route: 'client',
-            activeAdminTab: 'orders'
+            activeAdminTab: 'orders',
+            selectedOrders: new Set(),
+            selectedBinItems: new Set(),
+            lastOrdersHash: "",
+            lastCatalogHash: ""
         };
 
         // --- II. INITIALIZATION LIFE CYCLE ---
         function initEngine() {
             safeCreateIcons();
             setupFulfillmentAnimations();
+            initCapsuleDrag();
             
-            // Initial Page Motion Reveal
-            gsap.fromTo("#hero-text", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.2 });
+            gsap.fromTo("#hero-text", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", delay: 0.1 });
             
             window.addEventListener('hashchange', handleRoute);
+            
+            window.addEventListener('click', function(e) {
+                if (!e.target.closest('.custom-dropdown-container')) {
+                    document.querySelectorAll('.custom-dropdown-menu').forEach(menu => {
+                        menu.classList.add('hidden');
+                    });
+                }
+            });
+
+            getRecycleBin();
             fetchData();
             handleRoute();
             
-            // Background Live Sync polling loop (Fires silently every 8 seconds)
             setInterval(async () => {
                 if (state.route === 'admin' && state.activeAdminTab === 'orders' && state.isAdmin) {
                     const orders = await fetchOrders();
-                    renderAdminList(orders);
+                    renderAdminList(orders, true);
                 }
             }, 8000);
         }
@@ -500,15 +516,16 @@
                     adminView.classList.add('flex');
                     
                     const stickyBar = document.getElementById("sticky-bar");
-                    stickyBar.classList.add("translate-y-24", "opacity-0");
-                    stickyBar.style.pointerEvents = "none";
+                    if (stickyBar) {
+                        stickyBar.classList.add("translate-y-24", "opacity-0");
+                        stickyBar.style.pointerEvents = "none";
+                    }
                     closeCartDrawer();
                     
-                    // Collapse sidebar layout area in Admin Views
                     const dtSidebarContainer = document.getElementById("desktop-sidebar-container");
                     const dtPanel = document.getElementById("desktop-cart-panel");
-                    gsap.to(dtSidebarContainer, { width: 0, opacity: 0, duration: 0.4, ease: "power3.in" });
-                    gsap.to(dtPanel, { x: 40, opacity: 0, duration: 0.4, ease: "power3.in" });
+                    gsap.to(dtSidebarContainer, { width: 0, opacity: 0, duration: 0.3, ease: "power3.in" });
+                    gsap.to(dtPanel, { x: 20, opacity: 0, duration: 0.3, ease: "power3.in" });
                     
                     switchAdminTab(state.activeAdminTab, document.getElementById(`btn-tab-${state.activeAdminTab}`));
                 }
@@ -523,57 +540,32 @@
                 adminView.classList.add('hidden');
                 adminView.classList.remove('flex');
                 
-                if (document.getElementById('menu-container').innerHTML === '') {
-                    renderMenuGrid();
-                }
+                // FORCE RENDER EVERY TIME WE SWITCH TO CLIENT VIEW
+                renderMenuGrid();
                 updateEngineState();
             }
         }
 
         // --- III. ROBUST FETCH WRAPPER ---
         async function safeFetchJson(url, options = {}) {
-            const headers = {
-                ...options.headers,
-                'Cache-Control': 'no-cache',
-                'Pragma': 'no-cache'
-            };
-            
+            const headers = { ...options.headers, 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' };
             const response = await fetch(url, { ...options, headers });
             const text = await response.text();
             
-            let json = null;
-            let isJson = true;
-            
-            if (text.trim() === "") {
-                json = {};
-            } else {
-                try {
-                    json = JSON.parse(text);
-                } catch (e) {
-                    isJson = false;
-                }
-            }
+            let json = null, isJson = true;
+            if (text.trim() === "") json = {};
+            else { try { json = JSON.parse(text); } catch (e) { isJson = false; } }
 
-            if (!response.ok) {
-                const errMsg = isJson ? (json.message || json.hint || text) : `HTTP ${response.status}: ${text.slice(0, 150)}`;
-                throw new Error(errMsg);
-            }
-
-            if (!isJson) {
-                throw new Error(`Invalid format: ${text.slice(0, 150)}`);
-            }
-
+            if (!response.ok) throw new Error(isJson ? (json.message || json.hint || text) : `HTTP ${response.status}`);
+            if (!isJson) throw new Error(`Invalid format`);
             return json;
         }
 
         // --- IV. CLOUD SYNCHRONIZATION ---
         async function fetchData() {
             try {
-                const data = await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items?select=*&order=id.asc&t=${Date.now()}`, {
-                    headers: { 
-                        'apikey': supabaseAnonKey, 
-                        'Authorization': `Bearer ${supabaseAnonKey}` 
-                    }
+                const data = await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items?select=*&order=id.asc`, {
+                    headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}` }
                 });
                 state.items = data || [];
                 finalizeFetch("Menu data verified.");
@@ -594,45 +586,39 @@
             showToast(msg);
         }
 
-        // --- V. PURE DYNAMIC RENDER ENGINES ---
+        // --- V. PURE DYNAMIC RENDER ENGINES (Client Menu) ---
         function renderMenuGrid() {
             const container = document.getElementById("menu-container");
             if (!container) return;
             
             if (state.items.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full py-16 text-center border border-dashed border-[#8e9aa0]/20 rounded-3xl p-8 bg-[#1a2026]">
-                        <span class="text-xs uppercase tracking-widest text-[#8e9aa0] font-bold">Empty Catalog</span>
-                        <p class="text-xs text-[#8e9aa0]/60 mt-2 font-light">No records found on the host database.</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="col-span-full py-8 text-center border border-dashed border-[#8e9aa0]/20 rounded-2xl p-6 bg-[#1a2026]"><span class="text-[10px] uppercase tracking-widest text-[#8e9aa0] font-bold">Empty Catalog</span></div>`;
                 return;
             }
 
             container.innerHTML = state.items.map(item => {
                 const qty = state.cart[item.id] || 0;
                 return `
-                    <div class="menu-card premium-card rounded-2xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group border border-white/5 shadow-2xl min-h-[280px]">
+                    <div class="menu-card premium-card rounded-2xl p-5 md:p-6 flex flex-col justify-between relative overflow-hidden group border border-white/5 shadow-xl min-h-[220px] mb-2">
                         <div class="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#d35400]/20 to-transparent"></div>
-                        
-                        <div class="flex justify-between items-start gap-4 mb-4">
-                            <div class="space-y-2">
-                                <h3 class="font-black text-[#faf9f6] text-lg md:text-xl tracking-tight group-hover:text-[#d35400] transition-colors leading-tight">${item.name}</h3>
-                                <p class="text-xs md:text-sm text-[#8e9aa0] leading-relaxed font-semibold">${item.description}</p>
+                        <div class="flex justify-between items-start gap-3 mb-3">
+                            <div class="space-y-1.5">
+                                <h3 class="font-black text-[#faf9f6] text-base md:text-lg tracking-tight group-hover:text-[#d35400] transition-colors leading-tight">${item.name}</h3>
+                                <p class="text-[11px] md:text-xs text-[#8e9aa0] leading-relaxed font-semibold">${item.description}</p>
                             </div>
-                            <span class="text-xs md:text-sm font-black text-[#d35400] bg-[rgba(211,84,0,0.08)] px-3 py-1.5 rounded-xl shrink-0 border border-[#d35400]/15 shadow-sm">₹${item.price}</span>
+                            <span class="text-[11px] md:text-xs font-black text-[#d35400] bg-[rgba(211,84,0,0.08)] px-2.5 py-1 rounded-lg shrink-0 border border-[#d35400]/15 shadow-sm">₹${item.price}</span>
                         </div>
-                        <div class="flex justify-end pt-2 shrink-0">
+                        <div class="flex justify-end pt-1 shrink-0">
                             <div id="actions-${item.id}">
                                 ${qty > 0 ? `
-                                    <div class="flex items-center gap-3 bg-[#d35400] text-[#12161a] font-black p-1.5 rounded-lg shadow-lg">
-                                        <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-8 h-7 flex items-center justify-center rounded-md hover:bg-black/10 transition-colors"><i data-lucide="minus" class="w-3.5 h-3.5"></i></button>
-                                        <span class="text-sm px-1.5 min-w-[18px] text-center font-bold">${state.cart[item.id]}</span>
-                                        <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-8 h-7 flex items-center justify-center rounded-md hover:bg-black/10 transition-colors"><i data-lucide="plus" class="w-3.5 h-3.5"></i></button>
+                                    <div class="flex items-center gap-2 bg-[#d35400] text-[#12161a] font-black p-1 rounded-lg shadow-md">
+                                        <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-black/10 transition-colors"><i data-lucide="minus" class="w-3 h-3"></i></button>
+                                        <span class="text-xs px-1 min-w-[14px] text-center font-bold">${state.cart[item.id]}</span>
+                                        <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-black/10 transition-colors"><i data-lucide="plus" class="w-3 h-3"></i></button>
                                     </div>
                                 ` : `
-                                    <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[#d35400]/50 px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all active:scale-95 flex items-center gap-2 text-[#faf9f6]">
-                                        <i data-lucide="plus" class="w-4 h-4 text-[#d35400]"></i> Add to Order
+                                    <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[#d35400]/50 px-4 py-2 rounded-lg text-[10px] font-bold tracking-wide transition-all active:scale-95 flex items-center gap-1.5 text-[#faf9f6]">
+                                        <i data-lucide="plus" class="w-3 h-3 text-[#d35400]"></i> Add to Order
                                     </button>
                                 `}
                             </div>
@@ -641,17 +627,13 @@
                 `;
             }).join('');
             
-            // Trigger 3D perspective reveal effects
-            revealCinematicElements(".menu-card");
             safeCreateIcons();
         }
 
         // --- VI. MUTATION & CART CALCULATIONS ---
         function addToCart(itemId, btn) {
             if(btn) animateClick(btn);
-            if (!state.cart[itemId]) {
-                state.cart[itemId] = 1;
-            }
+            if (!state.cart[itemId]) state.cart[itemId] = 1;
             updateEngineState();
         }
 
@@ -659,9 +641,7 @@
             if(btn) animateClick(btn);
             if (state.cart[itemId]) {
                 state.cart[itemId] += change;
-                if (state.cart[itemId] <= 0) {
-                    delete state.cart[itemId];
-                }
+                if (state.cart[itemId] <= 0) delete state.cart[itemId];
             }
             updateEngineState();
         }
@@ -681,21 +661,19 @@
             const deliveryFee = totalItemCount > 0 ? SYSTEM_CONFIG.deliveryFee : 0;
             const finalBillTotal = subtotalPrice + deliveryFee;
 
-            // Handle layout adjustments smoothly
             const dtSidebarContainer = document.getElementById("desktop-sidebar-container");
             const dtPanel = document.getElementById("desktop-cart-panel");
             
             if (totalItemCount > 0 && state.route === 'client') {
-                gsap.to(dtSidebarContainer, { width: window.innerWidth >= 1280 ? 460 : 400, opacity: 1, duration: 0.6, ease: "power3.out" });
-                gsap.to(dtPanel, { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" });
+                gsap.to(dtSidebarContainer, { width: window.innerWidth >= 1280 ? 420 : 380, opacity: 1, duration: 0.5, ease: "power3.out" });
+                gsap.to(dtPanel, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" });
                 dtPanel.classList.remove("pointer-events-none");
             } else {
-                gsap.to(dtSidebarContainer, { width: 0, opacity: 0, duration: 0.5, ease: "power3.in" });
-                gsap.to(dtPanel, { x: 40, opacity: 0, duration: 0.5, ease: "power3.in" });
+                gsap.to(dtSidebarContainer, { width: 0, opacity: 0, duration: 0.4, ease: "power3.in" });
+                gsap.to(dtPanel, { x: 20, opacity: 0, duration: 0.4, ease: "power3.in" });
                 dtPanel.classList.add("pointer-events-none");
             }
 
-            // Synchronize Mobile Sticky Action Indicator Bar
             const stickyBar = document.getElementById("sticky-bar");
             if (totalItemCount > 0 && state.route === 'client' && !isCartOpen) {
                 stickyBar.classList.remove("translate-y-24", "opacity-0");
@@ -703,40 +681,39 @@
                 document.getElementById("badge-count").innerText = totalItemCount;
                 document.getElementById("sticky-total").innerText = `₹${finalBillTotal}`;
             } else {
-                stickyBar.classList.add("translate-y-24", "opacity-0");
-                stickyBar.style.pointerEvents = "none";
+                if (stickyBar) {
+                    stickyBar.classList.add("translate-y-24", "opacity-0");
+                    stickyBar.style.pointerEvents = "none";
+                }
             }
 
-            // Sync Interactive Controls UI state dynamically
             state.items.forEach(item => {
                 const actionContainer = document.getElementById(`actions-${item.id}`);
                 if (actionContainer) {
                     if (state.cart[item.id]) {
                         actionContainer.innerHTML = `
-                            <div class="flex items-center gap-3 bg-[#d35400] text-[#12161a] font-black p-1.5 rounded-lg shadow-lg">
-                                <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-8 h-7 flex items-center justify-center rounded-md hover:bg-black/10 transition-colors"><i data-lucide="minus" class="w-3.5 h-3.5"></i></button>
-                                <span class="text-sm px-1.5 min-w-[18px] text-center font-bold">${state.cart[item.id]}</span>
-                                <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-8 h-7 flex items-center justify-center rounded-md hover:bg-black/10 transition-colors"><i data-lucide="plus" class="w-3.5 h-3.5"></i></button>
+                            <div class="flex items-center gap-2 bg-[#d35400] text-[#12161a] font-black p-1 rounded-lg shadow-md">
+                                <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-black/10 transition-colors"><i data-lucide="minus" class="w-3 h-3"></i></button>
+                                <span class="text-xs px-1 min-w-[14px] text-center font-bold">${state.cart[item.id]}</span>
+                                <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-black/10 transition-colors"><i data-lucide="plus" class="w-3 h-3"></i></button>
                             </div>
                         `;
                     } else {
                         actionContainer.innerHTML = `
-                            <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[#d35400]/50 px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all active:scale-95 flex items-center gap-2 text-[#faf9f6]">
-                                <i data-lucide="plus" class="w-4 h-4 text-[#d35400]"></i> Add to Order
+                            <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[#d35400]/50 px-4 py-2 rounded-lg text-[10px] font-bold tracking-wide transition-all active:scale-95 flex items-center gap-1.5 text-[#faf9f6]">
+                                <i data-lucide="plus" class="w-3 h-3 text-[#d35400]"></i> Add to Order
                             </button>
                         `;
                     }
                 }
             });
 
-            // Update mobile elements
-            document.getElementById("cart-item-count").innerText = `${totalItemCount} item${totalItemCount !== 1 ? 's' : ''} composition`;
+            document.getElementById("cart-item-count").innerText = `${totalItemCount} items selected`;
             document.getElementById("summary-subtotal").innerText = `₹${subtotalPrice}`;
             document.getElementById("summary-delivery").innerText = `₹${deliveryFee}`;
             document.getElementById("summary-total").innerText = `₹${finalBillTotal}`;
 
-            // Update desktop elements
-            document.getElementById("dt-cart-item-count").innerText = `${totalItemCount} item${totalItemCount !== 1 ? 's' : ''} composition`;
+            document.getElementById("dt-cart-item-count").innerText = `${totalItemCount} items selected`;
             document.getElementById("dt-summary-subtotal").innerText = `₹${subtotalPrice}`;
             document.getElementById("dt-summary-delivery").innerText = `₹${deliveryFee}`;
             document.getElementById("dt-summary-total").innerText = `₹${finalBillTotal}`;
@@ -753,23 +730,21 @@
                 const item = state.items.find(i => String(i.id) === String(id));
                 if (!item) return '';
                 return `
-                    <div class="flex justify-between items-center bg-[#12161a] border border-white/5 p-4 rounded-xl font-semibold cinematic-entry mb-2.5 mx-2">
+                    <div class="flex justify-between items-center bg-[#12161a] border border-white/5 p-3 rounded-xl font-semibold mb-2 mx-1">
                         <div class="max-w-[70%]">
-                            <h4 class="text-xs font-black text-[#faf9f6] truncate">${item.name}</h4>
-                            <p class="text-[11px] text-[#8e9aa0] mt-0.5">₹${item.price} × ${state.cart[id]}</p>
+                            <h4 class="text-[11px] font-black text-[#faf9f6] truncate">${item.name}</h4>
+                            <p class="text-[9px] text-[#8e9aa0] mt-0.5">₹${item.price} × ${state.cart[id]}</p>
                         </div>
-                        <span class="text-xs font-black text-[#faf9f6] shrink-0">₹${item.price * state.cart[id]}</span>
+                        <span class="text-[11px] font-black text-[#faf9f6] shrink-0">₹${item.price * state.cart[id]}</span>
                     </div>
                 `;
             }).join('');
 
             if (listContainer) {
                 listContainer.innerHTML = contentHTML;
-                revealCinematicElements("#cart-items-list .cinematic-entry");
             }
             if (dtListContainer) {
                 dtListContainer.innerHTML = contentHTML;
-                revealCinematicElements("#dt-cart-items-list .cinematic-entry");
             }
         }
 
@@ -782,14 +757,14 @@
             isCartOpen = true;
 
             const stickyBar = document.getElementById("sticky-bar");
-            stickyBar.classList.add("translate-y-24", "opacity-0");
-            stickyBar.style.pointerEvents = "none";
+            if (stickyBar) {
+                stickyBar.classList.add("translate-y-24", "opacity-0");
+                stickyBar.style.pointerEvents = "none";
+            }
         }
         function closeCartDrawer() {
             const drawer = document.getElementById("cart-drawer");
-            if (drawer) {
-                drawer.classList.add("translate-y-full");
-            }
+            if (drawer) drawer.classList.add("translate-y-full");
             isCartOpen = false;
             updateEngineState();
         }
@@ -802,20 +777,14 @@
             
             if (show) {
                 modal.classList.remove('pointer-events-none');
-                gsap.to(modal, { opacity: 1, duration: 0.4, ease: "power3.out" });
-                if (window.innerWidth >= 768) {
-                    gsap.to(card, { x: 0, y: 0, duration: 0.5, ease: "power3.out" });
-                } else {
-                    gsap.to(card, { y: 0, x: 0, duration: 0.5, ease: "power3.out" });
-                }
+                gsap.to(modal, { opacity: 1, duration: 0.3, ease: "power3.out" });
+                if (window.innerWidth >= 768) gsap.to(card, { x: 0, y: 0, duration: 0.4, ease: "power3.out" });
+                else gsap.to(card, { y: 0, x: 0, duration: 0.4, ease: "power3.out" });
             } else {
                 modal.classList.add('pointer-events-none');
-                gsap.to(modal, { opacity: 0, duration: 0.3 });
-                if (window.innerWidth >= 768) {
-                    gsap.to(card, { x: "100%", duration: 0.4, ease: "power3.in" });
-                } else {
-                    gsap.to(card, { y: "100%", duration: 0.4, ease: "power3.in" });
-                }
+                gsap.to(modal, { opacity: 0, duration: 0.2 });
+                if (window.innerWidth >= 768) gsap.to(card, { x: "100%", duration: 0.3, ease: "power3.in" });
+                else gsap.to(card, { y: "100%", duration: 0.3, ease: "power3.in" });
             }
         }
 
@@ -825,14 +794,12 @@
                 const item = state.items.find(i => String(i.id) === String(id));
                 if (item) totalAmount += (item.price * state.cart[id]);
             });
-            
             if (totalAmount <= 0) return showToast("Your basket is empty.", "error");
             toggleFulfillmentModal(true);
         }
 
         async function confirmFulfillment(e) {
             e.preventDefault();
-            
             const clientName = document.getElementById('fullfill-name').value.trim();
             const clientPhone = document.getElementById('fullfill-phone').value.trim();
             const designSpecs = document.getElementById('fullfill-address').value.trim();
@@ -852,12 +819,7 @@
             const selectedCore = selectedCoreArray.join(', ');
             const tr = `MZFT${Date.now()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
             
-            const upiId = encodeURIComponent(SYSTEM_CONFIG.vendorUpiId);
-            const merchantName = encodeURIComponent(SYSTEM_CONFIG.vendorName);
-            const transactionNote = encodeURIComponent(`Order for ${clientName} - Ref: ${tr}`);
-            const rawAmount = finalPayable.toFixed(2);
-            
-            const upiIntentUrl = `upi://pay?pa=${upiId}&pn=${merchantName}&tn=${transactionNote}&am=${rawAmount}&cu=${SYSTEM_CONFIG.currency}&tr=${tr}`;
+            const upiIntentUrl = `upi://pay?pa=${encodeURIComponent(SYSTEM_CONFIG.vendorUpiId)}&pn=${encodeURIComponent(SYSTEM_CONFIG.vendorName)}&tn=${encodeURIComponent(`Order for ${clientName} - Ref: ${tr}`)}&am=${finalPayable.toFixed(2)}&cu=${SYSTEM_CONFIG.currency}&tr=${tr}`;
             
             toggleFulfillmentModal(false);
             showLoader(true);
@@ -893,8 +855,8 @@
                 updateEngineState();
                 
             } catch (err) {
-                console.error("Database write interface sync offline:", err);
-                showToast("Sync offline. Proceeding with checkout redirect...", "error");
+                console.error("Order Sync Error:", err);
+                showToast(`Sync Error: ${err.message}`, "error");
             } finally {
                 setTimeout(() => {
                     showLoader(false);
@@ -903,7 +865,7 @@
             }
         }
 
-        // --- IX. ADMIN SECURITY GATE HANDSHAKE ---
+        // --- IX. ADMIN SECURITY GATE ---
         function showAuthModal(show) {
             const modal = document.getElementById('auth-modal');
             const card = document.getElementById('auth-card');
@@ -911,23 +873,20 @@
             
             if (show) {
                 modal.classList.remove('pointer-events-none');
-                gsap.to(modal, { opacity: 1, duration: 0.4, ease: "power3.out" });
-                gsap.to(card, { scale: 1, duration: 0.5, ease: "power3.out" });
+                gsap.to(modal, { opacity: 1, duration: 0.3, ease: "power3.out" });
+                gsap.to(card, { scale: 1, duration: 0.4, ease: "power3.out" });
                 setTimeout(() => input.focus(), 150);
             } else {
                 modal.classList.add('pointer-events-none');
-                gsap.to(modal, { opacity: 0, duration: 0.3 });
-                gsap.to(card, { scale: 0.95, duration: 0.3 });
+                gsap.to(modal, { opacity: 0, duration: 0.2 });
+                gsap.to(card, { scale: 0.95, duration: 0.2 });
                 input.value = '';
             }
         }
 
         function cancelLogin(btn) {
             btn && animateClick(btn);
-            setTimeout(() => {
-                showAuthModal(false);
-                window.location.hash = '#store';
-            }, 150);
+            setTimeout(() => { showAuthModal(false); window.location.hash = '#store'; }, 150);
         }
 
         async function verifyLogin(e) {
@@ -940,19 +899,11 @@
 
             try {
                 const dataArr = await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password&select=value`, {
-                    headers: {
-                        'apikey': supabaseAnonKey,
-                        'Authorization': `Bearer ${supabaseAnonKey}`
-                    }
+                    headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}` }
                 });
                 
-                if (!dataArr || dataArr.length === 0) {
-                    throw new Error("Target configuration key not initialized.");
-                }
-                
-                const securePasswordNode = dataArr[0].value;
-
-                if (securePasswordNode && inputPass === securePasswordNode) {
+                if (!dataArr || dataArr.length === 0) throw new Error("Target configuration key not initialized.");
+                if (dataArr[0].value && inputPass === dataArr[0].value) {
                     state.isAdmin = true;
                     sessionStorage.setItem('mzft_admin', 'true');
                     showLoader(false);
@@ -963,7 +914,7 @@
                 }
             } catch (err) {
                 showLoader(false);
-                gsap.to(card, { x: [-8, 8, -6, 6, -3, 3, 0], duration: 0.4, ease: "power2.inOut" });
+                gsap.to(card, { x: [-8, 8, -6, 6, -3, 3, 0], duration: 0.3, ease: "power2.inOut" });
                 showToast(`Auth Error: ${err.message}`, "error");
             }
         }
@@ -984,10 +935,7 @@
             const newPass = document.getElementById('form-new-pass').value;
             const confirmPass = document.getElementById('form-confirm-pass').value;
 
-            if (newPass !== confirmPass) {
-                showToast("Passwords do not match.", "error");
-                return;
-            }
+            if (newPass !== confirmPass) return showToast("Passwords do not match.", "error");
 
             showLoader(true);
             try {
@@ -1015,31 +963,48 @@
         // --- XI. REAL-TIME OPERATIONS TRACKING DESK & TABS ---
         async function fetchOrders() {
             try {
-                const data = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?select=*&order=created_at.desc&t=${Date.now()}`, {
-                    headers: { 
-                        'apikey': supabaseAnonKey, 
-                        'Authorization': `Bearer ${supabaseAnonKey}` 
-                    }
-                });
-                return data || [];
+                return await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?select=*&order=created_at.desc`, {
+                    headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}` }
+                }) || [];
             } catch (err) {
-                console.error("Live order sync operations failed:", err);
                 return [];
             }
         }
 
-        async function updateOrderStatus(orderId, selectElement) {
-            const nextStatus = selectElement.value;
-            const currentStatus = selectElement.getAttribute('data-current');
-            
-            if (!confirm(`Shift order verification status parameters to ${nextStatus}?`)) {
-                selectElement.value = currentStatus;
-                return;
+        // --- XII. CUSTOM THEME CAPSULED DROPDOWN ACTIONS ---
+        function toggleCustomDropdown(orderId, event) {
+            event.stopPropagation();
+            const targetMenu = document.getElementById(`dropdown-menu-${orderId}`);
+            if (!targetMenu) return;
+
+            document.querySelectorAll('.custom-dropdown-menu').forEach(menu => {
+                if (menu.id !== `dropdown-menu-${orderId}`) menu.classList.add('hidden');
+            });
+            targetMenu.classList.toggle('hidden');
+        }
+
+        async function setCustomOrderStatus(orderId, statusValue, event) {
+            event.stopPropagation();
+            const targetMenu = document.getElementById(`dropdown-menu-${orderId}`);
+            if (targetMenu) targetMenu.classList.add('hidden');
+
+            const dropdownBtn = document.querySelector(`#dropdown-menu-${orderId}`).previousElementSibling;
+            if (dropdownBtn) {
+                const textSpan = dropdownBtn.querySelector('span');
+                if (textSpan) textSpan.textContent = statusValue;
+                
+                if (statusValue === 'DELIVERED') {
+                    dropdownBtn.classList.remove('border-[#d35400]/30', 'text-[#d35400]');
+                    dropdownBtn.classList.add('border-white/10', 'text-[#faf9f6]');
+                } else {
+                    dropdownBtn.classList.remove('border-white/10', 'text-[#faf9f6]');
+                    dropdownBtn.classList.add('border-[#d35400]/30', 'text-[#d35400]');
+                }
             }
-            
+
             showLoader(true);
             try {
-                await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
+                const res = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
                     method: 'PATCH',
                     headers: {
                         'apikey': supabaseAnonKey,
@@ -1047,60 +1012,522 @@
                         'Content-Type': 'application/json',
                         'Prefer': 'return=representation'
                     },
-                    body: JSON.stringify({ verification_status: nextStatus })
+                    body: JSON.stringify({ verification_status: statusValue })
                 });
                 
-                selectElement.setAttribute('data-current', nextStatus);
-                showToast(`Status shifted to ${nextStatus}`);
+                if (Array.isArray(res) && res.length === 0) throw new Error("Blocked by Database RLS Policy");
+                
+                showToast(`Status updated to ${statusValue}.`);
+                state.lastOrdersHash = "";
                 await renderAdmin();
             } catch (err) {
-                console.error("Database update error:", err);
-                showToast("Failed to write update.", "error");
-                selectElement.value = currentStatus;
+                showToast(`Failed: ${err.message}`, "error");
             } finally {
                 showLoader(false);
             }
         }
 
-        async function deleteOrder(orderId, btnElement) {
-            animateClick(btnElement);
-            if (!confirm("Permanently purge this operational entry?")) return;
-            
-            const cardNode = btnElement.closest('.order-card-node');
-            
+        // --- XIII. OFFLINE-RESILIENT RECYCLE BIN SYSTEM ---
+        function getRecycleBin() {
+            let bin = [];
+            try { bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || []; } catch (e) { bin = []; }
+            const now = Date.now();
+            const activeBin = bin.filter(item => (now - item.deleted_at) < 172800000);
+            if (activeBin.length !== bin.length) localStorage.setItem('mzft_recycle_bin', JSON.stringify(activeBin));
+            return activeBin;
+        }
+
+        async function deleteToBin(orderId) {
             showLoader(true);
             try {
-                await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
+                const orders = await fetchOrders();
+                const targetOrder = orders.find(o => String(o.id) === String(orderId));
+                
+                // 1. Delete from DB FIRST
+                const res = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
                     method: 'DELETE',
-                    headers: {
-                        'apikey': supabaseAnonKey,
-                        'Authorization': `Bearer ${supabaseAnonKey}`
+                    headers: { 
+                        'apikey': supabaseAnonKey, 
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Prefer': 'return=representation'
                     }
                 });
                 
-                showToast("Record purged.");
-                
-                if (cardNode) {
-                    gsap.to(cardNode, {
-                        opacity: 0,
-                        y: -30,
-                        scale: 0.95,
-                        duration: 0.4,
-                        ease: "power2.in",
-                        onComplete: async () => {
-                            cardNode.remove();
-                            await renderAdmin();
-                        }
-                    });
-                } else {
-                    await renderAdmin();
+                if (Array.isArray(res) && res.length === 0) throw new Error("Blocked by Database RLS Policy");
+
+                // 2. If DB delete succeeds, add to local bin
+                if (targetOrder) {
+                    const bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || [];
+                    bin.push({ id: targetOrder.id, deleted_at: Date.now(), order_data: targetOrder });
+                    localStorage.setItem('mzft_recycle_bin', JSON.stringify(bin));
                 }
+
+                showToast("Order moved to Recycle Bin.");
+                state.selectedOrders.delete(orderId);
+                updateContextualCapsule();
+                await renderAdmin();
             } catch (err) {
-                console.error("Purge operations interface offline:", err);
-                showToast("Could not clear record node.", "error");
+                showToast(`Failed: ${err.message}`, "error");
             } finally {
                 showLoader(false);
             }
+        }
+
+        async function restoreFromBin(orderId) {
+            showLoader(true);
+            try {
+                const bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || [];
+                const targetNode = bin.find(item => String(item.id) === String(orderId));
+                if (!targetNode) throw new Error("Order not found inside recycle bin.");
+
+                const payload = { ...targetNode.order_data };
+                delete payload.id; 
+
+                // 1. Insert to DB FIRST
+                await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                // 2. If DB insert succeeds, remove from local bin
+                const updatedBin = bin.filter(item => String(item.id) !== String(orderId));
+                localStorage.setItem('mzft_recycle_bin', JSON.stringify(updatedBin));
+
+                showToast("Order restored successfully.");
+                state.selectedBinItems.delete(orderId);
+                updateContextualCapsule();
+                renderRecycleBin();
+            } catch (err) {
+                showToast(`Failed: ${err.message}`, "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function deleteFromBinPermanent(orderId) {
+            const bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || [];
+            const updatedBin = bin.filter(item => String(item.id) !== String(orderId));
+            localStorage.setItem('mzft_recycle_bin', JSON.stringify(updatedBin));
+            showToast("Permanently deleted.");
+            state.selectedBinItems.delete(orderId);
+            updateContextualCapsule();
+            renderRecycleBin();
+        }
+
+        function renderRecycleBin() {
+            const list = document.getElementById('bin-list');
+            if(!list) return;
+
+            const binItems = getRecycleBin();
+            document.getElementById('bin-count').textContent = `${binItems.length} Items`;
+
+            if (binItems.length === 0) {
+                list.innerHTML = `<div class="text-center py-8 text-xs text-[#8e9aa0] uppercase tracking-wider border border-dashed border-[#8e9aa0]/20 rounded-xl col-span-full bg-[#1a2026]">Recycle bin is empty.</div>`;
+                return;
+            }
+
+            list.innerHTML = binItems.map(item => {
+                const o = item.order_data;
+                const delTime = new Date(item.deleted_at).toLocaleString('en-IN', { hour12: true });
+                
+                const isSelected = state.selectedBinItems.has(String(item.id));
+                const visualCheckedClass = isSelected ? "bg-[#d35400]/10 border-[#d35400]" : "";
+                const iconCheckedClass = isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50";
+
+                return `
+                  <div class="p-4 md:p-5 rounded-2xl bg-[#1a2026] border border-white/5 shadow-xl flex flex-col gap-3 mb-2 hover:border-red-500/20 transition-all text-left mx-1">
+                    <div class="flex justify-between items-start border-b border-white/5 pb-2">
+                        <div class="flex items-center gap-2.5">
+                            <label class="relative flex items-center justify-center cursor-pointer shrink-0">
+                                <input type="checkbox" data-item-id="${item.id}" ${isSelected ? "checked" : ""} onchange="toggleBinSelection(this, '${item.id}')" class="bin-select-checkbox absolute opacity-0 w-0 h-0">
+                                <span class="checkbox-visual w-4 h-4 rounded border border-white/20 flex items-center justify-center transition-all duration-200 ${visualCheckedClass}">
+                                    <i data-lucide="check" class="w-3 h-3 text-[#d35400] transition-all duration-200 check-icon ${iconCheckedClass}"></i>
+                                </span>
+                            </label>
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-[9px] text-red-400 uppercase tracking-widest font-bold">DELETED AT: ${delTime}</span>
+                                <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">REF: ${o.transaction_reference || 'N/A'}</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 shrink-0">
+                            <button onclick="restoreFromBin('${item.id}')" class="px-3 py-1.5 bg-[#d35400]/10 border border-[#d35400]/30 hover:bg-[#d35400]/20 text-[9px] font-black tracking-widest text-[#d35400] rounded-lg transition-all active:scale-95">RESTORE</button>
+                            <button onclick="deleteFromBinPermanent('${item.id}')" class="px-3 py-1.5 bg-red-950/20 border border-red-500/20 hover:bg-red-500/10 text-[9px] font-black tracking-widest text-red-400 rounded-lg transition-all active:scale-95">DELETE</button>
+                        </div>
+                    </div>
+                    <div class="text-[11px] font-semibold">
+                        <div class="flex items-center gap-1.5"><span class="text-[#8e9aa0]">Customer:</span> <span class="text-[#faf9f6] font-bold">${o.client_name || 'N/A'}</span></div>
+                        <div class="flex items-center gap-1.5 mt-0.5"><span class="text-[#8e9aa0]">Consumables:</span> <span class="text-[#faf9f6] font-bold">${o.selected_core || 'N/A'}</span></div>
+                    </div>
+                  </div>`;
+            }).join('');
+
+            safeCreateIcons();
+        }
+
+        // --- XIV. MULTI-SELECT WORKSPACE FUNCTIONALITIES ---
+        function toggleOrderSelection(checkboxElement, orderId) {
+            if (checkboxElement.checked) state.selectedOrders.add(orderId);
+            else state.selectedOrders.delete(orderId);
+
+            const visual = checkboxElement.nextElementSibling;
+            if (visual) {
+                const icon = visual.querySelector('.check-icon');
+                if (checkboxElement.checked) {
+                    visual.classList.add('bg-[#d35400]/10', 'border-[#d35400]');
+                    if (icon) {
+                        icon.classList.remove('opacity-0', 'scale-50');
+                        icon.classList.add('opacity-100', 'scale-100');
+                    }
+                } else {
+                    visual.classList.remove('bg-[#d35400]/10', 'border-[#d35400]');
+                    if (icon) {
+                        icon.classList.add('opacity-0', 'scale-50');
+                        icon.classList.remove('opacity-100', 'scale-100');
+                    }
+                }
+            }
+            updateContextualCapsule();
+        }
+
+        function toggleSelectAllOrders() {
+            const checkboxes = document.querySelectorAll('.order-select-checkbox');
+            const btn = document.getElementById('btn-bulk-select-all');
+            const shouldSelectAll = state.selectedOrders.size < checkboxes.length;
+
+            checkboxes.forEach(cb => {
+                cb.checked = shouldSelectAll;
+                const orderId = cb.getAttribute('data-order-id');
+                const visual = cb.nextElementSibling;
+                const icon = visual.querySelector('.check-icon');
+
+                if (shouldSelectAll) {
+                    state.selectedOrders.add(orderId);
+                    visual.classList.add('bg-[#d35400]/10', 'border-[#d35400]');
+                    if (icon) {
+                        icon.classList.remove('opacity-0', 'scale-50');
+                        icon.classList.add('opacity-100', 'scale-100');
+                    }
+                } else {
+                    state.selectedOrders.clear();
+                    visual.classList.remove('bg-[#d35400]/10', 'border-[#d35400]');
+                    if (icon) {
+                        icon.classList.add('opacity-0', 'scale-50');
+                        icon.classList.remove('opacity-100', 'scale-100');
+                    }
+                }
+            });
+
+            btn.textContent = shouldSelectAll ? "Deselect All" : "Select All";
+            updateContextualCapsule();
+        }
+
+        async function executeBulkStatus(statusValue) {
+            if (state.selectedOrders.size === 0) return;
+            showLoader(true);
+            const idsList = Array.from(state.selectedOrders).join(',');
+            try {
+                const res = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=in.(${idsList})`, {
+                    method: 'PATCH',
+                    headers: { 
+                        'apikey': supabaseAnonKey, 
+                        'Authorization': `Bearer ${supabaseAnonKey}`, 
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify({ verification_status: statusValue })
+                });
+                
+                if (Array.isArray(res) && res.length === 0) throw new Error("Blocked by Database RLS Policy");
+
+                showToast(`Status updated successfully.`);
+                state.selectedOrders.clear();
+                updateContextualCapsule();
+                state.lastOrdersHash = "";
+                await renderAdmin();
+            } catch (err) {
+                showToast(`Failed: ${err.message}`, "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        async function executeBulkDelete() {
+            if (state.selectedOrders.size === 0) return;
+            showLoader(true);
+            const idsList = Array.from(state.selectedOrders).join(',');
+            try {
+                const orders = await fetchOrders();
+                const selectedList = orders.filter(o => state.selectedOrders.has(String(o.id)));
+                
+                // 1. Delete from DB FIRST
+                const res = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=in.(${idsList})`, {
+                    method: 'DELETE',
+                    headers: { 
+                        'apikey': supabaseAnonKey, 
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Prefer': 'return=representation'
+                    }
+                });
+                
+                if (Array.isArray(res) && res.length === 0) throw new Error("Blocked by Database RLS Policy");
+
+                // 2. If DB delete succeeds, add to local bin
+                const bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || [];
+                selectedList.forEach(targetOrder => {
+                    bin.push({ id: targetOrder.id, deleted_at: Date.now(), order_data: targetOrder });
+                });
+                localStorage.setItem('mzft_recycle_bin', JSON.stringify(bin));
+
+                showToast("Orders moved to Recycle Bin.");
+                state.selectedOrders.clear();
+                updateContextualCapsule();
+                await renderAdmin();
+            } catch (err) {
+                showToast(`Failed: ${err.message}`, "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function toggleBinSelection(checkboxElement, itemId) {
+            if (checkboxElement.checked) state.selectedBinItems.add(itemId);
+            else state.selectedBinItems.delete(itemId);
+
+            const visual = checkboxElement.nextElementSibling;
+            if (visual) {
+                const icon = visual.querySelector('.check-icon');
+                if (checkboxElement.checked) {
+                    visual.classList.add('bg-[#d35400]/10', 'border-[#d35400]');
+                    if (icon) {
+                        icon.classList.remove('opacity-0', 'scale-50');
+                        icon.classList.add('opacity-100', 'scale-100');
+                    }
+                } else {
+                    visual.classList.remove('bg-[#d35400]/10', 'border-[#d35400]');
+                    if (icon) {
+                        icon.classList.add('opacity-0', 'scale-50');
+                        icon.classList.remove('opacity-100', 'scale-100');
+                    }
+                }
+            }
+            updateContextualCapsule();
+        }
+
+        function toggleSelectAllBin() {
+            const checkboxes = document.querySelectorAll('.bin-select-checkbox');
+            const btn = document.getElementById('btn-bin-select-all');
+            const shouldSelectAll = state.selectedBinItems.size < checkboxes.length;
+
+            checkboxes.forEach(cb => {
+                cb.checked = shouldSelectAll;
+                const itemId = cb.getAttribute('data-item-id');
+                const visual = cb.nextElementSibling;
+                const icon = visual.querySelector('.check-icon');
+
+                if (shouldSelectAll) {
+                    state.selectedBinItems.add(itemId);
+                    visual.classList.add('bg-[#d35400]/10', 'border-[#d35400]');
+                    if (icon) {
+                        icon.classList.remove('opacity-0', 'scale-50');
+                        icon.classList.add('opacity-100', 'scale-100');
+                    }
+                } else {
+                    state.selectedBinItems.clear();
+                    visual.classList.remove('bg-[#d35400]/10', 'border-[#d35400]');
+                    if (icon) {
+                        icon.classList.add('opacity-0', 'scale-50');
+                        icon.classList.remove('opacity-100', 'scale-100');
+                    }
+                }
+            });
+
+            btn.textContent = shouldSelectAll ? "Deselect All" : "Select All";
+            updateContextualCapsule();
+        }
+
+        async function executeBulkRestore() {
+            if (state.selectedBinItems.size === 0) return;
+            showLoader(true);
+            try {
+                const bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || [];
+                const itemsToRestore = bin.filter(item => state.selectedBinItems.has(String(item.id)));
+                
+                for (const item of itemsToRestore) {
+                    const payload = { ...item.order_data };
+                    delete payload.id;
+                    await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders`, {
+                        method: 'POST',
+                        headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+                        body: JSON.stringify(payload)
+                    });
+                }
+
+                const updatedBin = bin.filter(item => !state.selectedBinItems.has(String(item.id)));
+                localStorage.setItem('mzft_recycle_bin', JSON.stringify(updatedBin));
+
+                showToast(`${state.selectedBinItems.size} items restored.`);
+                state.selectedBinItems.clear();
+                updateContextualCapsule();
+                renderRecycleBin();
+            } catch (err) {
+                showToast(`Failed: ${err.message}`, "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function executeBulkDeletePermanent() {
+            if (state.selectedBinItems.size === 0) return;
+            const bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || [];
+            const updatedBin = bin.filter(item => !state.selectedBinItems.has(String(item.id)));
+            localStorage.setItem('mzft_recycle_bin', JSON.stringify(updatedBin));
+
+            showToast(`${state.selectedBinItems.size} items permanently deleted.`);
+            state.selectedBinItems.clear();
+            updateContextualCapsule();
+            renderRecycleBin();
+        }
+
+        // --- XV. CONTEXTUAL ACTION CAPSULE LOGIC ---
+        let isCapsuleExpanded = true;
+
+        function updateContextualCapsule() {
+            const capsule = document.getElementById('contextual-action-capsule');
+            if (!capsule) return;
+            
+            const countLabel = document.getElementById('capsule-count');
+            const actionsOrders = document.getElementById('capsule-actions-orders');
+            const actionsBin = document.getElementById('capsule-actions-bin');
+            
+            let selectedCount = 0;
+            if (state.activeAdminTab === 'orders') {
+                selectedCount = state.selectedOrders.size;
+                actionsOrders.classList.remove('hidden');
+                actionsOrders.classList.add('flex');
+                actionsBin.classList.add('hidden');
+                actionsBin.classList.remove('flex');
+            } else if (state.activeAdminTab === 'bin') {
+                selectedCount = state.selectedBinItems.size;
+                actionsBin.classList.remove('hidden');
+                actionsBin.classList.add('flex');
+                actionsOrders.classList.add('hidden');
+                actionsOrders.classList.remove('flex');
+            } else {
+                selectedCount = 0;
+            }
+
+            if (selectedCount > 0) {
+                countLabel.textContent = `${selectedCount} Selected`;
+                capsule.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
+                capsule.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            } else {
+                capsule.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
+                capsule.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                
+                setTimeout(() => {
+                    if (state.selectedOrders.size === 0 && state.selectedBinItems.size === 0) {
+                        capsule.style.transform = '';
+                        capsule.style.left = '50%';
+                        capsule.style.top = 'auto';
+                        capsule.style.bottom = '1.5rem';
+                    }
+                }, 400);
+            }
+        }
+
+        function toggleCapsuleExpand(e) {
+            if(e) e.stopPropagation();
+            isCapsuleExpanded = !isCapsuleExpanded;
+            const wrapper = document.getElementById('capsule-actions-wrapper');
+            const icon = document.getElementById('capsule-toggle-icon');
+            
+            if (isCapsuleExpanded) {
+                icon.style.transform = 'rotate(0deg)';
+                wrapper.style.maxWidth = '600px';
+                wrapper.style.opacity = '1';
+                wrapper.style.paddingLeft = '0.375rem';
+                wrapper.style.paddingRight = '0.375rem';
+            } else {
+                icon.style.transform = 'rotate(180deg)';
+                wrapper.style.maxWidth = '0px';
+                wrapper.style.opacity = '0';
+                wrapper.style.paddingLeft = '0px';
+                wrapper.style.paddingRight = '0px';
+            }
+        }
+
+        function initCapsuleDrag() {
+            const capsule = document.getElementById('contextual-action-capsule');
+            if (!capsule) return;
+            
+            let isDragging = false;
+            let offsetX = 0;
+            let offsetY = 0;
+
+            function onPointerDown(e) {
+                if (e.target.closest('button')) return;
+                
+                isDragging = true;
+                
+                const rect = capsule.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+                
+                capsule.classList.remove('transition-all', 'duration-400', 'ease-[cubic-bezier(0.16,1,0.3,1)]');
+                
+                capsule.style.bottom = 'auto';
+                capsule.style.right = 'auto';
+                capsule.style.transform = 'none';
+                capsule.style.left = `${rect.left}px`;
+                capsule.style.top = `${rect.top}px`;
+                
+                capsule.style.willChange = 'left, top, transform';
+                capsule.style.cursor = 'grabbing';
+                document.body.style.cursor = 'grabbing';
+                
+                capsule.setPointerCapture(e.pointerId);
+                e.preventDefault();
+            }
+
+            function onPointerMove(e) {
+                if (!isDragging) return;
+                
+                let newLeft = e.clientX - offsetX;
+                let newTop = e.clientY - offsetY;
+                
+                const maxLeft = window.innerWidth - capsule.offsetWidth;
+                const maxTop = window.innerHeight - capsule.offsetHeight;
+                
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+                
+                capsule.style.left = `${newLeft}px`;
+                capsule.style.top = `${newTop}px`;
+            }
+
+            function onPointerUp(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                capsule.classList.add('transition-all', 'duration-400', 'ease-[cubic-bezier(0.16,1,0.3,1)]');
+                
+                capsule.style.willChange = 'auto';
+                capsule.style.cursor = 'grab';
+                document.body.style.cursor = '';
+                
+                capsule.releasePointerCapture(e.pointerId);
+            }
+
+            capsule.addEventListener('pointerdown', onPointerDown);
+            capsule.addEventListener('pointermove', onPointerMove);
+            capsule.addEventListener('pointerup', onPointerUp);
+            capsule.addEventListener('pointercancel', onPointerUp);
         }
 
         function switchAdminTab(tabName, btnElement) {
@@ -1113,12 +1540,9 @@
             panels.forEach(panel => {
                 if (panel.id === `panel-${tabName}`) {
                     panel.classList.remove('hidden');
-                    if (tabName === 'catalog') {
-                        panel.classList.add('grid');
-                    } else {
-                        panel.classList.add('flex');
-                    }
-                    gsap.fromTo(panel, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
+                    if (tabName === 'catalog') panel.classList.add('grid');
+                    else panel.classList.add('flex');
+                    gsap.fromTo(panel, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
                 } else {
                     panel.classList.add('hidden');
                     panel.classList.remove('grid', 'flex');
@@ -1127,17 +1551,17 @@
 
             buttons.forEach(btn => {
                 if (btn.id === `btn-tab-${tabName}`) {
-                    btn.className = "flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center";
+                    btn.className = "flex-1 py-2.5 px-4 rounded-lg text-[10px] uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-md shadow-[#d35400]/10 whitespace-nowrap text-center";
                 } else {
-                    btn.className = "flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center";
+                    btn.className = "flex-1 py-2.5 px-4 rounded-lg text-[10px] uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center";
                 }
             });
 
-            if (tabName === 'orders') {
-                renderAdmin();
-            } else if (tabName === 'catalog') {
-                renderCatalogVault();
-            }
+            updateContextualCapsule();
+
+            if (tabName === 'orders') renderAdmin();
+            else if (tabName === 'catalog') renderCatalogVault();
+            else if (tabName === 'bin') renderRecycleBin();
         }
 
         async function renderAdmin() {
@@ -1153,85 +1577,107 @@
             renderAdminList(orders);
         }
 
-        function renderAdminList(orders) {
+        function renderAdminList(orders, silent = false) {
             const list = document.getElementById('admin-list');
             if(!list) return;
             
+            const ordersHash = orders.map(item => `${item.id}-${item.verification_status}`).join('|');
+            
+            if (silent && ordersHash === state.lastOrdersHash) {
+                document.getElementById('admin-count').textContent = `${orders.length} Orders`;
+                return;
+            }
+            
+            state.lastOrdersHash = ordersHash;
             document.getElementById('admin-count').textContent = `${orders.length} Orders`;
             
             if (orders.length === 0) {
-                list.innerHTML = `<div class="text-center py-12 text-xs text-[#8e9aa0] uppercase tracking-wider border border-dashed border-[#8e9aa0]/20 rounded-xl col-span-full bg-[#1a2026]">No active orders logged.</div>`;
+                list.innerHTML = `<div class="text-center py-8 text-xs text-[#8e9aa0] uppercase tracking-wider border border-dashed border-[#8e9aa0]/20 rounded-xl col-span-full bg-[#1a2026]">No active orders logged.</div>`;
                 return;
             }
 
             list.innerHTML = orders.map(item => {
-                const currentStatus = item.verification_status || 'PENDING';
-                let statusColor = "bg-[#d35400]/10 border-[#d35400]/30 text-[#d35400]";
-                if (currentStatus === "DELIVERED") {
-                    statusColor = "bg-white/5 border-white/10 text-[#faf9f6]";
-                }
+                let currentStatus = item.verification_status || 'PENDING';
+                if (currentStatus === 'PENDING_HANDSHAKE') currentStatus = 'PENDING';
+
+                let statusColor = "border-[#d35400]/30 text-[#d35400]";
+                if (currentStatus === "DELIVERED") statusColor = "border-white/10 text-[#faf9f6]";
+
+                const isSelected = state.selectedOrders.has(String(item.id));
+                const visualCheckedClass = isSelected ? "bg-[#d35400]/10 border-[#d35400]" : "";
+                const iconCheckedClass = isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50";
 
                 return `
-                  <div class="order-card-node p-6 rounded-2xl bg-[#1a2026] border border-white/5 shadow-xl flex flex-col gap-4 mb-3 hover:border-[#d35400]/30 transition-all text-left cinematic-entry mx-2">
-                    <div class="flex justify-between items-start border-b border-white/5 pb-3">
-                        <div class="flex flex-col gap-1 max-w-[60%]">
-                            <span class="text-[10px] text-[#8e9aa0] uppercase tracking-widest font-bold">${item.created_at ? new Date(item.created_at).toLocaleString('en-IN', { hour12: true }) : 'N/A'}</span>
-                            <span class="text-[10px] text-[#d35400] uppercase tracking-widest font-bold truncate">REF: ${item.transaction_reference || 'N/A'}</span>
+                  <div class="order-card-node p-4 md:p-5 rounded-2xl bg-[#1a2026] border border-white/5 shadow-xl flex flex-col gap-3 mb-2 hover:border-[#d35400]/30 transition-all text-left mx-1">
+                    <div class="flex justify-between items-start border-b border-white/5 pb-2">
+                        <div class="flex items-center gap-2.5 max-w-[60%]">
+                            <label class="relative flex items-center justify-center cursor-pointer shrink-0">
+                                <input type="checkbox" data-order-id="${item.id}" ${isSelected ? "checked" : ""} onchange="toggleOrderSelection(this, '${item.id}')" class="order-select-checkbox absolute opacity-0 w-0 h-0">
+                                <span class="checkbox-visual w-4 h-4 rounded border border-white/20 flex items-center justify-center transition-all duration-200 ${visualCheckedClass}">
+                                    <i data-lucide="check" class="w-3 h-3 text-[#d35400] transition-all duration-200 check-icon ${iconCheckedClass}"></i>
+                                </span>
+                            </label>
+                            
+                            <div class="flex flex-col gap-0.5 min-w-0">
+                                <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">${item.created_at ? new Date(item.created_at).toLocaleString('en-IN', { hour12: true }) : 'N/A'}</span>
+                                <span class="text-[9px] text-[#d35400] uppercase tracking-widest font-bold truncate">REF: ${item.transaction_reference || 'N/A'}</span>
+                            </div>
                         </div>
                         
-                        <div class="flex items-center gap-3 shrink-0">
-                            <!-- Destructive Purge Control -->
-                            <button onclick="deleteOrder('${item.id}', this)" class="p-2 bg-[#d35400]/10 text-[#d35400] border border-[#d35400]/10 hover:border-[#d35400]/40 rounded-xl transition-all active:scale-95 flex items-center justify-center">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button onclick="deleteToBin('${item.id}')" class="p-1.5 bg-[#d35400]/10 text-[#d35400] border border-[#d35400]/10 hover:border-[#d35400]/40 rounded-lg transition-all active:scale-95 flex items-center justify-center">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                             </button>
 
-                            <!-- Dropdown State Override -->
-                            <select onchange="updateOrderStatus('${item.id}', this)" data-current="${currentStatus}" class="bg-[#12161a] border border-white/10 text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:border-[#d35400] transition-all cursor-pointer ${statusColor}">
-                                <option class="bg-[#1a2026] text-[#faf9f6]" value="PENDING" ${currentStatus === 'PENDING' ? 'selected' : ''}>PENDING</option>
-                                <option class="bg-[#1a2026] text-[#faf9f6]" value="DELIVERED" ${currentStatus === 'DELIVERED' ? 'selected' : ''}>DELIVERED</option>
-                            </select>
+                            <div class="relative custom-dropdown-container inline-block text-left">
+                                <button onclick="toggleCustomDropdown('${item.id}', event)" class="flex items-center justify-between gap-2 custom-dropdown-btn text-[10px] font-bold rounded-lg px-3 py-1.5 outline-none ${statusColor}">
+                                    <span>${currentStatus}</span>
+                                    <i data-lucide="chevron-down" class="w-3 h-3 text-[#d35400]"></i>
+                                </button>
+                                <div id="dropdown-menu-${item.id}" class="hidden absolute right-0 mt-1 w-28 rounded-lg bg-[#1a2026] border border-white/10 shadow-2xl z-50 p-1 flex flex-col gap-1">
+                                    <button onclick="setCustomOrderStatus('${item.id}', 'PENDING', event)" class="w-full text-center py-1.5 text-[9px] font-black tracking-widest text-[#faf9f6] hover:bg-[#d35400] hover:text-[#12161a] rounded transition-all duration-200">PENDING</button>
+                                    <button onclick="setCustomOrderStatus('${item.id}', 'DELIVERED', event)" class="w-full text-center py-1.5 text-[9px] font-black tracking-widest text-[#faf9f6] hover:bg-[#d35400] hover:text-[#12161a] rounded transition-all duration-200">DELIVERED</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Customer Profile & Metadata -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
-                        <div class="flex flex-col gap-1.5 min-w-0">
-                            <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Profile Info</span>
-                            <div class="flex items-center gap-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] font-semibold">
+                        <div class="flex flex-col gap-1 min-w-0">
+                            <span class="text-[8px] text-[#8e9aa0] uppercase tracking-widest font-bold">Profile Info</span>
+                            <div class="flex items-center gap-1.5">
                                 <span class="text-[#8e9aa0] font-medium">Customer:</span>
                                 <span class="text-[#faf9f6] font-bold truncate">${item.client_name || 'N/A'}</span>
                             </div>
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-1.5">
                                 <span class="text-[#8e9aa0] font-medium">Contact:</span>
                                 <a href="tel:${item.client_phone}" class="text-[#d35400] hover:underline font-bold transition-colors truncate">${item.client_phone || 'N/A'}</a>
                             </div>
                         </div>
-                        <div class="flex flex-col gap-1.5 min-w-0">
-                            <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Proximate Landmark</span>
+                        <div class="flex flex-col gap-1 min-w-0">
+                            <span class="text-[8px] text-[#8e9aa0] uppercase tracking-widest font-bold">Proximate Landmark</span>
                             <span class="text-[#faf9f6] font-medium truncate">${item.timelinetext || 'N/A'}</span>
                         </div>
                     </div>
 
-                    <div class="flex flex-col gap-2 mt-1">
-                        <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Destination coordinates</span>
-                        <p class="text-[#faf9f6] bg-[#12161a] border border-white/5 p-4 rounded-xl text-[11px] font-semibold leading-relaxed break-words">${item.design_specs || 'N/A'}</p>
+                    <div class="flex flex-col gap-1 mt-0.5">
+                        <span class="text-[8px] text-[#8e9aa0] uppercase tracking-widest font-bold">Destination coordinates</span>
+                        <p class="text-[#faf9f6] bg-[#12161a] border border-white/5 p-3 rounded-lg text-[10px] font-semibold leading-relaxed break-words">${item.design_specs || 'N/A'}</p>
                     </div>
 
-                    <!-- Order breakdown & financial total -->
-                    <div class="border-t border-white/5 pt-3 flex justify-between items-end mt-1 font-semibold">
-                        <div class="flex flex-col gap-1 max-w-[70%]">
-                            <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Consumables</span>
-                            <p class="text-[11px] text-[#faf9f6] font-bold truncate">${item.selected_core || 'N/A'}</p>
+                    <div class="border-t border-white/5 pt-2 flex justify-between items-end mt-0.5 font-semibold">
+                        <div class="flex flex-col gap-0.5 max-w-[70%]">
+                            <span class="text-[8px] text-[#8e9aa0] uppercase tracking-widest font-bold">Consumables</span>
+                            <p class="text-[10px] text-[#faf9f6] font-bold truncate">${item.selected_core || 'N/A'}</p>
                         </div>
                         <div class="flex flex-col items-end shrink-0">
-                            <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Calculated Amount</span>
-                            <span class="text-sm font-extrabold text-[#faf9f6]">₹${item.calculated_value || '0'}</span>
+                            <span class="text-[8px] text-[#8e9aa0] uppercase tracking-widest font-bold">Calculated Amount</span>
+                            <span class="text-xs font-extrabold text-[#faf9f6]">₹${item.calculated_value || '0'}</span>
                         </div>
                     </div>
                   </div>`;
             }).join('');
             
-            revealCinematicElements("#admin-list .cinematic-entry");
             safeCreateIcons();
         }
 
@@ -1239,28 +1685,34 @@
             const list = document.getElementById('dishes-list');
             if(!list) return;
             
+            const catalogHash = state.items.map(item => `${item.id}-${item.name}-${item.price}`).join('|');
+            if (catalogHash === state.lastCatalogHash) {
+                document.getElementById('dishes-count').textContent = `${state.items.length} Dishes`;
+                return;
+            }
+            
+            state.lastCatalogHash = catalogHash;
             document.getElementById('dishes-count').textContent = `${state.items.length} Dishes`;
             list.innerHTML = '';
 
             if (state.items.length === 0) {
-                list.innerHTML = `<div class="text-center py-12 text-xs text-[#8e9aa0] uppercase tracking-wider border border-dashed border-[#8e9aa0]/20 rounded-xl col-span-full bg-[#1a2026]">No active items in catalog workspace.</div>`;
+                list.innerHTML = `<div class="text-center py-8 text-xs text-[#8e9aa0] uppercase tracking-wider border border-dashed border-[#8e9aa0]/20 rounded-xl col-span-full bg-[#1a2026]">No active items in catalog workspace.</div>`;
                 return;
             }
 
             state.items.forEach(item => {
                 list.innerHTML += `
-                  <div class="flex items-center justify-between p-4 rounded-xl bg-[#12161a] border border-white/5 hover:border-white/10 transition-colors accelerated font-semibold text-left cinematic-entry mx-2 mb-2.5">
-                    <div class="flex flex-col gap-1 max-w-[75%]">
-                      <span class="text-xs font-bold text-[#faf9f6] truncate tracking-wide">${item.name}</span>
-                      <span class="text-[10px] text-[#d35400] font-bold tracking-wider">₹${item.price}</span>
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-[#12161a] border border-white/5 hover:border-[#d35400]/10 transition-colors accelerated font-semibold text-left mx-1 mb-2">
+                    <div class="flex flex-col gap-0.5 max-w-[75%]">
+                      <span class="text-[11px] font-bold text-[#faf9f6] truncate tracking-wide">${item.name}</span>
+                      <span class="text-[9px] text-[#d35400] font-bold tracking-wider">₹${item.price}</span>
                     </div>
-                    <button onclick="deleteProduct('${item.id}', this)" class="p-2.5 rounded-xl bg-[#d35400]/10 text-[#d35400] border border-[#d35400]/10 hover:border-[#d35400]/40 transition-all active:scale-95 flex items-center justify-center">
-                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    <button onclick="deleteProduct('${item.id}', this)" class="p-2 rounded-lg bg-[#d35400]/10 text-[#d35400] border border-[#d35400]/10 hover:border-[#d35400]/40 transition-all active:scale-95 flex items-center justify-center">
+                      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                     </button>
                   </div>`;
             });
 
-            revealCinematicElements("#dishes-list .cinematic-entry");
             safeCreateIcons();
         }
 
@@ -1277,11 +1729,7 @@
             try {
                 await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items`, {
                     method: 'POST',
-                    headers: { 
-                        'apikey': supabaseAnonKey, 
-                        'Authorization': `Bearer ${supabaseAnonKey}`, 
-                        'Content-Type': 'application/json' 
-                    },
+                    headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, price, description: desc })
                 });
                 document.getElementById('form-name').value = '';
@@ -1297,40 +1745,33 @@
 
         async function deleteProduct(id, btn) {
             animateClick(btn);
-            if (!confirm("Permanently purge this item from catalog?")) return;
             showLoader(true);
-
             try {
-                await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items?id=eq.${id}`, {
+                const res = await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items?id=eq.${id}`, {
                     method: 'DELETE',
                     headers: { 
                         'apikey': supabaseAnonKey, 
-                        'Authorization': `Bearer ${supabaseAnonKey}` 
-                      }
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Prefer': 'return=representation'
+                    }
                 });
+                
+                if (Array.isArray(res) && res.length === 0) throw new Error("Blocked by Database RLS Policy");
+
                 delete state.cart[id];
                 await fetchData();
                 showToast("Item removed.");
             } catch (err) {
                 showLoader(false);
-                showToast(`Failed to update records: ${err.message}`, "error");
+                showToast(`Failed: ${err.message}`, "error");
             }
         }
 
-        function clearCart(btn) {
-            if(btn) animateClick(btn);
-            state.cart = {};
-            renderMenuGrid();
-            updateEngineState();
-            showToast("Cart empty.");
-        }
-
-        // --- XII. UTILITY HELPER FUNCS ---
+        // --- XVI. UTILITY HELPER FUNCS ---
         function animateClick(element) {
             if(!element) return;
             const tl = gsap.timeline();
-            tl.to(element, { scale: 0.97, duration: 0.1, ease: "power2.out" })
-              .to(element, { scale: 1.0, duration: 0.2, ease: "power2.out" });
+            tl.to(element, { scale: 0.97, duration: 0.1, ease: "power2.out" }).to(element, { scale: 1.0, duration: 0.2, ease: "power2.out" });
         }
 
         function showLoader(show) {
@@ -1338,48 +1779,16 @@
             if(!l) return;
             if (show && state.route === 'admin') { 
                 l.classList.remove('pointer-events-none');
-                gsap.to(l, { opacity: 1, duration: 0.3, ease: "power3.out" });
+                gsap.to(l, { opacity: 1, duration: 0.2, ease: "power3.out" });
             } else {
                 l.classList.add('pointer-events-none');
                 gsap.to(l, { opacity: 0, duration: 0.2, ease: "power3.out" });
             }
         }
 
-        // --- XIII. CINEMATIC 3D SCROLL REVEAL ENGINES ---
-        function revealCinematicElements(selector) {
-            const targets = document.querySelectorAll(selector);
-            if (targets.length === 0) return;
-            gsap.killTweensOf(targets);
-            gsap.fromTo(targets,
-                {
-                    opacity: 0,
-                    y: 24,
-                    scale: 0.97,
-                    rotateX: 4,
-                    transformOrigin: "center top",
-                    transformStyle: "preserve-3d"
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    rotateX: 0,
-                    duration: 0.5,
-                    stagger: 0.05,
-                    ease: "power3.out",
-                    force3D: true,
-                    clearProps: "transform"
-                }
-            );
-        }
-
         function safeCreateIcons() {
             if (typeof lucide !== 'undefined' && lucide.createIcons) {
-                try {
-                    lucide.createIcons();
-                } catch (e) {
-                    console.error("Lucide setup failure:", e);
-                }
+                try { lucide.createIcons(); } catch (e) { console.error("Lucide failure:", e); }
             }
         }
 
@@ -1389,21 +1798,14 @@
             const toast = document.createElement('div');
             const color = type === 'success' ? 'border-[#d35400]/25 text-[#faf9f6]' : 'border-red-500/20 text-red-400 bg-red-950/10';
             
-            toast.className = `w-full glass-panel rounded-xl p-4 flex items-center justify-center gap-3 ${color} border accelerated`;
-            toast.innerHTML = `<span class="text-xs font-bold tracking-wide text-center">${msg}</span>`;
+            toast.className = `w-full glass-panel rounded-xl p-3 flex items-center justify-center gap-2 ${color} border accelerated`;
+            toast.innerHTML = `<span class="text-[11px] font-bold tracking-wide text-center">${msg}</span>`;
             
             container.appendChild(toast);
             
-            gsap.fromTo(toast, 
-                { y: 30, opacity: 0, scale: 0.98 }, 
-                { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }
-            );
-
+            gsap.fromTo(toast, { y: 20, opacity: 0, scale: 0.98 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" });
             setTimeout(() => {
-                gsap.to(toast, { 
-                    y: 15, opacity: 0, scale: 0.98, duration: 0.4, ease: "power3.in", 
-                    onComplete: () => toast.remove() 
-                });
+                gsap.to(toast, { y: 10, opacity: 0, scale: 0.98, duration: 0.3, ease: "power3.in", onComplete: () => toast.remove() });
             }, 3000);
         }
 
