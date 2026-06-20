@@ -203,16 +203,16 @@
             <h2 class="text-3xl md:text-4xl font-black tracking-tight text-[#faf9f6]">Operational Dashboard</h2>
         </div>
 
-        <!-- Tab Dock Header Selection Suite -->
+        <!-- Tab Dock Header Selection Suite (Tab Names Reverted Exactly) -->
         <div class="glass-panel rounded-2xl p-2 flex flex-nowrap gap-2 overflow-x-auto max-w-2xl accelerated shadow-2xl shrink-0">
             <button onclick="switchAdminTab('orders', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center" id="btn-tab-orders">
-                Incoming Real-Time Operations Desk
+                LIVE ORDERS
             </button>
             <button onclick="switchAdminTab('catalog', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-catalog">
-                Culinary Catalog Vault
+                MENU CATALOG
             </button>
             <button onclick="switchAdminTab('security', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-security">
-                Security Cipher Matrix
+                SETTINGS
             </button>
         </div>
 
@@ -541,17 +541,17 @@
             const response = await fetch(url, { ...options, headers });
             const text = await response.text();
             
-            // Elegantly handle empty/blank responses from Supabase (e.g. 201 Created or 204 No Content with no body content)
-            if (response.ok && (!text || text.trim() === '')) {
-                return {};
-            }
-
             let json = null;
             let isJson = true;
-            try {
-                json = JSON.parse(text);
-            } catch (e) {
-                isJson = false;
+            
+            if (text.trim() === "") {
+                json = {};
+            } else {
+                try {
+                    json = JSON.parse(text);
+                } catch (e) {
+                    isJson = false;
+                }
             }
 
             if (!response.ok) {
@@ -655,6 +655,7 @@
             updateEngineState();
         }
 
+        // --- VIII. OPERATIONS CONTROLS AND UPDATES ---
         function modifyQuantity(itemId, change, btn) {
             if(btn) animateClick(btn);
             if (state.cart[itemId]) {
@@ -786,7 +787,7 @@
             stickyBar.style.pointerEvents = "none";
         }
         function closeCartDrawer() {
-            const drawer = document.getElementById("drawer");
+            const drawer = document.getElementById("cart-drawer");
             if (drawer) {
                 drawer.classList.add("translate-y-full");
             }
@@ -1127,9 +1128,9 @@
 
             buttons.forEach(btn => {
                 if (btn.id === `btn-tab-${tabName}`) {
-                    btn.className = "flex-1 py-3 px-4 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center";
+                    btn.className = "flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center";
                 } else {
-                    btn.className = "flex-1 py-3 px-4 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center";
+                    btn.className = "flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center";
                 }
             });
 
@@ -1280,8 +1281,7 @@
                     headers: { 
                         'apikey': supabaseAnonKey, 
                         'Authorization': `Bearer ${supabaseAnonKey}`, 
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=representation'
+                        'Content-Type': 'application/json' 
                     },
                     body: JSON.stringify({ name, price, description: desc })
                 });
