@@ -203,7 +203,7 @@
             <h2 class="text-3xl md:text-4xl font-black tracking-tight text-[#faf9f6]">Operational Dashboard</h2>
         </div>
 
-        <!-- Tab Dock Header Selection Suite (Tab Names Reverted Exactly) -->
+        <!-- Tab Dock Header Selection Suite -->
         <div class="glass-panel rounded-2xl p-2 flex flex-nowrap gap-2 overflow-x-auto max-w-2xl accelerated shadow-2xl shrink-0">
             <button onclick="switchAdminTab('orders', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center" id="btn-tab-orders">
                 LIVE ORDERS
@@ -655,7 +655,6 @@
             updateEngineState();
         }
 
-        // --- VIII. OPERATIONS CONTROLS AND UPDATES ---
         function modifyQuantity(itemId, change, btn) {
             if(btn) animateClick(btn);
             if (state.cart[itemId]) {
