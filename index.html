@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Marzoft Engine | Premium Cloud Kitchen</title>
+    <!-- Premium Google Font Import: Plus Jakarta Sans for razor-sharp geometric alignment on HD displays -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* --- I. ABSOLUTE SYSTEM-LEVEL HIGH-DEFINITION TYPOGRAPHY COMPLIANCE --- */
+        *, *::before, *::after, html, body, button, input, textarea, select, option, span, p, h1, h2, h3, h4, h5, h6, label, a, div, table, tr, td {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            text-rendering: optimizeLegibility !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+            font-smooth: always !important;
+        }
+
+        body {
+            background-color: #12161a !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* --- II. SOLID TOKYO SLATE SURFACES & VIGNETTE MASKING --- */
+        .glass-panel {
+            background: #1a2026 !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .premium-card {
+            background: #1a2026 !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.5) !important;
+            transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (hover: hover) {
+            .premium-card:hover {
+                border-color: rgba(211, 84, 0, 0.5) !important;
+                box-shadow: 0 0 35px -10px rgba(211, 84, 0, 0.15),
+                            0 15px 40px -15px rgba(0, 0, 0, 0.7) !important;
+                transform: translateY(-4px);
+            }
+        }
+
+        .glow-checkout {
+            background: radial-gradient(circle at 50% 0%, rgba(211, 84, 0, 0.04) 0%, #1a2026 85%) !important;
+            border: 1px solid rgba(211, 84, 0, 0.22) !important;
+            box-shadow: inset 0 0 20px 0px rgba(211, 84, 0, 0.03),
+                        0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        select, select option {
+            background-color: #1a2026 !important;
+            color: #faf9f6 !important;
+        }
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%23d35400' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px;
+            padding-right: 36px !important;
+        }
+        select:focus {
+            outline: none !important;
+            border-color: #d35400 !important;
+        }
+
+        /* Hardware acceleration styling */
+        .accelerated {
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+        }
+
+        /* Clean native scrollbars styling */
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        *::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+            background: transparent;
+        }
+
+        /* High-end smooth vignetted edge mask-image system on scroll containers */
+        .smooth-fade-edge {
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%) !important;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%) !important;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
+        }
+
+        .scroll-container {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+        }
+
+        /* Cinematic inertia reveal initial state styling */
+        .cinematic-entry {
+            opacity: 0;
+            transform: translateY(20px) scale(0.97) rotateX(4deg);
+            transform-style: preserve-3d;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+        }
+    </style>
+</head>
+<body class="text-[#faf9f6] min-h-screen selection:bg-[#d35400]/30 overflow-x-hidden antialiased">
+
+    <!-- NAVIGATION BAR -->
+    <header class="fixed top-0 left-0 w-full z-40 px-4 pt-4 md:px-8 md:pt-6 accelerated">
+        <div class="max-w-[1700px] mx-auto glass-panel rounded-2xl px-5 py-4 flex items-center justify-between">
+            <!-- Pulsing Status Badge -->
+            <div class="flex items-center gap-3 shrink-0">
+                <div class="w-2.5 h-2.5 rounded-full bg-[#d35400] animate-pulse shadow-[0_0_12px_rgba(211,84,0,0.9)]"></div>
+                <span class="text-xs uppercase tracking-widest font-black text-[#d35400] whitespace-nowrap">Live Store</span>
+            </div>
+            <!-- Identity Title & Security Toggle Button -->
+            <div class="flex items-center gap-4 shrink-0">
+                <h1 class="text-xs md:text-sm tracking-widest font-black text-[#faf9f6] whitespace-nowrap uppercase">Marzoft Kitchen</h1>
+                <button id="nav-toggle-btn" onclick="toggleRoute()" class="p-2.5 bg-[#12161a] border border-white/5 hover:border-[#d35400]/40 active:scale-95 rounded-xl text-[#8e9aa0] hover:text-[#d35400] transition-all flex items-center justify-center shrink-0">
+                    <i data-lucide="lock" id="nav-btn-icon" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CLIENT VIEWPORT -->
+    <main id="client-view" class="max-w-[1700px] mx-auto px-4 md:px-8 pt-28 md:pt-36 pb-36 md:pb-40 min-h-screen flex flex-col lg:flex-row gap-10 justify-between">
+        
+        <!-- Left Container: Dynamically scaling responsive catalog layout -->
+        <div class="flex-1 flex flex-col w-full transition-all duration-500 ease-in-out">
+            <div id="hero-text" class="mb-8 md:mb-10 accelerated opacity-0">
+                <p class="text-xs font-black text-[#d35400] tracking-[0.2em] uppercase mb-2">Premium Culinary Experience</p>
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight bg-gradient-to-r from-[#faf9f6] via-[#faf9f6] to-[#8e9aa0] bg-clip-text text-transparent leading-tight">
+                    Curated Flavors.<br>Ordered Instantly.
+                </h2>
+            </div>
+
+            <!-- Highly resolved product cards grid system -->
+            <section id="menu-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 pb-10 px-1"></section>
+        </div>
+
+        <!-- Right Container: Sidebar Container (0px width initially on load, transitions gracefully) -->
+        <div id="desktop-sidebar-container" class="shrink-0 hidden lg:block overflow-hidden transition-all duration-500 ease-in-out w-0 opacity-0 relative">
+            <div id="desktop-cart-panel" class="w-[400px] xl:w-[460px] h-[calc(100vh-160px)] glass-panel glow-checkout rounded-[2rem] p-7 flex flex-col justify-between accelerated pointer-events-none" style="transform: translateX(40px);">
+                <div class="flex flex-col min-h-0 h-full">
+                    <div class="border-b border-white/5 pb-5 shrink-0 px-6">
+                        <h3 class="text-base font-black tracking-wide text-[#faf9f6] uppercase">Your Selection</h3>
+                        <p id="dt-cart-item-count" class="text-xs font-semibold text-[#8e9aa0] mt-1">0 items composition</p>
+                    </div>
+
+                    <!-- Dynamic scroll list context with elegant edge mask -->
+                    <div id="dt-cart-items-list" class="flex-1 smooth-fade-edge py-6"></div>
+
+                    <hr class="border-white/5 my-3 shrink-0 mx-6">
+
+                    <div class="space-y-2 text-xs font-semibold text-[#8e9aa0] mb-5 shrink-0 px-6">
+                        <div class="flex justify-between"><span>Subtotal</span><span id="dt-summary-subtotal" class="text-[#faf9f6] font-bold">₹0</span></div>
+                        <div class="flex justify-between"><span>Delivery & Packaging</span><span id="dt-summary-delivery" class="text-[#faf9f6] font-bold">₹0</span></div>
+                        <div class="flex justify-between text-sm font-black text-[#faf9f6] pt-1">
+                            <span>Total Amount</span>
+                            <span id="dt-summary-total" class="text-[#d35400] text-lg font-black">₹0</span>
+                        </div>
+                    </div>
+
+                    <div class="px-6 pb-2 shrink-0">
+                        <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 hover:shadow-[0_0_25px_rgba(211,84,0,0.4)] flex items-center justify-center gap-2 tracking-widest text-xs uppercase">
+                            <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+                            <span>PAY INSTANTLY VIA UPI</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ADMIN VIEWPORT (SaaS Multi-Panel Dashboard Terminal) -->
+    <main id="admin-view" class="w-full hidden flex-col gap-8 max-w-[1700px] mx-auto px-4 md:px-8 pt-32 md:pt-44 pb-32 md:pb-36">
+        <!-- Header -->
+        <div class="mb-2 accelerated">
+            <p class="text-xs font-bold text-[#d35400] tracking-widest uppercase mb-1.5">Command Suite</p>
+            <h2 class="text-3xl md:text-4xl font-black tracking-tight text-[#faf9f6]">Operational Dashboard</h2>
+        </div>
+
+        <!-- Horizontal Tab Navigation Bar -->
+        <div class="glass-panel rounded-2xl p-2 flex flex-nowrap gap-2 overflow-x-auto max-w-2xl accelerated shadow-2xl">
+            <button onclick="switchAdminTab('orders', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center" id="btn-tab-orders">
+                Live Orders
+            </button>
+            <button onclick="switchAdminTab('catalog', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-catalog">
+                Menu Catalog
+            </button>
+            <button onclick="switchAdminTab('security', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-security">
+                Settings
+            </button>
+        </div>
+
+        <!-- PANEL A: Incoming Live Orders Desk -->
+        <div id="panel-orders" class="admin-tab-panel flex flex-col gap-6">
+            <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-2">
+                <span class="text-xs font-bold text-[#faf9f6] uppercase tracking-wider">Live Orders Workspace</span>
+                <span id="admin-count" class="text-xs text-[#8e9aa0] uppercase tracking-widest font-black">0 Orders</span>
+            </div>
+            <!-- Scroll container incorporating edge masks to optimize native high-definition text sharpness and prevent clip-offs -->
+            <div id="admin-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-[850px] smooth-fade-edge py-6"></div>
+        </div>
+
+        <!-- PANEL B: Culinary Catalog Vault -->
+        <div id="panel-catalog" class="admin-tab-panel hidden grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Area: Add Product Form (1/3 Width Section) -->
+            <div class="lg:col-span-1 flex flex-col gap-6">
+                <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col gap-6">
+                    <h3 class="text-xs font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-3">Add New Dish</h3>
+                    <form onsubmit="createProduct(event)" class="flex flex-col gap-5">
+                        <div>
+                            <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">Dish Name</label>
+                            <input required id="form-name" type="text" placeholder="e.g., Charcoal Smoked Ribs" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">Price (₹)</label>
+                            <input required id="form-price" type="number" min="1" placeholder="e.g., 1299" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">Description / Ingredients</label>
+                            <textarea required id="form-desc" rows="3" placeholder="Dish specifications..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/10 text-xs tracking-wider uppercase">
+                            Add to Menu
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Area: Inventory Dishes List (2/3 Width Display Pane) -->
+            <div class="lg:col-span-2 flex flex-col gap-4">
+                <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col h-full gap-5">
+                    <div class="flex items-center justify-between border-b border-white/5 pb-3">
+                        <span class="text-xs font-black text-[#faf9f6] uppercase tracking-wider">Active Menu</span>
+                        <span id="dishes-count" class="text-[10px] text-[#8e9aa0] uppercase tracking-widest font-bold">0 Dishes</span>
+                    </div>
+                    <!-- Upgraded catalog list scroll metrics using smooth vignettes to prevent cutoff -->
+                    <div id="dishes-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] smooth-fade-edge py-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL C: System Keys & Security Overrides -->
+        <div id="panel-security" class="admin-tab-panel hidden max-w-xl flex-col gap-6">
+            <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col gap-5">
+                <h3 class="text-xs font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-3">Change Admin Password</h3>
+                <form onsubmit="updateAdminPassword(event)" class="flex flex-col gap-4">
+                    <div>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">New Password</label>
+                        <input required id="form-new-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-2 font-bold">Confirm Password</label>
+                        <input required id="form-confirm-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                    </div>
+                    <button type="submit" class="w-full border border-white/10 hover:bg-white/5 hover:border-white/20 active:scale-[0.98] text-[#faf9f6] font-bold py-3.5 rounded-xl transition-all text-xs tracking-wider uppercase">
+                        Update Password
+                    </button>
+                </form>
+            </div>
+
+            <!-- Disconnect Button -->
+            <button onclick="logoutAdmin(this)" class="w-full bg-[#d35400]/10 border border-[#d35400]/30 hover:bg-[#d35400]/20 active:scale-[0.98] text-[#d35400] font-bold py-4 rounded-xl transition-all text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(211,84,0,0.05)]">
+                Log Out
+            </button>
+        </div>
+    </main>
+
+    <!-- MOBILE EXPANDED DETAILED CART DRAWER -->
+    <div id="cart-drawer" class="fixed bottom-0 left-0 w-full z-50 px-4 pb-4 transition-transform duration-300 translate-y-full lg:hidden accelerated">
+        <div class="max-w-md mx-auto glass-panel glow-checkout rounded-[2.5rem] p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-4 px-4">
+                <div>
+                    <h3 class="font-bold text-[#faf9f6] text-sm">Your Cart</h3>
+                    <p id="cart-item-count" class="text-[10px] font-medium text-[#8e9aa0]">0 items selected</p>
+                </div>
+                <button onclick="toggleCartDrawer()" class="p-2 rounded-full hover:bg-white/5 transition-colors">
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-[#8e9aa0]"></i>
+                </button>
+            </div>
+
+            <div id="cart-items-list" class="max-h-48 smooth-fade-edge space-y-2.5 mb-4"></div>
+
+            <hr class="border-white/5 my-3 mx-4">
+
+            <div class="space-y-1.5 text-[11px] font-semibold text-[#8e9aa0] mb-4 px-4">
+                <div class="flex justify-between"><span>Subtotal</span><span id="summary-subtotal" class="text-[#faf9f6]">₹0</span></div>
+                <div class="flex justify-between"><span>Delivery & Packaging</span><span id="summary-delivery" class="text-[#faf9f6]">₹0</span></div>
+                <div class="flex justify-between text-xs font-bold text-[#faf9f6] pt-1">
+                    <span>Total Amount</span>
+                    <span id="summary-total" class="text-[#d35400] text-sm font-extrabold">₹0</span>
+                </div>
+            </div>
+
+            <div class="px-4">
+                <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 flex items-center justify-center gap-2 tracking-wide text-xs uppercase">
+                    <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
+                    <span>PAY INSTANTLY VIA UPI</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE STICKY ACTION TRIGGER BAR -->
+    <div id="sticky-bar" class="fixed bottom-5 left-0 w-full px-4 z-30 transition-all duration-300 translate-y-24 opacity-0 lg:hidden accelerated">
+        <button onclick="toggleCartDrawer()" class="max-w-md mx-auto w-full bg-[#1a2026] border border-white/10 hover:border-[#d35400]/40 py-3.5 px-4 rounded-xl shadow-2xl flex justify-between items-center text-xs font-semibold glow-checkout">
+            <div class="flex items-center gap-2.5">
+                <div class="relative bg-[#d35400]/10 p-2 rounded-lg text-[#d35400]">
+                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                    <span id="badge-count" class="absolute -top-1.5 -right-1.5 bg-[#d35400] text-[#12161a] text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_6px_rgba(211,84,0,0.5)]">0</span>
+                </div>
+                <span class="text-[#faf9f6] font-bold">View Cart</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span id="sticky-total" class="font-extrabold text-[#d35400] text-sm">₹0</span>
+                <i data-lucide="chevron-up" class="w-4 h-4 text-[#8e9aa0]"></i>
+            </div>
+        </button>
+    </div>
+
+    <!-- CLIENT FULFILLMENT OVERLAY SHEET -->
+    <div id="fulfillment-modal" class="fixed inset-0 bg-[#12161a]/95 z-50 flex items-end md:items-stretch md:justify-end p-0 opacity-0 pointer-events-none accelerated transition-all duration-500">
+        <div id="fulfillment-card" class="w-full md:w-[450px] p-6 md:p-8 bg-[#1a2026] border-t border-white/10 md:border-t-0 md:border-l rounded-t-[2.5rem] md:rounded-t-none flex flex-col justify-between shadow-2xl accelerated transition-transform duration-500" style="transform: translateY(100%);">
+            <div class="flex flex-col gap-6 h-full justify-between min-h-0 overflow-y-auto">
+                <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                    <div>
+                        <h3 class="font-black text-[#faf9f6] text-sm uppercase tracking-wider">Fulfillment Parameters</h3>
+                        <p class="text-[9px] text-[#8e9aa0] mt-1 uppercase tracking-wider">Please supply delivery coordinates</p>
+                    </div>
+                    <button onclick="toggleFulfillmentModal(false)" class="p-2 rounded-xl hover:bg-white/5 transition-colors">
+                        <i data-lucide="x" class="w-4 h-4 text-[#8e9aa0]"></i>
+                    </button>
+                </div>
+                <form onsubmit="confirmFulfillment(event)" class="flex flex-col gap-5 flex-1 justify-center">
+                    <div>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Full Name</label>
+                        <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Contact Link</label>
+                        <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Delivery Destination</label>
+                        <textarea required id="fullfill-address" rows="3" placeholder="Street, block, apartment no..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Proximate Landmark</label>
+                        <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                    </div>
+                    <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 text-xs tracking-wider uppercase">
+                        Confirm & Process Payment
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN GATE MODAL -->
+    <div id="auth-modal" class="fixed inset-0 bg-[#12161a]/95 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none accelerated transition-all duration-500">
+        <div id="auth-card" class="w-full max-w-sm p-8 rounded-[2rem] glass-panel text-center flex flex-col gap-6 transform scale-95 accelerated">
+            <div class="w-14 h-16 bg-[#12161a] border border-white/10 rounded-full flex items-center justify-center mx-auto text-[#d35400] shadow-xl">
+                <i data-lucide="shield-alert" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h4 class="text-base font-black text-[#faf9f6] uppercase tracking-widest leading-none">Admin Login</h4>
+                <p class="text-xs font-bold text-[#8e9aa0] mt-3 uppercase tracking-widest leading-relaxed">Enter password to continue</p>
+            </div>
+            <form onsubmit="verifyLogin(event)" class="flex flex-col gap-5">
+                <input required id="auth-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-center tracking-[0.4em] text-sm md:text-base px-4 py-4 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-bold">
+                <div class="flex gap-3 mt-1">
+                    <button type="button" onclick="cancelLogin(this)" class="flex-1 py-3 text-[10px] font-black tracking-widest uppercase rounded-xl border border-white/10 hover:bg-white/5 text-[#8e9aa0] transition-all active:scale-95">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 py-3 text-[10px] font-black tracking-widest uppercase rounded-xl bg-[#d35400] text-[#12161a] transition-all active:scale-95 shadow-[0_0_15px_rgba(211,84,0,0.2)]">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- STATUS SYNCHRONIZER LOADER -->
+    <div id="loader" class="fixed inset-0 bg-[#12161a]/95 z-[100] flex flex-col items-center justify-center opacity-0 pointer-events-none accelerated transition-all duration-500">
+        <div class="relative w-16 h-20 flex items-center justify-center">
+            <div class="absolute inset-0 border border-white/5 rounded-full"></div>
+            <div class="absolute inset-0 border border-t-[#d35400] border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+            <div class="w-2 h-2 bg-[#d35400] rounded-full animate-pulse shadow-[0_0_8px_rgba(211,84,0,0.8)]"></div>
+        </div>
+        <span class="mt-6 text-[9px] font-bold text-[#faf9f6] tracking-widest uppercase animate-pulse">Synchronizing...</span>
+    </div>
+
+    <!-- TOAST PORTAL -->
+    <div id="toast-container" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] flex flex-col gap-4 pointer-events-none w-[90%] max-w-[400px]"></div>
+
+    <!-- SYSTEM SCRIPTS -->
+    <script>
+        // --- I. DATABASE CONFIGURATION ---
+        const supabaseUrl = "https://ehwaahbtaqnvjuuzdaqd.supabase.co";
+        const supabaseAnonKey = "sb_publishable_ktU939z_D3DL3VrNNXw8Qg_dtjHGcnE";
+
+        const SYSTEM_CONFIG = {
+            vendorUpiId: "rmaaz1612@okhdfcbank",
+            vendorName: "Marzoft Premium Foods",
+            deliveryFee: 49,
+            currency: "INR"
+        };
+
+        const state = {
+            items: [],
+            cart: {},
+            isAdmin: false,
+            route: 'client',
+            activeAdminTab: 'orders'
+        };
+
+        // --- II. INITIALIZATION LIFE CYCLE ---
+        function initEngine() {
+            safeCreateIcons();
+            setupFulfillmentAnimations();
+            
+            // Initial Page Motion Reveal
+            gsap.fromTo("#hero-text", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.2 });
+            
+            window.addEventListener('hashchange', handleRoute);
+            fetchData();
+            handleRoute();
+            
+            // Background Live Sync polling loop (Fires silently every 8 seconds)
+            setInterval(async () => {
+                if (state.route === 'admin' && state.activeAdminTab === 'orders' && state.isAdmin) {
+                    const orders = await fetchOrders();
+                    renderAdminList(orders);
+                }
+            }, 8000);
+        }
+
+        function setupFulfillmentAnimations() {
+            const card = document.getElementById('fulfillment-card');
+            if (card) {
+                if (window.innerWidth >= 768) {
+                    gsap.set(card, { x: "100%", y: 0 });
+                } else {
+                    gsap.set(card, { y: "100%", x: 0 });
+                }
+            }
+        }
+
+        function toggleRoute() {
+            const btn = document.getElementById('nav-toggle-btn');
+            animateClick(btn);
+            setTimeout(() => {
+                window.location.hash = state.route === 'client' ? '#admin' : '#store';
+            }, 150);
+        }
+
+        function handleRoute() {
+            const hash = window.location.hash;
+            const clientView = document.getElementById('client-view');
+            const adminView = document.getElementById('admin-view');
+            const navBtnIcon = document.getElementById('nav-btn-icon');
+
+            if (hash === '#admin') {
+                if (!state.isAdmin) {
+                    showAuthModal(true);
+                } else {
+                    state.route = 'admin';
+                    showAuthModal(false);
+                    if(navBtnIcon) {
+                        navBtnIcon.setAttribute('data-lucide', 'store');
+                        safeCreateIcons();
+                    }
+                    clientView.classList.add('hidden');
+                    adminView.classList.remove('hidden');
+                    adminView.classList.add('flex');
+                    
+                    const stickyBar = document.getElementById("sticky-bar");
+                    stickyBar.classList.add("translate-y-24", "opacity-0");
+                    stickyBar.style.pointerEvents = "none";
+                    closeCartDrawer();
+                    
+                    // Collapse sidebar layout area in Admin Views
+                    const dtSidebarContainer = document.getElementById("desktop-sidebar-container");
+                    const dtPanel = document.getElementById("desktop-cart-panel");
+                    gsap.to(dtSidebarContainer, { width: 0, opacity: 0, duration: 0.4, ease: "power3.in" });
+                    gsap.to(dtPanel, { x: 40, opacity: 0, duration: 0.4, ease: "power3.in" });
+                    
+                    switchAdminTab(state.activeAdminTab, document.getElementById(`btn-tab-${state.activeAdminTab}`));
+                }
+            } else {
+                state.route = 'client';
+                showAuthModal(false);
+                if(navBtnIcon) {
+                    navBtnIcon.setAttribute('data-lucide', 'lock');
+                    safeCreateIcons();
+                }
+                clientView.classList.remove('hidden');
+                adminView.classList.add('hidden');
+                adminView.classList.remove('flex');
+                
+                if (document.getElementById('menu-container').innerHTML === '') {
+                    renderMenuGrid();
+                }
+                updateEngineState();
+            }
+        }
+
+        // --- III. ROBUST FETCH WRAPPER ---
+        async function safeFetchJson(url, options = {}) {
+            const headers = {
+                ...options.headers,
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            };
+            
+            const response = await fetch(url, { ...options, headers });
+            const text = await response.text();
+            
+            let json = null;
+            let isJson = true;
+            try {
+                json = JSON.parse(text);
+            } catch (e) {
+                isJson = false;
+            }
+
+            if (!response.ok) {
+                const errMsg = isJson ? (json.message || json.hint || text) : `HTTP ${response.status}: ${text.slice(0, 150)}`;
+                throw new Error(errMsg);
+            }
+
+            if (!isJson) {
+                throw new Error(`Invalid format: ${text.slice(0, 150)}`);
+            }
+
+            return json;
+        }
+
+        // --- IV. CLOUD SYNCHRONIZATION ---
+        async function fetchData() {
+            try {
+                const data = await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items?select=*&order=id.asc&t=${Date.now()}`, {
+                    headers: { 
+                        'apikey': supabaseAnonKey, 
+                        'Authorization': `Bearer ${supabaseAnonKey}` 
+                    }
+                });
+                state.items = data || [];
+                finalizeFetch("Menu data verified.");
+            } catch (err) {
+                state.items = [];
+                finalizeFetch(`Database connectivity offline (${err.message})`);
+            }
+        }
+
+        function finalizeFetch(msg) {
+            if (state.route === 'client') {
+                renderMenuGrid();
+                updateEngineState();
+            } else {
+                renderAdmin();
+            }
+            showLoader(false);
+            showToast(msg);
+        }
+
+        // --- V. PURE DYNAMIC RENDER ENGINES ---
+        function renderMenuGrid() {
+            const container = document.getElementById("menu-container");
+            if (!container) return;
+            
+            if (state.items.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-16 text-center border border-dashed border-[#8e9aa0]/20 rounded-3xl p-8 bg-[#1a2026]">
+                        <span class="text-xs uppercase tracking-widest text-[#8e9aa0] font-bold">Empty Catalog</span>
+                        <p class="text-xs text-[#8e9aa0]/60 mt-2 font-light">No records found on the host database.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = state.items.map(item => {
+                const qty = state.cart[item.id] || 0;
+                return `
+                    <div class="menu-card premium-card rounded-2xl p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group border border-white/5 shadow-2xl min-h-[280px]">
+                        <div class="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#d35400]/20 to-transparent"></div>
+                        
+                        <div class="flex justify-between items-start gap-4 mb-4">
+                            <div class="space-y-2">
+                                <h3 class="font-black text-[#faf9f6] text-lg md:text-xl tracking-tight group-hover:text-[#d35400] transition-colors leading-tight">${item.name}</h3>
+                                <p class="text-xs md:text-sm text-[#8e9aa0] leading-relaxed font-semibold">${item.description}</p>
+                            </div>
+                            <span class="text-xs md:text-sm font-black text-[#d35400] bg-[rgba(211,84,0,0.08)] px-3 py-1.5 rounded-xl shrink-0 border border-[#d35400]/15 shadow-sm">₹${item.price}</span>
+                        </div>
+                        <div class="flex justify-end pt-2 shrink-0">
+                            <div id="actions-${item.id}">
+                                ${qty > 0 ? `
+                                    <div class="flex items-center gap-3 bg-[#d35400] text-[#12161a] font-black p-1.5 rounded-lg shadow-lg">
+                                        <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-8 h-7 flex items-center justify-center rounded-md hover:bg-black/10 transition-colors"><i data-lucide="minus" class="w-3.5 h-3.5"></i></button>
+                                        <span class="text-sm px-1.5 min-w-[18px] text-center font-bold">${state.cart[item.id]}</span>
+                                        <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-8 h-7 flex items-center justify-center rounded-md hover:bg-black/10 transition-colors"><i data-lucide="plus" class="w-3.5 h-3.5"></i></button>
+                                    </div>
+                                ` : `
+                                    <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[#d35400]/50 px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all active:scale-95 flex items-center gap-2 text-[#faf9f6]">
+                                        <i data-lucide="plus" class="w-4 h-4 text-[#d35400]"></i> Add to Order
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // --- VI. CINEMATIC INERTIAL ENTRY TRIGGER ---
+            gsap.fromTo(".menu-card", 
+                { opacity: 0, y: 20, scale: 0.97, rotateX: 4, transformStyle: "preserve-3d" },
+                { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
+            );
+
+            safeCreateIcons();
+        }
+
+        // --- VI. MUTATION & CART CALCULATIONS ---
+        function addToCart(itemId, btn) {
+            if(btn) animateClick(btn);
+            if (!state.cart[itemId]) {
+                state.cart[itemId] = 1;
+            }
+            updateEngineState();
+        }
+
+        function modifyQuantity(itemId, change, btn) {
+            if(btn) animateClick(btn);
+            if (state.cart[itemId]) {
+                state.cart[itemId] += change;
+                if (state.cart[itemId] <= 0) {
+                    delete state.cart[itemId];
+                }
+            }
+            updateEngineState();
+        }
+
+        function updateEngineState() {
+            let totalItemCount = 0;
+            let subtotalPrice = 0;
+
+            Object.keys(state.cart).forEach(id => {
+                const product = state.items.find(i => String(i.id) === String(id));
+                if (product) {
+                    totalItemCount += state.cart[id];
+                    subtotalPrice += (product.price * state.cart[id]);
+                }
+            });
+
+            const deliveryFee = totalItemCount > 0 ? SYSTEM_CONFIG.deliveryFee : 0;
+            const finalBillTotal = subtotalPrice + deliveryFee;
+
+            // --- DESKTOP SIDEBAR DYNAMIC APPEARANCE LOGIC ---
+            const dtSidebarContainer = document.getElementById("desktop-sidebar-container");
+            const dtPanel = document.getElementById("desktop-cart-panel");
+            
+            if (totalItemCount > 0 && state.route === 'client') {
+                gsap.to(dtSidebarContainer, { width: window.innerWidth >= 1280 ? 460 : 400, opacity: 1, duration: 0.6, ease: "power3.out" });
+                gsap.to(dtPanel, { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" });
+                dtPanel.classList.remove("pointer-events-none");
+            } else {
+                gsap.to(dtSidebarContainer, { width: 0, opacity: 0, duration: 0.5, ease: "power3.in" });
+                gsap.to(dtPanel, { x: 40, opacity: 0, duration: 0.5, ease: "power3.in" });
+                dtPanel.classList.add("pointer-events-none");
+            }
+
+            // Synchronize Mobile Sticky Action Indicator Bar
+            const stickyBar = document.getElementById("sticky-bar");
+            if (totalItemCount > 0 && state.route === 'client' && !isCartOpen) {
+                stickyBar.classList.remove("translate-y-24", "opacity-0");
+                stickyBar.style.pointerEvents = "auto";
+                document.getElementById("badge-count").innerText = totalItemCount;
+                document.getElementById("sticky-total").innerText = `₹${finalBillTotal}`;
+            } else {
+                stickyBar.classList.add("translate-y-24", "opacity-0");
+                stickyBar.style.pointerEvents = "none";
+            }
+
+            // Sync Interactive Controls UI state dynamically
+            state.items.forEach(item => {
+                const actionContainer = document.getElementById(`actions-${item.id}`);
+                if (actionContainer) {
+                    if (state.cart[item.id]) {
+                        actionContainer.innerHTML = `
+                            <div class="flex items-center gap-3 bg-[#d35400] text-[#12161a] font-black p-1.5 rounded-lg shadow-lg">
+                                <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-8 h-7 flex items-center justify-center rounded-md hover:bg-black/10 transition-colors"><i data-lucide="minus" class="w-3.5 h-3.5"></i></button>
+                                <span class="text-sm px-1.5 min-w-[18px] text-center font-bold">${state.cart[item.id]}</span>
+                                <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-8 h-7 flex items-center justify-center rounded-md hover:bg-black/10 transition-colors"><i data-lucide="plus" class="w-3.5 h-3.5"></i></button>
+                            </div>
+                        `;
+                    } else {
+                        actionContainer.innerHTML = `
+                            <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[#d35400]/50 px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all active:scale-95 flex items-center gap-2 text-[#faf9f6]">
+                                <i data-lucide="plus" class="w-4 h-4 text-[#d35400]"></i> Add to Order
+                            </button>
+                        `;
+                    }
+                }
+            });
+
+            // Update mobile elements
+            document.getElementById("cart-item-count").innerText = `${totalItemCount} item${totalItemCount !== 1 ? 's' : ''} composition`;
+            document.getElementById("summary-subtotal").innerText = `₹${subtotalPrice}`;
+            document.getElementById("summary-delivery").innerText = `₹${deliveryFee}`;
+            document.getElementById("summary-total").innerText = `₹${finalBillTotal}`;
+
+            // Update desktop elements
+            document.getElementById("dt-cart-item-count").innerText = `${totalItemCount} item${totalItemCount !== 1 ? 's' : ''} composition`;
+            document.getElementById("dt-summary-subtotal").innerText = `₹${subtotalPrice}`;
+            document.getElementById("dt-summary-delivery").innerText = `₹${deliveryFee}`;
+            document.getElementById("dt-summary-total").innerText = `₹${finalBillTotal}`;
+
+            renderCartItemsList();
+            safeCreateIcons();
+        }
+
+        function renderCartItemsList() {
+            const listContainer = document.getElementById("cart-items-list");
+            const dtListContainer = document.getElementById("dt-cart-items-list");
+            
+            const contentHTML = Object.keys(state.cart).map(id => {
+                const item = state.items.find(i => String(i.id) === String(id));
+                if (!item) return '';
+                return `
+                    <div class="flex justify-between items-center bg-[#12161a] border border-white/5 p-4 rounded-xl font-semibold cinematic-entry mx-2">
+                        <div class="max-w-[70%]">
+                            <h4 class="text-xs font-black text-[#faf9f6] truncate">${item.name}</h4>
+                            <p class="text-[11px] text-[#8e9aa0] mt-0.5">₹${item.price} × ${state.cart[id]}</p>
+                        </div>
+                        <span class="text-xs font-black text-[#faf9f6] shrink-0">₹${item.price * state.cart[id]}</span>
+                    </div>
+                `;
+            }).join('');
+
+            if (listContainer) {
+                listContainer.innerHTML = contentHTML;
+                gsap.fromTo(listContainer.querySelectorAll('.cinematic-entry'), 
+                    { opacity: 0, y: 15, scale: 0.98 },
+                    { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.05, ease: "power3.out" }
+                );
+            }
+            if (dtListContainer) {
+                dtListContainer.innerHTML = contentHTML;
+                gsap.fromTo(dtListContainer.querySelectorAll('.cinematic-entry'), 
+                    { opacity: 0, y: 15, scale: 0.98 },
+                    { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.05, ease: "power3.out" }
+                );
+            }
+        }
+
+        // --- VII. DRAWER INTERFACE TOGGLES ---
+        let isCartOpen = false;
+        function toggleCartDrawer() { isCartOpen ? closeCartDrawer() : openCartDrawer(); }
+        function openCartDrawer() {
+            const drawer = document.getElementById("cart-drawer");
+            drawer.classList.remove("translate-y-full");
+            isCartOpen = true;
+
+            const stickyBar = document.getElementById("sticky-bar");
+            stickyBar.classList.add("translate-y-24", "opacity-0");
+            stickyBar.style.pointerEvents = "none";
+        }
+        function closeCartDrawer() {
+            const drawer = document.getElementById("cart-drawer");
+            if (drawer) {
+                drawer.classList.add("translate-y-full");
+            }
+            isCartOpen = false;
+            updateEngineState();
+        }
+
+        // --- VIII. CLIENT INTAKE MODAL & PAYMENT ---
+        function toggleFulfillmentModal(show) {
+            const modal = document.getElementById('fulfillment-modal');
+            const card = document.getElementById('fulfillment-card');
+            if (!modal || !card) return;
+            
+            if (show) {
+                modal.classList.remove('pointer-events-none');
+                gsap.to(modal, { opacity: 1, duration: 0.4, ease: "power3.out" });
+                if (window.innerWidth >= 768) {
+                    gsap.to(card, { x: 0, y: 0, duration: 0.5, ease: "power3.out" });
+                } else {
+                    gsap.to(card, { y: 0, x: 0, duration: 0.5, ease: "power3.out" });
+                }
+            } else {
+                modal.classList.add('pointer-events-none');
+                gsap.to(modal, { opacity: 0, duration: 0.3 });
+                if (window.innerWidth >= 768) {
+                    gsap.to(card, { x: "100%", duration: 0.4, ease: "power3.in" });
+                } else {
+                    gsap.to(card, { y: "100%", duration: 0.4, ease: "power3.in" });
+                }
+            }
+        }
+
+        function executeUpiPaymentLink() {
+            let totalAmount = 0;
+            Object.keys(state.cart).forEach(id => {
+                const item = state.items.find(i => String(i.id) === String(id));
+                if (item) totalAmount += (item.price * state.cart[id]);
+            });
+            
+            if (totalAmount <= 0) return showToast("Your basket is empty.", "error");
+            toggleFulfillmentModal(true);
+        }
+
+        async function confirmFulfillment(e) {
+            e.preventDefault();
+            
+            const clientName = document.getElementById('fullfill-name').value.trim();
+            const clientPhone = document.getElementById('fullfill-phone').value.trim();
+            const designSpecs = document.getElementById('fullfill-address').value.trim();
+            const timelineText = document.getElementById('fullfill-landmark').value.trim();
+            
+            let totalAmount = 0;
+            let selectedCoreArray = [];
+            Object.keys(state.cart).forEach(id => {
+                const item = state.items.find(i => String(i.id) === String(id));
+                if (item) {
+                    totalAmount += (item.price * state.cart[id]);
+                    selectedCoreArray.push(`${item.name} x${state.cart[id]}`);
+                }
+            });
+            
+            const finalPayable = totalAmount + SYSTEM_CONFIG.deliveryFee;
+            const selectedCore = selectedCoreArray.join(', ');
+            const tr = `MZFT${Date.now()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+            
+            const upiId = encodeURIComponent(SYSTEM_CONFIG.vendorUpiId);
+            const merchantName = encodeURIComponent(SYSTEM_CONFIG.vendorName);
+            const transactionNote = encodeURIComponent(`Order for ${clientName} - Ref: ${tr}`);
+            const rawAmount = finalPayable.toFixed(2);
+            
+            const upiIntentUrl = `upi://pay?pa=${upiId}&pn=${merchantName}&tn=${transactionNote}&am=${rawAmount}&cu=${SYSTEM_CONFIG.currency}&tr=${tr}`;
+            
+            toggleFulfillmentModal(false);
+            showLoader(true);
+            showToast("Recording transaction details...");
+            
+            try {
+                const payload = {
+                    client_name: clientName,
+                    client_phone: clientPhone,
+                    selected_core: selectedCore,
+                    timelinetext: timelineText,
+                    design_specs: designSpecs,
+                    calculated_value: finalPayable,
+                    transaction_reference: tr,
+                    verification_status: 'PENDING',
+                    created_at: new Date().toISOString()
+                };
+                
+                await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                showToast("Order logged. Launching gateway.");
+                state.cart = {};
+                renderMenuGrid();
+                updateEngineState();
+                
+            } catch (err) {
+                console.error("Database write interface sync offline:", err);
+                showToast("Sync offline. Proceeding with checkout redirect...");
+            } finally {
+                setTimeout(() => {
+                    showLoader(false);
+                    window.location.href = upiIntentUrl;
+                }, 1000);
+            }
+        }
+
+        // --- IX. ADMIN SECURITY GATE HANDSHAKE ---
+        function showAuthModal(show) {
+            const modal = document.getElementById('auth-modal');
+            const card = document.getElementById('auth-card');
+            const input = document.getElementById('auth-pass');
+            
+            if (show) {
+                modal.classList.remove('pointer-events-none');
+                gsap.to(modal, { opacity: 1, duration: 0.4, ease: "power3.out" });
+                gsap.to(card, { scale: 1, duration: 0.5, ease: "power3.out" });
+                setTimeout(() => input.focus(), 150);
+            } else {
+                modal.classList.add('pointer-events-none');
+                gsap.to(modal, { opacity: 0, duration: 0.3 });
+                gsap.to(card, { scale: 0.95, duration: 0.3 });
+                input.value = '';
+            }
+        }
+
+        function cancelLogin(btn) {
+            btn && animateClick(btn);
+            setTimeout(() => {
+                showAuthModal(false);
+                window.location.hash = '#store';
+            }, 150);
+        }
+
+        async function verifyLogin(e) {
+            e.preventDefault();
+            const inputPass = document.getElementById('auth-pass').value;
+            const card = document.getElementById('auth-card');
+            const btn = e.target.querySelector('button[type="submit"]');
+            animateClick(btn);
+            showLoader(true);
+
+            try {
+                const dataArr = await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password&select=value`, {
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`
+                    }
+                });
+                
+                if (!dataArr || dataArr.length === 0) {
+                    throw new Error("Target configuration key not initialized.");
+                }
+                
+                const securePasswordNode = dataArr[0].value;
+
+                if (securePasswordNode && inputPass === securePasswordNode) {
+                    state.isAdmin = true;
+                    sessionStorage.setItem('mzft_admin', 'true');
+                    showLoader(false);
+                    showToast("Credentials authenticated.");
+                    setTimeout(() => handleRoute(), 150);
+                } else {
+                    throw new Error("Incorrect password.");
+                }
+            } catch (err) {
+                showLoader(false);
+                gsap.to(card, { x: [-8, 8, -6, 6, -3, 3, 0], duration: 0.4, ease: "power2.inOut" });
+                showToast(`Auth Error: ${err.message}`, "error");
+            }
+        }
+
+        function logoutAdmin(btn) {
+            animateClick(btn);
+            state.isAdmin = false;
+            sessionStorage.removeItem('mzft_admin');
+            showToast("Session terminated.");
+            setTimeout(() => { window.location.hash = '#store'; }, 200);
+        }
+
+        async function updateAdminPassword(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            animateClick(btn);
+            
+            const newPass = document.getElementById('form-new-pass').value;
+            const confirmPass = document.getElementById('form-confirm-pass').value;
+
+            if (newPass !== confirmPass) {
+                showToast("Passwords do not match.", "error");
+                return;
+            }
+
+            showLoader(true);
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password`, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify({ value: newPass, updated_at: new Date().toISOString() })
+                });
+
+                document.getElementById('form-new-pass').value = '';
+                document.getElementById('form-confirm-pass').value = '';
+                showLoader(false);
+                showToast("Admin password changed.");
+            } catch (err) {
+                showLoader(false);
+                showToast(`Unable to process password change: ${err.message}`, "error");
+            }
+        }
+
+        // --- XI. REAL-TIME OPERATIONS TRACKING DESK & TABS ---
+        async function fetchOrders() {
+            try {
+                const data = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?select=*&order=created_at.desc&t=${Date.now()}`, {
+                    headers: { 
+                        'apikey': supabaseAnonKey, 
+                        'Authorization': `Bearer ${supabaseAnonKey}` 
+                    }
+                });
+                return data || [];
+            } catch (err) {
+                console.error("Live order sync operations failed:", err);
+                return [];
+            }
+        }
+
+        async function updateOrderStatus(orderId, selectElement) {
+            const nextStatus = selectElement.value;
+            const currentStatus = selectElement.getAttribute('data-current');
+            
+            if (!confirm(`Shift order verification status parameters to ${nextStatus}?`)) {
+                selectElement.value = currentStatus;
+                return;
+            }
+            
+            showLoader(true);
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify({ verification_status: nextStatus })
+                });
+                
+                selectElement.setAttribute('data-current', nextStatus);
+                showToast(`Status shifted to ${nextStatus}`);
+                await renderAdmin();
+            } catch (err) {
+                console.error("Database update error:", err);
+                showToast("Failed to write update.", "error");
+                selectElement.value = currentStatus;
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        async function deleteOrder(orderId, btnElement) {
+            animateClick(btnElement);
+            if (!confirm("Permanently purge this operational entry?")) return;
+            
+            const cardNode = btnElement.closest('.order-card-node');
+            
+            showLoader(true);
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`
+                    }
+                });
+                
+                showToast("Record purged.");
+                
+                if (cardNode) {
+                    gsap.to(cardNode, {
+                        opacity: 0,
+                        y: -20,
+                        scale: 0.95,
+                        duration: 0.4,
+                        ease: "power2.in",
+                        onComplete: async () => {
+                            cardNode.remove();
+                            await renderAdmin();
+                        }
+                    });
+                } else {
+                    await renderAdmin();
+                }
+            } catch (err) {
+                console.error("Purge operations interface offline:", err);
+                showToast("Could not clear record node.", "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function switchAdminTab(tabName, btnElement) {
+            if (btnElement) animateClick(btnElement);
+            state.activeAdminTab = tabName;
+
+            const panels = document.querySelectorAll('.admin-tab-panel');
+            const buttons = document.querySelectorAll('#admin-view button[id^="btn-tab-"]');
+
+            panels.forEach(panel => {
+                if (panel.id === `panel-${tabName}`) {
+                    panel.classList.remove('hidden');
+                    if (tabName === 'catalog') {
+                        panel.classList.add('grid');
+                    } else {
+                        panel.classList.add('flex');
+                    }
+                    gsap.fromTo(panel, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
+                } else {
+                    panel.classList.add('hidden');
+                    panel.classList.remove('grid', 'flex');
+                }
+            });
+
+            buttons.forEach(btn => {
+                if (btn.id === `btn-tab-${tabName}`) {
+                    btn.className = "flex-1 py-3 px-4 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center";
+                } else {
+                    btn.className = "flex-1 py-3 px-4 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center";
+                }
+            });
+
+            if (tabName === 'orders') {
+                renderAdmin();
+            } else if (tabName === 'catalog') {
+                renderCatalogVault();
+            }
+        }
+
+        async function renderAdmin() {
+            const list = document.getElementById('admin-list');
+            if(!list) return;
+            
+            document.getElementById('admin-count').textContent = "Updating...";
+            if (list.innerHTML === "") {
+                list.innerHTML = `<div class="text-center py-8 text-xs text-[#8e9aa0] uppercase tracking-wider border border-dashed border-[#8e9aa0]/20 rounded-xl col-span-full bg-[#1a2026]">Syncing records...</div>`;
+            }
+            
+            const orders = await fetchOrders();
+            renderAdminList(orders);
+        }
+
+        function renderAdminList(orders) {
+            const list = document.getElementById('admin-list');
+            if(!list) return;
+            
+            document.getElementById('admin-count').textContent = `${orders.length} Orders`;
+            
+            if (orders.length === 0) {
+                list.innerHTML = `<div class="text-center py-12 text-xs text-[#8e9aa0] uppercase tracking-wider border border-dashed border-[#8e9aa0]/20 rounded-xl col-span-full bg-[#1a2026]">No active orders logged.</div>`;
+                return;
+            }
+
+            list.innerHTML = orders.map(item => {
+                const currentStatus = item.verification_status || 'PENDING';
+                let statusColor = "bg-[#d35400]/10 border-[#d35400]/30 text-[#d35400]";
+                if (currentStatus === "DELIVERED") {
+                    statusColor = "bg-white/5 border-white/10 text-[#faf9f6]";
+                }
+
+                return `
+                  <div class="order-card-node p-6 rounded-2xl bg-[#1a2026] border border-white/5 shadow-xl flex flex-col gap-4 mb-2 hover:border-[#d35400]/30 transition-all text-left cinematic-entry mx-2">
+                    <div class="flex justify-between items-start border-b border-white/5 pb-3">
+                        <div class="flex flex-col gap-1 max-w-[60%]">
+                            <span class="text-[10px] text-[#8e9aa0] uppercase tracking-widest font-bold">${item.created_at ? new Date(item.created_at).toLocaleString('en-IN', { hour12: true }) : 'N/A'}</span>
+                            <span class="text-[10px] text-[#d35400] uppercase tracking-widest font-bold truncate">REF: ${item.transaction_reference || 'N/A'}</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 shrink-0">
+                            <!-- Destructive Purge Control -->
+                            <button onclick="deleteOrder('${item.id}', this)" class="p-2 bg-[#d35400]/10 text-[#d35400] border border-[#d35400]/10 hover:border-[#d35400]/40 rounded-xl transition-all active:scale-95 flex items-center justify-center">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+
+                            <!-- Dropdown State Override -->
+                            <select onchange="updateOrderStatus('${item.id}', this)" data-current="${currentStatus}" class="bg-[#12161a] border border-white/10 text-xs font-bold rounded-xl px-3 py-2 focus:outline-none focus:border-[#d35400] transition-all cursor-pointer ${statusColor}">
+                                <option class="bg-[#1a2026] text-[#faf9f6]" value="PENDING" ${currentStatus === 'PENDING' ? 'selected' : ''}>PENDING</option>
+                                <option class="bg-[#1a2026] text-[#faf9f6]" value="DELIVERED" ${currentStatus === 'DELIVERED' ? 'selected' : ''}>DELIVERED</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Customer Profile & Metadata -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
+                        <div class="flex flex-col gap-1.5 min-w-0">
+                            <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Profile Info</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[#8e9aa0] font-medium">Customer:</span>
+                                <span class="text-[#faf9f6] font-bold truncate">${item.client_name || 'N/A'}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[#8e9aa0] font-medium">Contact:</span>
+                                <a href="tel:${item.client_phone}" class="text-[#d35400] hover:underline font-bold transition-colors truncate">${item.client_phone || 'N/A'}</a>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1.5 min-w-0">
+                            <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Proximate Landmark</span>
+                            <span class="text-[#faf9f6] font-medium truncate">${item.timelinetext || 'N/A'}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 mt-1">
+                        <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Destination coordinates</span>
+                        <p class="text-[#faf9f6] bg-[#12161a] border border-white/5 p-4 rounded-xl text-[11px] font-semibold leading-relaxed break-words">${item.design_specs || 'N/A'}</p>
+                    </div>
+
+                    <!-- Order breakdown & financial total -->
+                    <div class="border-t border-white/5 pt-3 flex justify-between items-end mt-1 font-semibold">
+                        <div class="flex flex-col gap-1 max-w-[70%]">
+                            <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Consumables</span>
+                            <p class="text-[11px] text-[#faf9f6] font-bold truncate">${item.selected_core || 'N/A'}</p>
+                        </div>
+                        <div class="flex flex-col items-end shrink-0">
+                            <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">Calculated Amount</span>
+                            <span class="text-sm font-extrabold text-[#faf9f6]">₹${item.calculated_value || '0'}</span>
+                        </div>
+                    </div>
+                  </div>`;
+            }).join('');
+            
+            gsap.fromTo(list.querySelectorAll('.cinematic-entry'), 
+                { opacity: 0, y: 20, scale: 0.97, rotateX: 4, transformStyle: "preserve-3d" },
+                { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
+            );
+
+            safeCreateIcons();
+        }
+
+        function renderCatalogVault() {
+            const list = document.getElementById('dishes-list');
+            if(!list) return;
+            
+            document.getElementById('dishes-count').textContent = `${state.items.length} Dishes`;
+            list.innerHTML = '';
+
+            if (state.items.length === 0) {
+                list.innerHTML = `<div class="text-center py-12 text-xs text-[#8e9aa0] uppercase tracking-wider border border-dashed border-[#8e9aa0]/20 rounded-xl col-span-full bg-[#1a2026]">No active items in catalog workspace.</div>`;
+                return;
+            }
+
+            state.items.forEach(item => {
+                list.innerHTML += `
+                  <div class="flex items-center justify-between p-4 rounded-xl bg-[#12161a] border border-white/5 hover:border-white/10 transition-colors accelerated font-semibold text-left cinematic-entry mx-2">
+                    <div class="flex flex-col gap-1 max-w-[75%]">
+                      <span class="text-xs font-bold text-[#faf9f6] truncate tracking-wide">${item.name}</span>
+                      <span class="text-[10px] text-[#d35400] font-bold tracking-wider">₹${item.price}</span>
+                    </div>
+                    <button onclick="deleteProduct('${item.id}', this)" class="p-2.5 rounded-xl bg-[#d35400]/10 text-[#d35400] border border-[#d35400]/10 hover:border-[#d35400]/40 transition-all active:scale-95 flex items-center justify-center">
+                      <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                  </div>`;
+            });
+
+            gsap.fromTo(list.querySelectorAll('.cinematic-entry'), 
+                { opacity: 0, y: 20, scale: 0.97, rotateX: 4, transformStyle: "preserve-3d" },
+                { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
+            );
+
+            safeCreateIcons();
+        }
+
+        async function createProduct(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            animateClick(btn);
+
+            const name = document.getElementById('form-name').value.trim();
+            const price = parseFloat(document.getElementById('form-price').value);
+            const desc = document.getElementById('form-desc').value.trim();
+
+            showLoader(true);
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items`, {
+                    method: 'POST',
+                    headers: { 
+                        'apikey': supabaseAnonKey, 
+                        'Authorization': `Bearer ${supabaseAnonKey}`, 
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({ name, price, description: desc })
+                });
+                document.getElementById('form-name').value = '';
+                document.getElementById('form-price').value = '';
+                document.getElementById('form-desc').value = '';
+                await fetchData();
+                showToast("Item created.");
+            } catch (err) {
+                showLoader(false);
+                showToast(`Unable to finalize operations: ${err.message}`, "error");
+            }
+        }
+
+        async function deleteProduct(id, btn) {
+            animateClick(btn);
+            if (!confirm("Permanently purge this item from catalog?")) return;
+            showLoader(true);
+
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items?id=eq.${id}`, {
+                    method: 'DELETE',
+                    headers: { 
+                        'apikey': supabaseAnonKey, 
+                        'Authorization': `Bearer ${supabaseAnonKey}` 
+                      }
+                });
+                delete state.cart[id];
+                await fetchData();
+                showToast("Item removed.");
+            } catch (err) {
+                showLoader(false);
+                showToast(`Failed to update records: ${err.message}`, "error");
+            }
+        }
+
+        function clearCart(btn) {
+            if(btn) animateClick(btn);
+            state.cart = {};
+            renderMenuGrid();
+            updateEngineState();
+            showToast("Cart empty.");
+        }
+
+        // --- XII. UTILITY HELPER FUNCS ---
+        function animateClick(element) {
+            if(!element) return;
+            const tl = gsap.timeline();
+            tl.to(element, { scale: 0.97, duration: 0.1, ease: "power2.out" })
+              .to(element, { scale: 1.0, duration: 0.2, ease: "power2.out" });
+        }
+
+        function showLoader(show) {
+            const l = document.getElementById('loader');
+            if(!l) return;
+            if (show && state.route === 'admin') { 
+                l.classList.remove('pointer-events-none');
+                gsap.to(l, { opacity: 1, duration: 0.3, ease: "power3.out" });
+            } else {
+                l.classList.add('pointer-events-none');
+                gsap.to(l, { opacity: 0, duration: 0.2, ease: "power3.out" });
+            }
+        }
+
+        function safeCreateIcons() {
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                try {
+                    lucide.createIcons();
+                } catch (e) {
+                    console.error("Lucide setup failure:", e);
+                }
+            }
+        }
+
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if(!container) return;
+            const toast = document.createElement('div');
+            const color = type === 'success' ? 'border-[#d35400]/25 text-[#faf9f6]' : 'border-red-500/20 text-red-400 bg-red-950/10';
+            
+            toast.className = `w-full glass-panel rounded-xl p-4 flex items-center justify-center gap-3 ${color} border accelerated`;
+            toast.innerHTML = `<span class="text-xs font-bold tracking-wide text-center">${msg}</span>`;
+            
+            container.appendChild(toast);
+            
+            gsap.fromTo(toast, 
+                { y: 30, opacity: 0, scale: 0.98 }, 
+                { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }
+            );
+
+            setTimeout(() => {
+                gsap.to(toast, { 
+                    y: 15, opacity: 0, scale: 0.98, duration: 0.4, ease: "power3.in", 
+                    onComplete: () => toast.remove() 
+                });
+            }, 3000);
+        }
+
+        window.addEventListener("DOMContentLoaded", initEngine);
+    </script>
+</body>
+</html>
