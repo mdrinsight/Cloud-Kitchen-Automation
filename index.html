@@ -12,31 +12,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* --- I. ABSOLUTE SYSTEM-LEVEL HIGH-DEFINITION TYPOGRAPHY COMPLIANCE --- */
+        /* --- I. SYSTEM-LEVEL ANTI-ALIASING & SHARP TYPOGRAPHY --- */
         *, *::before, *::after, html, body, button, input, textarea, select, option, span, p, h1, h2, h3, h4, h5, h6, label, a, div, table, tr, td {
             font-family: 'Plus Jakarta Sans', sans-serif !important;
             text-rendering: optimizeLegibility !important;
-            -webkit-font-smoothing: antialiased !important;
+            -webkit-font-smoothing: subpixel-antialiased !important;
             -moz-osx-font-smoothing: grayscale !important;
             font-smooth: always !important;
         }
 
+        /* --- II. "TOKYO SLATE & TERRACOTTA EMBER" CANVAS RESETS --- */
         body {
             background-color: #12161a !important;
+            background-image: radial-gradient(circle at 50% 50%, #1c2128 0%, #12161a 100%) !important;
+            background-attachment: fixed;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
-        /* --- II. SOLID TOKYO SLATE SURFACES & VIGNETTE MASKING --- */
+        /* Deep, solid, non-blurry Tokyo Slate surface matrix */
         .glass-panel {
             background: #1a2026 !important;
-            border: 1px solid rgba(255, 255, 255, 0.06) !important;
-            box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.6) !important;
         }
 
+        /* Upgraded product card layout matrices with microscopic track edges */
         .premium-card {
             background: #1a2026 !important;
-            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
             box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.5) !important;
             transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
                         box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
@@ -45,13 +49,14 @@
 
         @media (hover: hover) {
             .premium-card:hover {
-                border-color: rgba(211, 84, 0, 0.5) !important;
+                border-color: rgba(211, 84, 0, 0.4) !important;
                 box-shadow: 0 0 35px -10px rgba(211, 84, 0, 0.15),
                             0 15px 40px -15px rgba(0, 0, 0, 0.7) !important;
                 transform: translateY(-4px);
             }
         }
 
+        /* Terracotta Ember dynamic status and highlights styling */
         .glow-checkout {
             background: radial-gradient(circle at 50% 0%, rgba(211, 84, 0, 0.04) 0%, #1a2026 85%) !important;
             border: 1px solid rgba(211, 84, 0, 0.22) !important;
@@ -78,13 +83,13 @@
             border-color: #d35400 !important;
         }
 
-        /* Hardware acceleration styling */
+        /* Hardware acceleration specs */
         .accelerated {
             will-change: transform, opacity;
             transform: translate3d(0, 0, 0);
         }
 
-        /* Clean native scrollbars styling */
+        /* Custom scrollbars reset styles */
         * {
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -96,25 +101,24 @@
             background: transparent;
         }
 
-        /* High-end smooth vignetted edge mask-image system on scroll containers */
-        .smooth-fade-edge {
+        /* --- III. EXPLICIT SCROLL & VIGNETTE GRADIENT OVERLAYS --- */
+        .premium-scroll-viewport {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            padding-right: 8px !important;
+            will-change: transform, scroll-position;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .cinematic-scroll-mask {
             mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%) !important;
             -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%) !important;
-            overflow-x: hidden !important;
-            overflow-y: auto !important;
-            padding-left: 1.5rem !important;
-            padding-right: 1.5rem !important;
         }
 
-        .scroll-container {
-            overflow-x: hidden !important;
-            overflow-y: auto !important;
-        }
-
-        /* Cinematic inertia reveal initial state styling */
+        /* Dynamic 3D entry reveal initial setups */
         .cinematic-entry {
             opacity: 0;
-            transform: translateY(20px) scale(0.97) rotateX(4deg);
+            transform: translateY(24px) scale(0.97) rotateX(4deg);
             transform-style: preserve-3d;
             will-change: transform, opacity;
             backface-visibility: hidden;
@@ -126,12 +130,12 @@
     <!-- NAVIGATION BAR -->
     <header class="fixed top-0 left-0 w-full z-40 px-4 pt-4 md:px-8 md:pt-6 accelerated">
         <div class="max-w-[1700px] mx-auto glass-panel rounded-2xl px-5 py-4 flex items-center justify-between">
-            <!-- Pulsing Status Badge -->
+            <!-- Pulsing Store Badge -->
             <div class="flex items-center gap-3 shrink-0">
                 <div class="w-2.5 h-2.5 rounded-full bg-[#d35400] animate-pulse shadow-[0_0_12px_rgba(211,84,0,0.9)]"></div>
                 <span class="text-xs uppercase tracking-widest font-black text-[#d35400] whitespace-nowrap">Live Store</span>
             </div>
-            <!-- Identity Title & Security Toggle Button -->
+            <!-- Identity Title & Navigation Toggle Trigger -->
             <div class="flex items-center gap-4 shrink-0">
                 <h1 class="text-xs md:text-sm tracking-widest font-black text-[#faf9f6] whitespace-nowrap uppercase">Marzoft Kitchen</h1>
                 <button id="nav-toggle-btn" onclick="toggleRoute()" class="p-2.5 bg-[#12161a] border border-white/5 hover:border-[#d35400]/40 active:scale-95 rounded-xl text-[#8e9aa0] hover:text-[#d35400] transition-all flex items-center justify-center shrink-0">
@@ -144,7 +148,7 @@
     <!-- CLIENT VIEWPORT -->
     <main id="client-view" class="max-w-[1700px] mx-auto px-4 md:px-8 pt-28 md:pt-36 pb-36 md:pb-40 min-h-screen flex flex-col lg:flex-row gap-10 justify-between">
         
-        <!-- Left Container: Dynamically scaling responsive catalog layout -->
+        <!-- Left Area: Responsive dynamic item grid catalogs -->
         <div class="flex-1 flex flex-col w-full transition-all duration-500 ease-in-out">
             <div id="hero-text" class="mb-8 md:mb-10 accelerated opacity-0">
                 <p class="text-xs font-black text-[#d35400] tracking-[0.2em] uppercase mb-2">Premium Culinary Experience</p>
@@ -153,25 +157,25 @@
                 </h2>
             </div>
 
-            <!-- Highly resolved product cards grid system -->
+            <!-- Highly resolved cards layout -->
             <section id="menu-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 pb-10 px-1"></section>
         </div>
 
-        <!-- Right Container: Sidebar Container (0px width initially on load, transitions gracefully) -->
+        <!-- Right Area: Sidebar Drawer panels -->
         <div id="desktop-sidebar-container" class="shrink-0 hidden lg:block overflow-hidden transition-all duration-500 ease-in-out w-0 opacity-0 relative">
-            <div id="desktop-cart-panel" class="w-[400px] xl:w-[460px] h-[calc(100vh-160px)] glass-panel glow-checkout rounded-[2rem] p-7 flex flex-col justify-between accelerated pointer-events-none" style="transform: translateX(40px);">
+            <div id="desktop-cart-panel" class="w-[400px] xl:w-[460px] h-[calc(100vh-160px)] glass-panel glow-checkout rounded-[2rem] flex flex-col justify-between accelerated pointer-events-none" style="transform: translateX(40px);">
                 <div class="flex flex-col min-h-0 h-full">
-                    <div class="border-b border-white/5 pb-5 shrink-0 px-6">
+                    <div class="border-b border-white/5 pb-5 shrink-0 pt-7 px-8">
                         <h3 class="text-base font-black tracking-wide text-[#faf9f6] uppercase">Your Selection</h3>
                         <p id="dt-cart-item-count" class="text-xs font-semibold text-[#8e9aa0] mt-1">0 items composition</p>
                     </div>
 
-                    <!-- Dynamic scroll list context with elegant edge mask -->
-                    <div id="dt-cart-items-list" class="flex-1 smooth-fade-edge py-6"></div>
+                    <!-- Non-clipping scroll logs with smooth top/bottom edge dissolve layout -->
+                    <div id="dt-cart-items-list" class="flex-1 premium-scroll-viewport cinematic-scroll-mask py-4 px-8"></div>
 
-                    <hr class="border-white/5 my-3 shrink-0 mx-6">
+                    <hr class="border-white/5 my-3 shrink-0 mx-8">
 
-                    <div class="space-y-2 text-xs font-semibold text-[#8e9aa0] mb-5 shrink-0 px-6">
+                    <div class="space-y-2 text-xs font-semibold text-[#8e9aa0] mb-5 shrink-0 px-8">
                         <div class="flex justify-between"><span>Subtotal</span><span id="dt-summary-subtotal" class="text-[#faf9f6] font-bold">₹0</span></div>
                         <div class="flex justify-between"><span>Delivery & Packaging</span><span id="dt-summary-delivery" class="text-[#faf9f6] font-bold">₹0</span></div>
                         <div class="flex justify-between text-sm font-black text-[#faf9f6] pt-1">
@@ -180,7 +184,7 @@
                         </div>
                     </div>
 
-                    <div class="px-6 pb-2 shrink-0">
+                    <div class="px-8 pb-7 shrink-0">
                         <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 hover:shadow-[0_0_25px_rgba(211,84,0,0.4)] flex items-center justify-center gap-2 tracking-widest text-xs uppercase">
                             <i data-lucide="zap" class="w-4 h-4 fill-current"></i>
                             <span>PAY INSTANTLY VIA UPI</span>
@@ -191,7 +195,7 @@
         </div>
     </main>
 
-    <!-- ADMIN VIEWPORT (SaaS Multi-Panel Dashboard Terminal) -->
+    <!-- ADMIN VIEWPORT (Integrated SaaS Operational Terminals) -->
     <main id="admin-view" class="w-full hidden flex-col gap-8 max-w-[1700px] mx-auto px-4 md:px-8 pt-32 md:pt-44 pb-32 md:pb-36">
         <!-- Header -->
         <div class="mb-2 accelerated">
@@ -199,32 +203,32 @@
             <h2 class="text-3xl md:text-4xl font-black tracking-tight text-[#faf9f6]">Operational Dashboard</h2>
         </div>
 
-        <!-- Horizontal Tab Navigation Bar -->
-        <div class="glass-panel rounded-2xl p-2 flex flex-nowrap gap-2 overflow-x-auto max-w-2xl accelerated shadow-2xl">
+        <!-- Tab Dock Header Selection Suite -->
+        <div class="glass-panel rounded-2xl p-2 flex flex-nowrap gap-2 overflow-x-auto max-w-2xl accelerated shadow-2xl shrink-0">
             <button onclick="switchAdminTab('orders', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#12161a] bg-[#d35400] transition-all shadow-lg shadow-[#d35400]/10 whitespace-nowrap text-center" id="btn-tab-orders">
-                Live Orders
+                Incoming Real-Time Operations Desk
             </button>
             <button onclick="switchAdminTab('catalog', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-catalog">
-                Menu Catalog
+                Culinary Catalog Vault
             </button>
             <button onclick="switchAdminTab('security', this)" class="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-black text-[#8e9aa0] hover:text-[#faf9f6] transition-all whitespace-nowrap text-center" id="btn-tab-security">
-                Settings
+                Security Cipher Matrix
             </button>
         </div>
 
-        <!-- PANEL A: Incoming Live Orders Desk -->
+        <!-- TAB 1: Incoming Real-Time Operations Desk -->
         <div id="panel-orders" class="admin-tab-panel flex flex-col gap-6">
-            <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-2">
-                <span class="text-xs font-bold text-[#faf9f6] uppercase tracking-wider">Live Orders Workspace</span>
+            <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-2 px-1">
+                <span class="text-xs font-bold text-[#faf9f6] uppercase tracking-wider">Live System Tracks</span>
                 <span id="admin-count" class="text-xs text-[#8e9aa0] uppercase tracking-widest font-black">0 Orders</span>
             </div>
-            <!-- Scroll container incorporating edge masks to optimize native high-definition text sharpness and prevent clip-offs -->
-            <div id="admin-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-[850px] smooth-fade-edge py-6"></div>
+            <!-- Scroll stream displaying orders with fade layout edge protection -->
+            <div id="admin-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-h-[850px] premium-scroll-viewport cinematic-scroll-mask py-6 px-1"></div>
         </div>
 
-        <!-- PANEL B: Culinary Catalog Vault -->
+        <!-- TAB 2: Culinary Catalog Vault -->
         <div id="panel-catalog" class="admin-tab-panel hidden grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Area: Add Product Form (1/3 Width Section) -->
+            <!-- Left Grid: 1/3 product entry forms layout -->
             <div class="lg:col-span-1 flex flex-col gap-6">
                 <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col gap-6">
                     <h3 class="text-xs font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-3">Add New Dish</h3>
@@ -248,20 +252,20 @@
                 </div>
             </div>
 
-            <!-- Right Area: Inventory Dishes List (2/3 Width Display Pane) -->
+            <!-- Right Grid: 2/3 wide inventory matrix -->
             <div class="lg:col-span-2 flex flex-col gap-4">
                 <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col h-full gap-5">
                     <div class="flex items-center justify-between border-b border-white/5 pb-3">
                         <span class="text-xs font-black text-[#faf9f6] uppercase tracking-wider">Active Menu</span>
                         <span id="dishes-count" class="text-[10px] text-[#8e9aa0] uppercase tracking-widest font-bold">0 Dishes</span>
                     </div>
-                    <!-- Upgraded catalog list scroll metrics using smooth vignettes to prevent cutoff -->
-                    <div id="dishes-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] smooth-fade-edge py-6"></div>
+                    <!-- Upgraded scroll menu with zero characters cutoff -->
+                    <div id="dishes-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] premium-scroll-viewport cinematic-scroll-mask py-6"></div>
                 </div>
             </div>
         </div>
 
-        <!-- PANEL C: System Keys & Security Overrides -->
+        <!-- TAB 3: Security Cipher Matrix -->
         <div id="panel-security" class="admin-tab-panel hidden max-w-xl flex-col gap-6">
             <div class="glass-panel rounded-3xl p-7 shadow-2xl flex flex-col gap-5">
                 <h3 class="text-xs font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-3">Change Admin Password</h3>
@@ -280,7 +284,6 @@
                 </form>
             </div>
 
-            <!-- Disconnect Button -->
             <button onclick="logoutAdmin(this)" class="w-full bg-[#d35400]/10 border border-[#d35400]/30 hover:bg-[#d35400]/20 active:scale-[0.98] text-[#d35400] font-bold py-4 rounded-xl transition-all text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(211,84,0,0.05)]">
                 Log Out
             </button>
@@ -300,7 +303,8 @@
                 </button>
             </div>
 
-            <div id="cart-items-list" class="max-h-48 smooth-fade-edge space-y-2.5 mb-4"></div>
+            <!-- Highly resilient scroll item layout -->
+            <div id="cart-items-list" class="max-h-48 premium-scroll-viewport cinematic-scroll-mask mb-4"></div>
 
             <hr class="border-white/5 my-3 mx-4">
 
@@ -339,13 +343,13 @@
         </button>
     </div>
 
-    <!-- CLIENT FULFILLMENT OVERLAY SHEET -->
+    <!-- CLIENT FULFILLMENT DESTINATION OVERLAY SHEET -->
     <div id="fulfillment-modal" class="fixed inset-0 bg-[#12161a]/95 z-50 flex items-end md:items-stretch md:justify-end p-0 opacity-0 pointer-events-none accelerated transition-all duration-500">
         <div id="fulfillment-card" class="w-full md:w-[450px] p-6 md:p-8 bg-[#1a2026] border-t border-white/10 md:border-t-0 md:border-l rounded-t-[2.5rem] md:rounded-t-none flex flex-col justify-between shadow-2xl accelerated transition-transform duration-500" style="transform: translateY(100%);">
             <div class="flex flex-col gap-6 h-full justify-between min-h-0 overflow-y-auto">
                 <div class="flex justify-between items-center border-b border-white/5 pb-3">
                     <div>
-                        <h3 class="font-black text-[#faf9f6] text-sm uppercase tracking-wider">Fulfillment Parameters</h3>
+                        <h3 class="font-black text-[#faf9f6] text-sm uppercase tracking-wider">Fulfillment Destination</h3>
                         <p class="text-[9px] text-[#8e9aa0] mt-1 uppercase tracking-wider">Please supply delivery coordinates</p>
                     </div>
                     <button onclick="toggleFulfillmentModal(false)" class="p-2 rounded-xl hover:bg-white/5 transition-colors">
@@ -358,15 +362,15 @@
                         <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Contact Link</label>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Contact Number</label>
                         <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Delivery Destination</label>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Complete Delivery Address</label>
                         <textarea required id="fullfill-address" rows="3" placeholder="Street, block, apartment no..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
                     </div>
                     <div>
-                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Proximate Landmark</label>
+                        <label class="block text-[10px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Nearby Landmark / Area Code</label>
                         <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-xs px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
                     <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-4 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 text-xs tracking-wider uppercase">
@@ -537,6 +541,11 @@
             const response = await fetch(url, { ...options, headers });
             const text = await response.text();
             
+            // Elegantly handle empty/blank responses from Supabase (e.g. 201 Created or 204 No Content with no body content)
+            if (response.ok && (!text || text.trim() === '')) {
+                return {};
+            }
+
             let json = null;
             let isJson = true;
             try {
@@ -632,12 +641,8 @@
                 `;
             }).join('');
             
-            // --- VI. CINEMATIC INERTIAL ENTRY TRIGGER ---
-            gsap.fromTo(".menu-card", 
-                { opacity: 0, y: 20, scale: 0.97, rotateX: 4, transformStyle: "preserve-3d" },
-                { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
-            );
-
+            // Trigger 3D perspective reveal effects
+            revealCinematicElements(".menu-card");
             safeCreateIcons();
         }
 
@@ -676,7 +681,7 @@
             const deliveryFee = totalItemCount > 0 ? SYSTEM_CONFIG.deliveryFee : 0;
             const finalBillTotal = subtotalPrice + deliveryFee;
 
-            // --- DESKTOP SIDEBAR DYNAMIC APPEARANCE LOGIC ---
+            // Handle layout adjustments smoothly
             const dtSidebarContainer = document.getElementById("desktop-sidebar-container");
             const dtPanel = document.getElementById("desktop-cart-panel");
             
@@ -748,7 +753,7 @@
                 const item = state.items.find(i => String(i.id) === String(id));
                 if (!item) return '';
                 return `
-                    <div class="flex justify-between items-center bg-[#12161a] border border-white/5 p-4 rounded-xl font-semibold cinematic-entry mx-2">
+                    <div class="flex justify-between items-center bg-[#12161a] border border-white/5 p-4 rounded-xl font-semibold cinematic-entry mb-2.5 mx-2">
                         <div class="max-w-[70%]">
                             <h4 class="text-xs font-black text-[#faf9f6] truncate">${item.name}</h4>
                             <p class="text-[11px] text-[#8e9aa0] mt-0.5">₹${item.price} × ${state.cart[id]}</p>
@@ -760,17 +765,11 @@
 
             if (listContainer) {
                 listContainer.innerHTML = contentHTML;
-                gsap.fromTo(listContainer.querySelectorAll('.cinematic-entry'), 
-                    { opacity: 0, y: 15, scale: 0.98 },
-                    { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.05, ease: "power3.out" }
-                );
+                revealCinematicElements("#cart-items-list .cinematic-entry");
             }
             if (dtListContainer) {
                 dtListContainer.innerHTML = contentHTML;
-                gsap.fromTo(dtListContainer.querySelectorAll('.cinematic-entry'), 
-                    { opacity: 0, y: 15, scale: 0.98 },
-                    { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.05, ease: "power3.out" }
-                );
+                revealCinematicElements("#dt-cart-items-list .cinematic-entry");
             }
         }
 
@@ -787,7 +786,7 @@
             stickyBar.style.pointerEvents = "none";
         }
         function closeCartDrawer() {
-            const drawer = document.getElementById("cart-drawer");
+            const drawer = document.getElementById("drawer");
             if (drawer) {
                 drawer.classList.add("translate-y-full");
             }
@@ -895,7 +894,7 @@
                 
             } catch (err) {
                 console.error("Database write interface sync offline:", err);
-                showToast("Sync offline. Proceeding with checkout redirect...");
+                showToast("Sync offline. Proceeding with checkout redirect...", "error");
             } finally {
                 setTimeout(() => {
                     showLoader(false);
@@ -1084,7 +1083,7 @@
                 if (cardNode) {
                     gsap.to(cardNode, {
                         opacity: 0,
-                        y: -20,
+                        y: -30,
                         scale: 0.95,
                         duration: 0.4,
                         ease: "power2.in",
@@ -1173,7 +1172,7 @@
                 }
 
                 return `
-                  <div class="order-card-node p-6 rounded-2xl bg-[#1a2026] border border-white/5 shadow-xl flex flex-col gap-4 mb-2 hover:border-[#d35400]/30 transition-all text-left cinematic-entry mx-2">
+                  <div class="order-card-node p-6 rounded-2xl bg-[#1a2026] border border-white/5 shadow-xl flex flex-col gap-4 mb-3 hover:border-[#d35400]/30 transition-all text-left cinematic-entry mx-2">
                     <div class="flex justify-between items-start border-b border-white/5 pb-3">
                         <div class="flex flex-col gap-1 max-w-[60%]">
                             <span class="text-[10px] text-[#8e9aa0] uppercase tracking-widest font-bold">${item.created_at ? new Date(item.created_at).toLocaleString('en-IN', { hour12: true }) : 'N/A'}</span>
@@ -1232,11 +1231,7 @@
                   </div>`;
             }).join('');
             
-            gsap.fromTo(list.querySelectorAll('.cinematic-entry'), 
-                { opacity: 0, y: 20, scale: 0.97, rotateX: 4, transformStyle: "preserve-3d" },
-                { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
-            );
-
+            revealCinematicElements("#admin-list .cinematic-entry");
             safeCreateIcons();
         }
 
@@ -1254,7 +1249,7 @@
 
             state.items.forEach(item => {
                 list.innerHTML += `
-                  <div class="flex items-center justify-between p-4 rounded-xl bg-[#12161a] border border-white/5 hover:border-white/10 transition-colors accelerated font-semibold text-left cinematic-entry mx-2">
+                  <div class="flex items-center justify-between p-4 rounded-xl bg-[#12161a] border border-white/5 hover:border-white/10 transition-colors accelerated font-semibold text-left cinematic-entry mx-2 mb-2.5">
                     <div class="flex flex-col gap-1 max-w-[75%]">
                       <span class="text-xs font-bold text-[#faf9f6] truncate tracking-wide">${item.name}</span>
                       <span class="text-[10px] text-[#d35400] font-bold tracking-wider">₹${item.price}</span>
@@ -1265,11 +1260,7 @@
                   </div>`;
             });
 
-            gsap.fromTo(list.querySelectorAll('.cinematic-entry'), 
-                { opacity: 0, y: 20, scale: 0.97, rotateX: 4, transformStyle: "preserve-3d" },
-                { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: 0.6, stagger: 0.05, ease: "power3.out" }
-            );
-
+            revealCinematicElements("#dishes-list .cinematic-entry");
             safeCreateIcons();
         }
 
@@ -1289,7 +1280,8 @@
                     headers: { 
                         'apikey': supabaseAnonKey, 
                         'Authorization': `Bearer ${supabaseAnonKey}`, 
-                        'Content-Type': 'application/json' 
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
                     },
                     body: JSON.stringify({ name, price, description: desc })
                 });
@@ -1352,6 +1344,34 @@
                 l.classList.add('pointer-events-none');
                 gsap.to(l, { opacity: 0, duration: 0.2, ease: "power3.out" });
             }
+        }
+
+        // --- XIII. CINEMATIC 3D SCROLL REVEAL ENGINES ---
+        function revealCinematicElements(selector) {
+            const targets = document.querySelectorAll(selector);
+            if (targets.length === 0) return;
+            gsap.killTweensOf(targets);
+            gsap.fromTo(targets,
+                {
+                    opacity: 0,
+                    y: 24,
+                    scale: 0.97,
+                    rotateX: 4,
+                    transformOrigin: "center top",
+                    transformStyle: "preserve-3d"
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    rotateX: 0,
+                    duration: 0.5,
+                    stagger: 0.05,
+                    ease: "power3.out",
+                    force3D: true,
+                    clearProps: "transform"
+                }
+            );
         }
 
         function safeCreateIcons() {
