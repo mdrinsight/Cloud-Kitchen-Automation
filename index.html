@@ -12,6 +12,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* --- DYNAMIC THEME VARIABLES --- */
+        :root {
+            --accent-hex: #e67e22;
+            --accent-rgb: 230, 126, 34;
+            --accent-hover: #d35400;
+        }
+
         /* --- I. SYSTEM-LEVEL ANTI-ALIASING & SHARP TYPOGRAPHY --- */
         *, *::before, *::after, html, body, button, input, textarea, select, option, span, p, h1, h2, h3, h4, h5, h6, label, a, div, table, tr, td {
             font-family: 'Plus Jakarta Sans', sans-serif !important;
@@ -42,7 +49,6 @@
             border: 1px solid rgba(255, 255, 255, 0.05) !important;
             position: relative;
             z-index: 1;
-            /* Removed transform, added background-color transition for a subtle surface illumination */
             transition: background-color 0.4s ease, 
                         z-index 0s, 
                         box-shadow 0.4s ease,
@@ -51,19 +57,18 @@
 
         @media (hover: hover) {
             .premium-item-card:hover {
-                /* Zero movement. Just a highly minimalistic surface glow and border highlight. */
                 z-index: 50 !important; 
-                background-color: #1e252c !important; /* Subtle surface lightening */
+                background-color: #1e252c !important; 
                 box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.8),
-                            0 0 20px -5px rgba(211, 84, 0, 0.2) !important; /* Soft terracotta glow */
-                border-color: rgba(211, 84, 0, 0.3) !important;
+                            0 0 20px -5px rgba(var(--accent-rgb), 0.2) !important; 
+                border-color: rgba(var(--accent-rgb), 0.3) !important;
             }
         }
 
         .glow-checkout {
-            background: radial-gradient(circle at 50% 0%, rgba(211, 84, 0, 0.04) 0%, #1a2026 85%) !important;
-            border: 1px solid rgba(211, 84, 0, 0.22) !important;
-            box-shadow: inset 0 0 20px 0px rgba(211, 84, 0, 0.03),
+            background: radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.04) 0%, #1a2026 85%) !important;
+            border: 1px solid rgba(var(--accent-rgb), 0.22) !important;
+            box-shadow: inset 0 0 20px 0px rgba(var(--accent-rgb), 0.03),
                         0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
         }
 
@@ -74,8 +79,8 @@
         }
         
         .custom-dropdown-btn:hover {
-            border-color: rgba(211, 84, 0, 0.5) !important;
-            box-shadow: 0 0 15px rgba(211, 84, 0, 0.15);
+            border-color: rgba(var(--accent-rgb), 0.5) !important;
+            box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.15);
         }
 
         .accelerated {
@@ -100,18 +105,23 @@
         }
     </style>
 </head>
-<body class="text-[#faf9f6] selection:bg-[#d35400]/30 antialiased">
+<body class="text-[#faf9f6] selection:bg-[rgba(var(--accent-rgb),0.3)] antialiased">
+
+    <!-- FLOATING SANDBOX COUNTDOWN TIMER -->
+    <div id="sandbox-timer-display" class="fixed top-20 right-4 md:right-6 z-[100] hidden glass-panel border border-white/10 px-4 py-2.5 rounded-xl shadow-2xl transition-colors duration-300">
+        <span class="text-[10px] font-black tracking-widest uppercase text-[#faf9f6]" id="sandbox-timer-text">Session Expires & Unsaved Changes Reset in: 120s</span>
+    </div>
 
     <!-- NAVIGATION BAR (STATIC) -->
     <header class="fixed top-0 left-0 w-full z-40 px-3 pt-3 md:px-6 md:pt-4 accelerated pointer-events-none">
         <div class="max-w-[1700px] mx-auto glass-panel rounded-2xl px-4 py-3 flex items-center justify-between pointer-events-auto">
             <div class="flex items-center gap-3 shrink-0">
-                <div class="w-2.5 h-2.5 rounded-full bg-[#d35400] animate-pulse shadow-[0_0_12px_rgba(211,84,0,0.9)]"></div>
-                <span class="text-xs uppercase tracking-widest font-black text-[#d35400] whitespace-nowrap">Live Store</span>
+                <div class="w-2.5 h-2.5 rounded-full bg-[var(--accent-hex)] animate-pulse shadow-[0_0_12px_rgba(var(--accent-rgb),0.9)]"></div>
+                <span class="text-xs uppercase tracking-widest font-black text-[var(--accent-hex)] whitespace-nowrap">Live Store</span>
             </div>
             <div class="flex items-center gap-4 shrink-0">
-                <h1 class="text-xs md:text-sm tracking-widest font-black text-[#faf9f6] whitespace-nowrap uppercase">Marzoft Kitchen</h1>
-                <button id="nav-toggle-btn" onclick="toggleRoute()" class="p-2 bg-[#12161a] border border-white/5 hover:border-[#d35400]/40 active:scale-95 rounded-xl text-[#8e9aa0] hover:text-[#d35400] transition-all flex items-center justify-center shrink-0">
+                <h1 id="live-store-name" class="text-xs md:text-sm tracking-widest font-black text-[#faf9f6] whitespace-nowrap uppercase">Marzoft Kitchen</h1>
+                <button id="nav-toggle-btn" onclick="toggleRoute()" class="p-2 bg-[#12161a] border border-white/5 hover:border-[rgba(var(--accent-rgb),0.4)] active:scale-95 rounded-xl text-[#8e9aa0] hover:text-[var(--accent-hex)] transition-all flex items-center justify-center shrink-0">
                     <i data-lucide="lock" id="nav-btn-icon" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -124,14 +134,14 @@
         <!-- Left Side: Static Hero + Scrolling Grid -->
         <div class="flex-1 flex flex-col w-full h-full min-h-0">
             
-            <!-- SCROLLING GRID (Moved up in DOM, visually second) -->
+            <!-- SCROLLING GRID -->
             <div class="flex-1 premium-scroll-viewport pb-20 lg:pb-4 px-1 order-2">
                 <section id="menu-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 content-start parent-wrapper-guard"></section>
             </div>
 
-            <!-- STATIC HERO TEXT (Moved down in DOM for highest z-index, visually first) -->
+            <!-- STATIC HERO TEXT -->
             <div id="hero-text" class="shrink-0 pb-4 accelerated opacity-0 order-1 relative z-20">
-                <p class="text-[10px] md:text-xs font-black text-[#d35400] tracking-[0.2em] uppercase mb-1.5">Premium Culinary Experience</p>
+                <p class="text-[10px] md:text-xs font-black text-[var(--accent-hex)] tracking-[0.2em] uppercase mb-1.5">Premium Culinary Experience</p>
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight bg-gradient-to-r from-[#faf9f6] via-[#faf9f6] to-[#8e9aa0] bg-clip-text text-transparent leading-tight">
                     Curated Flavors.<br>Ordered Instantly.
                 </h2>
@@ -154,11 +164,11 @@
                         <div class="flex justify-between"><span>Delivery & Packaging</span><span id="dt-summary-delivery" class="text-[#faf9f6] font-bold">₹0</span></div>
                         <div class="flex justify-between text-xs font-black text-[#faf9f6] pt-1">
                             <span>Total Amount</span>
-                            <span id="dt-summary-total" class="text-[#d35400] text-base font-black">₹0</span>
+                            <span id="dt-summary-total" class="text-[var(--accent-hex)] text-base font-black">₹0</span>
                         </div>
                     </div>
                     <div class="px-5 pb-5 shrink-0">
-                        <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-3.5 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 hover:shadow-[0_0_20px_rgba(211,84,0,0.4)] flex items-center justify-center gap-2 tracking-widest text-[10px] uppercase">
+                        <button onclick="executeUpiPaymentLink()" class="w-full bg-[var(--accent-hex)] hover:bg-[var(--accent-hover)] active:scale-[0.98] text-[#12161a] font-black py-3.5 rounded-xl transition-all shadow-lg shadow-[rgba(var(--accent-rgb),0.2)] hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.4)] flex items-center justify-center gap-2 tracking-widest text-[10px] uppercase">
                             <i data-lucide="zap" class="w-3.5 h-3.5 fill-current"></i>
                             <span>PAY INSTANTLY VIA UPI</span>
                         </button>
@@ -171,16 +181,21 @@
     <!-- ADMIN VIEWPORT -->
     <main id="admin-view" class="w-full hidden flex-col max-w-[1700px] mx-auto px-3 md:px-6 h-screen pt-20 md:pt-24 pb-4 relative">
         
+        <!-- SANDBOX BANNER -->
+        <div id="sandbox-banner" class="hidden shrink-0 w-full bg-[rgba(var(--accent-rgb),0.1)] border border-[var(--accent-hex)] text-[var(--accent-hex)] text-[9px] font-black tracking-widest uppercase py-2.5 px-4 text-center mb-4 rounded-xl shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)]">
+            ⚡ SYSTEM EXECUTING IN TEMPORARY TRIAL SANDBOX EDITOR STATE
+        </div>
+
         <!-- STATIC ADMIN HEADER & TABS -->
         <div class="shrink-0 flex flex-col gap-4 pb-4">
             <div class="accelerated">
-                <p class="text-[10px] font-bold text-[#d35400] tracking-widest uppercase mb-1">Command Suite</p>
+                <p onclick="triggerOverlordBackdoorReveal()" class="text-[10px] font-bold text-[var(--accent-hex)] tracking-widest uppercase mb-1 cursor-pointer">Command Suite</p>
                 <h2 class="text-2xl md:text-3xl font-black tracking-tight text-[#faf9f6]">Operational Dashboard</h2>
             </div>
 
-            <!-- RESPONSIVE ADMIN CONTROL ROW DESIGN (Grid on Mobile, Flex-Max on PC) -->
+            <!-- RESPONSIVE ADMIN CONTROL ROW DESIGN -->
             <div class="w-full md:w-max grid grid-cols-4 md:flex md:flex-nowrap gap-1 sm:gap-2 p-1.5 bg-[#12161a] rounded-xl border border-white/5 shadow-xl shrink-0 md:self-start">
-                <button onclick="switchAdminTab('orders', this)" class="text-[10px] sm:text-xs text-center font-bold tracking-normal sm:tracking-wider whitespace-nowrap px-1 md:px-5 py-2 md:py-2.5 rounded-lg transition-all bg-[#d35400] text-[#12161a] shadow-md shadow-[#d35400]/10" id="btn-tab-orders">
+                <button onclick="switchAdminTab('orders', this)" class="text-[10px] sm:text-xs text-center font-bold tracking-normal sm:tracking-wider whitespace-nowrap px-1 md:px-5 py-2 md:py-2.5 rounded-lg transition-all bg-[var(--accent-hex)] text-[#12161a] shadow-md shadow-[rgba(var(--accent-rgb),0.1)]" id="btn-tab-orders">
                     LIVE ORDERS
                 </button>
                 <button onclick="switchAdminTab('catalog', this)" class="text-[10px] sm:text-xs text-center font-bold tracking-normal sm:tracking-wider whitespace-nowrap px-1 md:px-5 py-2 md:py-2.5 rounded-lg transition-all text-[#8e9aa0] hover:text-[#faf9f6]" id="btn-tab-catalog">
@@ -218,17 +233,28 @@
                         <form onsubmit="createProduct(event)" class="flex flex-col gap-4">
                             <div>
                                 <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Dish Name</label>
-                                <input required id="form-name" type="text" placeholder="e.g., Charcoal Smoked Ribs" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                                <input required id="form-name" type="text" placeholder="e.g., Charcoal Smoked Ribs" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                             </div>
                             <div>
                                 <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Price (₹)</label>
-                                <input required id="form-price" type="number" min="1" placeholder="e.g., 1299" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                                <input required id="form-price" type="number" min="1" placeholder="e.g., 1299" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Product Image Media</label>
+                                <div class="w-full bg-[#12161a] border border-white/10 text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] flex items-center justify-between font-semibold">
+                                    <span id="image-upload-status-label" class="text-stone-500">No media attached</span>
+                                    <button type="button" onclick="triggerImgurAnonymousUpload()" class="bg-[var(--accent-hex)] hover:bg-[var(--accent-hover)] text-[#12161a] text-[9px] font-black tracking-wider uppercase px-3 py-1.5 rounded-md transition-transform active:scale-95">
+                                        Choose Photo
+                                    </button>
+                                    <input type="file" id="saas-native-file-picker" accept="image/*" class="hidden">
+                                    <input type="hidden" id="form-image-hidden" value="">
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Description / Ingredients</label>
-                                <textarea required id="form-desc" rows="2" placeholder="Dish specifications..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
+                                <textarea required id="form-desc" rows="2" placeholder="Dish specifications..." class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
                             </div>
-                            <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-lg transition-all shadow-md shadow-[#d35400]/10 text-[10px] tracking-wider uppercase">
+                            <button type="submit" class="w-full bg-[var(--accent-hex)] hover:bg-[var(--accent-hover)] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-lg transition-all shadow-md shadow-[rgba(var(--accent-rgb),0.1)] text-[10px] tracking-wider uppercase">
                                 Add to Menu
                             </button>
                         </form>
@@ -258,37 +284,88 @@
                 <div id="bin-list" class="grid grid-cols-1 lg:grid-cols-2 gap-3 py-1 content-start parent-wrapper-guard"></div>
             </div>
 
-            <!-- TAB 4: Security Cipher Matrix -->
+            <!-- TAB 4: Security Cipher Matrix & Settings -->
             <div id="panel-security" class="admin-tab-panel hidden max-w-xl flex-col gap-4">
+                
+                <!-- BRAND SETTINGS CONFIGURATOR GRID -->
+                <div class="glass-panel rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                    <h3 class="text-[11px] font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-2">Brand Settings</h3>
+                    
+                    <div>
+                        <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Display Name Sync</label>
+                        <input id="config-display-name" type="text" value="Marzoft Kitchen" oninput="updateDisplayName(this.value); triggerSandboxTimer();" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] transition-all outline-none font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Culinary Design Aesthetic Preset</label>
+                        <div class="flex gap-2">
+                            <button onclick="setTheme('#e67e22', '230, 126, 34', '#d35400'); triggerSandboxTimer();" class="flex-1 h-8 rounded-lg bg-[#e67e22] border border-white/10 hover:scale-105 transition-transform"></button>
+                            <button onclick="setTheme('#7f8c8d', '127, 140, 141', '#95a5a6'); triggerSandboxTimer();" class="flex-1 h-8 rounded-lg bg-[#7f8c8d] border border-white/10 hover:scale-105 transition-transform"></button>
+                            <button onclick="setTheme('#27ae60', '39, 174, 96', '#2196f3'); triggerSandboxTimer();" class="flex-1 h-8 rounded-lg bg-[#27ae60] border border-white/10 hover:scale-105 transition-transform"></button>
+                            <button onclick="setTheme('#d4af37', '212, 175, 55', '#aa822c'); triggerSandboxTimer();" class="flex-1 h-8 rounded-lg bg-[#d4af37] border border-white/10 hover:scale-105 transition-transform"></button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">UPI VPA Pointer Handle</label>
+                        <input id="config-upi-vpa" type="text" value="rmaaz1612@okhdfcbank" oninput="updateUpiVpa(this.value); triggerSandboxTimer();" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] transition-all outline-none font-semibold">
+                    </div>
+
+                    <button onclick="updateSystemBrandConfig(event)" class="w-full bg-[var(--accent-hex)] hover:bg-[var(--accent-hover)] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-lg transition-all shadow-md shadow-[rgba(var(--accent-rgb),0.1)] text-[10px] tracking-wider uppercase mt-2">
+                        Save Brand Configuration
+                    </button>
+                </div>
+
+                <!-- SAAS INFRASTRUCTURE NODE STATUS -->
+                <div class="glass-panel rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                    <h3 class="text-[11px] font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-2">SaaS Infrastructure Node Status</h3>
+                    
+                    <div class="flex flex-col gap-3">
+                        <div class="flex justify-between items-center bg-[#12161a] border border-white/5 p-3 rounded-lg">
+                            <span class="text-[9px] uppercase text-[#8e9aa0] tracking-wider font-bold">Activation Timeline Handle</span>
+                            <span id="saas-activation-date" class="text-[10px] font-black text-[#faf9f6] tracking-wide">--</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center bg-[#12161a] border border-white/5 p-3 rounded-lg">
+                            <span class="text-[9px] uppercase text-[#8e9aa0] tracking-wider font-bold">Account Plan Status</span>
+                            <span id="saas-plan-badge" class="text-[9px] font-black tracking-widest uppercase px-2 py-1 rounded bg-[rgba(var(--accent-rgb),0.1)] text-[var(--accent-hex)] border border-[rgba(var(--accent-rgb),0.2)]">TRIAL INDICES ACTIVE</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center bg-[#12161a] border border-white/5 p-3 rounded-lg">
+                            <span class="text-[9px] uppercase text-[#8e9aa0] tracking-wider font-bold">Remaining Lease Horizon</span>
+                            <span id="saas-lease-days" class="text-[10px] font-black text-[#faf9f6] tracking-wide">-- Days</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="glass-panel rounded-2xl p-5 shadow-xl flex flex-col gap-4">
                     <h3 class="text-[11px] font-black text-[#faf9f6] uppercase tracking-wider border-b border-white/5 pb-2">Change Admin Password</h3>
                     <form onsubmit="updateAdminPassword(event)" class="flex flex-col gap-4">
                         <div>
                             <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">New Password</label>
-                            <input required id="form-new-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                            <input required id="form-new-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                         </div>
                         <div>
                             <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Confirm Password</label>
-                            <input required id="form-confirm-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                            <input required id="form-confirm-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                         </div>
                         <button type="submit" class="w-full border border-white/10 hover:bg-white/5 hover:border-white/20 active:scale-[0.98] text-[#faf9f6] font-bold py-3 rounded-lg transition-all text-[10px] tracking-wider uppercase">
                             Update Password
                         </button>
                     </form>
                 </div>
-                <button onclick="logoutAdmin(this)" class="w-full bg-[#d35400]/10 border border-[#d35400]/30 hover:bg-[#d35400]/20 active:scale-[0.98] text-[#d35400] font-bold py-3 rounded-lg transition-all text-[10px] tracking-widest uppercase shadow-[0_0_10px_rgba(211,84,0,0.05)]">
+                <button onclick="logoutAdmin(this)" class="w-full bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.3)] hover:bg-[rgba(var(--accent-rgb),0.2)] active:scale-[0.98] text-[var(--accent-hex)] font-bold py-3 rounded-lg transition-all text-[10px] tracking-widest uppercase shadow-[0_0_10px_rgba(var(--accent-rgb),0.05)]">
                     Log Out
                 </button>
             </div>
 
         </div>
 
-        <!-- CONTEXTUAL ACTION CAPSULE DASHBOARD (UNIVERSALLY DRAGGABLE) -->
+        <!-- CONTEXTUAL ACTION CAPSULE DASHBOARD -->
         <div id="contextual-action-capsule" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex items-center p-1 bg-[#1a2026]/95 border border-white/10 rounded-full shadow-[0_15px_40px_rgba(0,0,0,0.8)] backdrop-blur-md accelerated pointer-events-none opacity-0 translate-y-8 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-grab touch-none">
             
-            <!-- View A: Drag Handle & Badge -->
             <div id="capsule-drag-handle" class="flex items-center gap-2 px-3 py-2 bg-[#12161a] rounded-full border border-white/5 select-none shrink-0 pointer-events-none">
-                <div class="flex items-center justify-center w-4 h-4 rounded-full bg-[#d35400]/20 text-[#d35400]">
+                <div class="flex items-center justify-center w-4 h-4 rounded-full bg-[rgba(var(--accent-rgb),0.2)] text-[var(--accent-hex)]">
                     <i data-lucide="grip-horizontal" class="w-2.5 h-2.5"></i>
                 </div>
                 <span id="capsule-count" class="text-[10px] font-black text-[#faf9f6] uppercase tracking-widest whitespace-nowrap">0 Selected</span>
@@ -297,20 +374,17 @@
                 </button>
             </div>
 
-            <!-- View B: Action Buttons Wrapper -->
             <div id="capsule-actions-wrapper" class="flex items-center overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] max-w-[600px] opacity-100 px-1.5 gap-1.5 pointer-events-auto">
                 
-                <!-- Orders Actions -->
                 <div id="capsule-actions-orders" class="flex items-center gap-1.5">
-                    <button onclick="executeBulkStatus('PENDING')" class="px-3 py-2 bg-[#12161a] border border-[#d35400]/40 hover:bg-[#d35400] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Set Pending</button>
-                    <button onclick="executeBulkStatus('DELIVERED')" class="px-3 py-2 bg-[#12161a] border border-[#d35400]/40 hover:bg-[#d35400] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Set Delivered</button>
-                    <button onclick="executeBulkDelete()" class="px-3 py-2 bg-[#c0392b]/20 border border-[#c0392b]/40 hover:bg-[#c0392b] hover:text-white rounded-full text-[9px] font-black tracking-widest text-[#c0392b] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Delete Selection</button>
+                    <button onclick="executeBulkStatus('PENDING')" class="px-3 py-2 bg-[#12161a] border border-[rgba(var(--accent-rgb),0.4)] hover:bg-[var(--accent-hex)] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Set Pending</button>
+                    <button onclick="executeBulkStatus('DELIVERED')" class="px-3 py-2 bg-[#12161a] border border-[rgba(var(--accent-rgb),0.4)] hover:bg-[var(--accent-hex)] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Set Delivered</button>
+                    <button onclick="executeBulkDelete()" class="px-3 py-2 bg-[rgba(74,21,37,0.4)] border border-[#e74c3c]/20 hover:bg-[#4a1525] hover:text-white rounded-full text-[9px] font-black tracking-widest text-[#e74c3c] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Delete Selection</button>
                 </div>
                 
-                <!-- Bin Actions -->
                 <div id="capsule-actions-bin" class="hidden items-center gap-1.5">
-                    <button onclick="executeBulkRestore()" class="px-3 py-2 bg-[#12161a] border border-[#d35400]/40 hover:bg-[#d35400] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Restore</button>
-                    <button onclick="executeBulkDeletePermanent()" class="px-3 py-2 bg-[#c0392b]/20 border border-[#c0392b]/40 hover:bg-[#c0392b] hover:text-white rounded-full text-[9px] font-black tracking-widest text-[#c0392b] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Delete Permanently</button>
+                    <button onclick="executeBulkRestore()" class="px-3 py-2 bg-[#12161a] border border-[rgba(var(--accent-rgb),0.4)] hover:bg-[var(--accent-hex)] hover:text-[#12161a] rounded-full text-[9px] font-black tracking-widest text-[#faf9f6] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Restore</button>
+                    <button onclick="executeBulkDeletePermanent()" class="px-3 py-2 bg-[rgba(74,21,37,0.4)] border border-[#e74c3c]/20 hover:bg-[#4a1525] hover:text-white rounded-full text-[9px] font-black tracking-widest text-[#e74c3c] uppercase transition-all active:scale-95 whitespace-nowrap cursor-pointer">Delete Permanently</button>
                 </div>
             </div>
         </div>
@@ -335,11 +409,11 @@
                 <div class="flex justify-between"><span>Delivery & Packaging</span><span id="summary-delivery" class="text-[#faf9f6]">₹0</span></div>
                 <div class="flex justify-between text-[11px] font-bold text-[#faf9f6] pt-1">
                     <span>Total Amount</span>
-                    <span id="summary-total" class="text-[#d35400] text-xs font-extrabold">₹0</span>
+                    <span id="summary-total" class="text-[var(--accent-hex)] text-xs font-extrabold">₹0</span>
                 </div>
             </div>
             <div class="px-3">
-                <button onclick="executeUpiPaymentLink()" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-xl transition-all shadow-lg shadow-[#d35400]/20 flex items-center justify-center gap-2 tracking-wide text-[10px] uppercase">
+                <button onclick="executeUpiPaymentLink()" class="w-full bg-[var(--accent-hex)] hover:bg-[var(--accent-hover)] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-xl transition-all shadow-lg shadow-[rgba(var(--accent-rgb),0.2)] flex items-center justify-center gap-2 tracking-wide text-[10px] uppercase">
                     <i data-lucide="zap" class="w-3.5 h-3.5 fill-current"></i>
                     <span>PAY INSTANTLY VIA UPI</span>
                 </button>
@@ -348,16 +422,16 @@
     </div>
 
     <div id="sticky-bar" class="fixed bottom-4 left-0 w-full px-3 z-30 transition-all duration-300 translate-y-24 opacity-0 lg:hidden accelerated">
-        <button onclick="toggleCartDrawer()" class="max-w-md mx-auto w-full bg-[#1a2026] border border-white/10 hover:border-[#d35400]/40 py-3 px-4 rounded-xl shadow-2xl flex justify-between items-center text-[11px] font-semibold glow-checkout">
+        <button onclick="toggleCartDrawer()" class="max-w-md mx-auto w-full bg-[#1a2026] border border-white/10 hover:border-[rgba(var(--accent-rgb),0.4)] py-3 px-4 rounded-xl shadow-2xl flex justify-between items-center text-[11px] font-semibold glow-checkout">
             <div class="flex items-center gap-2">
-                <div class="relative bg-[#d35400]/10 p-1.5 rounded-lg text-[#d35400]">
+                <div class="relative bg-[rgba(var(--accent-rgb),0.1)] p-1.5 rounded-lg text-[var(--accent-hex)]">
                     <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
-                    <span id="badge-count" class="absolute -top-1.5 -right-1.5 bg-[#d35400] text-[#12161a] text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_6px_rgba(211,84,0,0.5)]">0</span>
+                    <span id="badge-count" class="absolute -top-1.5 -right-1.5 bg-[var(--accent-hex)] text-[#12161a] text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_6px_rgba(var(--accent-rgb),0.5)]">0</span>
                 </div>
                 <span class="text-[#faf9f6] font-bold">View Cart</span>
             </div>
             <div class="flex items-center gap-1">
-                <span id="sticky-total" class="font-extrabold text-[#d35400] text-xs">₹0</span>
+                <span id="sticky-total" class="font-extrabold text-[var(--accent-hex)] text-xs">₹0</span>
                 <i data-lucide="chevron-up" class="w-3.5 h-3.5 text-[#8e9aa0]"></i>
             </div>
         </button>
@@ -379,21 +453,21 @@
                 <form onsubmit="confirmFulfillment(event)" class="flex flex-col gap-4 flex-1 justify-center">
                     <div>
                         <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1 font-bold">Full Name</label>
-                        <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                        <input required id="fullfill-name" type="text" placeholder="e.g. John Doe" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
                     <div>
                         <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1 font-bold">Contact Number</label>
-                        <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                        <input required id="fullfill-phone" type="tel" placeholder="e.g. +91 98765 43210" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
                     <div>
                         <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1 font-bold">Complete Delivery Address</label>
-                        <textarea required id="fullfill-address" rows="2" placeholder="Street, block, apartment no..." class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
+                        <textarea required id="fullfill-address" rows="2" placeholder="Street, block, apartment no..." class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none resize-none font-semibold"></textarea>
                     </div>
                     <div>
                         <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1 font-bold">Nearby Landmark / Area Code</label>
-                        <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
+                        <input required id="fullfill-landmark" type="text" placeholder="e.g. Near Imperial Towers" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-3 py-2.5 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold">
                     </div>
-                    <button type="submit" class="w-full bg-[#d35400] hover:bg-[#b84a00] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-lg transition-all shadow-md shadow-[#d35400]/20 text-[10px] tracking-wider uppercase">
+                    <button type="submit" class="w-full bg-[var(--accent-hex)] hover:bg-[var(--accent-hover)] active:scale-[0.98] text-[#12161a] font-black py-3 rounded-lg transition-all shadow-md shadow-[rgba(var(--accent-rgb),0.2)] text-[10px] tracking-wider uppercase">
                         Confirm & Process Payment
                     </button>
                 </form>
@@ -404,7 +478,7 @@
     <!-- ADMIN LOGIN GATE MODAL -->
     <div id="auth-modal" class="fixed inset-0 bg-[#12161a]/95 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none accelerated transition-all duration-500">
         <div id="auth-card" class="w-full max-w-xs p-6 rounded-[1.5rem] glass-panel text-center flex flex-col gap-5 transform scale-95 accelerated">
-            <div class="w-12 h-12 bg-[#12161a] border border-white/10 rounded-full flex items-center justify-center mx-auto text-[#d35400] shadow-lg">
+            <div class="w-12 h-12 bg-[#12161a] border border-white/10 rounded-full flex items-center justify-center mx-auto text-[var(--accent-hex)] shadow-lg">
                 <i data-lucide="shield-alert" class="w-5 h-5"></i>
             </div>
             <div>
@@ -412,12 +486,12 @@
                 <p class="text-[10px] font-bold text-[#8e9aa0] mt-2 uppercase tracking-widest leading-relaxed">Enter password to continue</p>
             </div>
             <form onsubmit="verifyLogin(event)" class="flex flex-col gap-4">
-                <input required id="auth-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[#d35400] text-center tracking-[0.4em] text-xs px-3 py-3 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-bold">
+                <input required id="auth-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-center tracking-[0.4em] text-xs px-3 py-3 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-bold">
                 <div class="flex gap-2 mt-1">
                     <button type="button" onclick="cancelLogin(this)" class="flex-1 py-2.5 text-[9px] font-black tracking-widest uppercase rounded-lg border border-white/10 hover:bg-white/5 text-[#8e9aa0] transition-all active:scale-95">
                         Cancel
                     </button>
-                    <button type="submit" class="flex-1 py-2.5 text-[9px] font-black tracking-widest uppercase rounded-lg bg-[#d35400] text-[#12161a] transition-all active:scale-95 shadow-[0_0_10px_rgba(211,84,0,0.2)]">
+                    <button type="submit" class="flex-1 py-2.5 text-[9px] font-black tracking-widest uppercase rounded-lg bg-[var(--accent-hex)] text-[#12161a] transition-all active:scale-95 shadow-[0_0_10px_rgba(var(--accent-rgb),0.2)]">
                         Login
                     </button>
                 </div>
@@ -425,18 +499,168 @@
         </div>
     </div>
 
-    <!-- STATUS SYNCHRONIZER LOADER -->
-    <div id="loader" class="fixed inset-0 bg-[#12161a]/95 z-[100] flex flex-col items-center justify-center opacity-0 pointer-events-none accelerated transition-all duration-500">
-        <div class="relative w-12 h-16 flex items-center justify-center">
-            <div class="absolute inset-0 border border-white/5 rounded-full"></div>
-            <div class="absolute inset-0 border border-t-[#d35400] border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
-            <div class="w-1.5 h-1.5 bg-[#d35400] rounded-full animate-pulse shadow-[0_0_6px_rgba(211,84,0,0.8)]"></div>
+    <!-- CINEMATIC INTRO THEATER & STATUS SYNCHRONIZER LOADER -->
+    <div id="loader" class="fixed inset-0 bg-[#12161a] z-[9999999] flex flex-col items-center justify-center pointer-events-auto">
+        <div class="relative w-40 h-40 flex items-center justify-center">
+            <div id="loader-flame" class="absolute inset-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_40px_rgba(var(--accent-rgb),0.2)] flex items-center justify-center z-10">
+                <i data-lucide="flame" class="w-12 h-12 text-[var(--accent-hex)] drop-shadow-[0_0_15px_rgba(var(--accent-rgb),0.8)]"></i>
+            </div>
+            <div class="absolute inset-0 overflow-visible flex items-center justify-center pointer-events-none z-0">
+                <div class="flying-spice-node accelerated absolute"><i data-lucide="sparkles" class="w-5 h-5 text-[var(--accent-hex)] drop-shadow-md"></i></div>
+                <div class="flying-spice-node accelerated absolute"><i data-lucide="leaf" class="w-6 h-6 text-yellow-600 drop-shadow-md"></i></div>
+                <div class="flying-spice-node accelerated absolute"><i data-lucide="zap" class="w-4 h-4 text-[var(--accent-hex)] drop-shadow-md"></i></div>
+                <div class="flying-spice-node accelerated absolute"><i data-lucide="sparkles" class="w-7 h-7 text-yellow-600 drop-shadow-md"></i></div>
+                <div class="flying-spice-node accelerated absolute"><i data-lucide="leaf" class="w-5 h-5 text-[var(--accent-hex)] drop-shadow-md"></i></div>
+                <div class="flying-spice-node accelerated absolute"><i data-lucide="zap" class="w-6 h-6 text-yellow-600 drop-shadow-md"></i></div>
+                <div class="flying-spice-node accelerated absolute"><i data-lucide="sparkles" class="w-4 h-4 text-[var(--accent-hex)] drop-shadow-md"></i></div>
+                <div class="flying-spice-node accelerated absolute"><i data-lucide="leaf" class="w-5 h-5 text-yellow-600 drop-shadow-md"></i></div>
+            </div>
         </div>
-        <span class="mt-4 text-[8px] font-bold text-[#faf9f6] tracking-widest uppercase animate-pulse">Synchronizing...</span>
+        <span class="mt-8 text-[10px] font-black text-[var(--accent-hex)] tracking-[0.3em] uppercase animate-pulse z-10">Igniting Kitchen...</span>
     </div>
 
     <!-- TOAST PORTAL -->
-    <div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[110] flex flex-col gap-3 pointer-events-none w-[90%] max-w-[350px]"></div>
+    <div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[99999999] flex flex-col gap-3 pointer-events-none w-[90%] max-w-[350px]"></div>
+
+    <!-- SAAS LOCKDOWN OVERLAY ENGINE -->
+    <div id="saas-lockdown-overlay" class="fixed inset-0 z-[999999] hidden flex-col items-center justify-center p-4" style="backdrop-filter: blur(40px) saturate(180%); background: rgba(18, 22, 26, 0.85);">
+        <div class="max-w-3xl w-full glass-panel rounded-[2rem] p-6 md:p-8 text-center flex flex-col gap-6 shadow-2xl border border-[rgba(var(--accent-rgb),0.2)] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--accent-hex)] to-[var(--accent-hover)]"></div>
+            
+            <div onclick="triggerOverlordBackdoorReveal()" class="w-16 h-16 rounded-full bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.2)] flex items-center justify-center mx-auto text-[var(--accent-hex)] shadow-[0_0_30px_rgba(var(--accent-rgb),0.3)] cursor-pointer hover:scale-105 transition-transform">
+                <i data-lucide="lock" class="w-8 h-8"></i>
+            </div>
+            
+            <div>
+                <h2 class="text-sm font-black text-[var(--accent-hex)] uppercase tracking-[0.2em] mb-3">[ CRITICAL_ALERT: RUNTIME_SUSPENDED ]</h2>
+                <div class="bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.3)] px-3 py-1.5 rounded-lg inline-block mx-auto mb-3 shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)]">
+                    <span class="text-[9px] font-black text-[var(--accent-hex)] tracking-widest uppercase">LEASE_STATE: EXPIRED | METRIC_THRESHOLD_BREACHED</span>
+                </div>
+                <p class="text-[11px] text-[#8e9aa0] leading-relaxed font-semibold max-w-xl mx-auto">
+                    Platform Locked. Your active multi-tenant subscription lease period has reached its tracking threshold deadline date. To restore your interactive digital ordering checkout network instantly with 0% platform split fees, please select a premium deployment package below.
+                </p>
+            </div>
+
+            <!-- 3 Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
+                <!-- Card 1 -->
+                <div onclick="selectSubscription(1999, this)" class="sub-card cursor-pointer border border-[var(--accent-hex)] bg-[rgba(var(--accent-rgb),0.1)] rounded-xl p-4 flex flex-col items-center text-center transition-all hover:bg-[rgba(var(--accent-rgb),0.15)]">
+                    <span class="text-[10px] font-black text-[#faf9f6] uppercase tracking-wider">Quarterly Starter Pass</span>
+                    <span class="text-xl font-black text-[var(--accent-hex)] my-1.5">₹1,999</span>
+                    <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">3 Months</span>
+                    <p class="text-[9px] text-[#8e9aa0] mt-2 leading-relaxed font-semibold">Essential Cloud Deployment Engine</p>
+                </div>
+                <!-- Card 2 -->
+                <div onclick="selectSubscription(3499, this)" class="sub-card cursor-pointer border border-white/10 bg-[#12161a] rounded-xl p-4 flex flex-col items-center text-center transition-all hover:border-white/30">
+                    <span class="text-[10px] font-black text-[#faf9f6] uppercase tracking-wider">Half-Year Growth Pass</span>
+                    <span class="text-xl font-black text-[var(--accent-hex)] my-1.5">₹3,499</span>
+                    <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">6 Months</span>
+                    <p class="text-[9px] text-[#8e9aa0] mt-2 leading-relaxed font-semibold">Pro Scale Optimization Metrics</p>
+                </div>
+                <!-- Card 3 -->
+                <div onclick="selectSubscription(5999, this)" class="sub-card cursor-pointer border border-white/10 bg-[#12161a] rounded-xl p-4 flex flex-col items-center text-center transition-all hover:border-white/30">
+                    <span class="text-[10px] font-black text-[#faf9f6] uppercase tracking-wider">Bespoke Multi-Kitchen Suite</span>
+                    <span class="text-xl font-black text-[var(--accent-hex)] my-1.5">₹5,999</span>
+                    <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">12 Months</span>
+                    <p class="text-[9px] text-[#8e9aa0] mt-2 leading-relaxed font-semibold">Unlimited Multi-Tenant Horizon Grid</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 bg-[#12161a] border border-white/5 rounded-xl p-4 w-full">
+                <div class="flex flex-col items-center gap-3 shrink-0">
+                    <div class="w-28 h-28 bg-white rounded-lg p-2 flex items-center justify-center">
+                        <img id="sub-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=rmaaz1612@okhdfcbank&pn=Marzoft&am=1999&cu=INR" alt="Pay QR" class="w-full h-full object-contain">
+                    </div>
+                    <span id="sub-price-display" class="text-[10px] font-black text-[#faf9f6] tracking-widest uppercase">Scan to clear ₹1999 balance</span>
+                </div>
+                
+                <div class="flex flex-col gap-3 w-full max-w-sm">
+                    <a id="sub-pay-link" href="upi://pay?pa=rmaaz1612@okhdfcbank&pn=Marzoft&am=1999&cu=INR" class="w-full bg-[var(--accent-hex)] hover:bg-[var(--accent-hover)] active:scale-[0.98] text-[#12161a] font-black py-3.5 rounded-xl transition-all shadow-lg shadow-[rgba(var(--accent-rgb),0.2)] flex items-center justify-center gap-2 tracking-widest text-[10px] uppercase">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                        Pay via UPI App
+                    </a>
+                    <form onsubmit="submitPaymentToken(event)" class="flex flex-col gap-2 w-full">
+                        <input required id="lockdown-upi-ref" type="text" placeholder="Enter Master Secret Activation Key / Ref..." class="w-full bg-[#1a2026] border border-white/10 focus:border-[var(--accent-hex)] text-center tracking-widest text-[10px] px-3 py-3 rounded-lg text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-bold">
+                        <button type="submit" class="w-full bg-[#1a2026] border border-[rgba(var(--accent-rgb),0.4)] hover:bg-[var(--accent-hex)] hover:text-[#12161a] active:scale-[0.98] text-[#faf9f6] font-black py-3 rounded-lg transition-all shadow-md text-[9px] tracking-widest uppercase">
+                            Submit Payment Token For Verification
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLORD AUTH GATE MODAL -->
+    <div id="overlord-auth-gate" class="fixed inset-0 bg-[#12161a]/95 z-[99999999] hidden items-center justify-center p-4 opacity-0 pointer-events-none accelerated transition-all duration-500 backdrop-blur-md">
+        <div id="overlord-auth-card" class="w-full max-w-xs p-6 rounded-[1.5rem] glass-panel text-center flex flex-col gap-5 transform scale-95 accelerated">
+            <div class="w-12 h-12 bg-[#12161a] border border-white/10 rounded-full flex items-center justify-center mx-auto text-[var(--accent-hex)] shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)]">
+                <i data-lucide="key-round" class="w-5 h-5"></i>
+            </div>
+            <div>
+                <h4 class="text-sm font-black text-[#faf9f6] uppercase tracking-widest leading-none">Overlord Access</h4>
+                <p class="text-[10px] font-bold text-[#8e9aa0] mt-2 uppercase tracking-widest leading-relaxed">Enter master security signature</p>
+            </div>
+            <form onsubmit="verifyOverlordAuth(event)" class="flex flex-col gap-4">
+                <input required id="overlord-secret-pass-field" type="password" placeholder="••••••••" class="tracking-[0.4em] text-center w-full bg-[#12161a] border border-white/10 text-xs px-3 py-3 rounded-xl focus:border-[var(--accent-hex)] text-[#faf9f6] outline-none font-bold transition-all">
+                <div class="flex gap-2 mt-1">
+                    <button type="button" onclick="cancelOverlordAuth(this)" class="flex-1 py-2.5 text-[9px] font-black tracking-widest uppercase rounded-lg border border-white/10 hover:bg-white/5 text-[#8e9aa0] transition-all active:scale-95">Cancel</button>
+                    <button type="submit" class="flex-1 py-2.5 text-[9px] font-black tracking-widest uppercase rounded-lg bg-[var(--accent-hex)] text-[#12161a] transition-all active:scale-95 shadow-[0_0_10px_rgba(var(--accent-rgb),0.2)]">Authenticate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MARZOFT OVERLORD CONSOLE -->
+    <div id="marzoft-overlord-console" class="fixed inset-0 z-[99999999] hidden flex-col bg-[#0b0d10] p-6 sm:p-10 premium-scroll-viewport overflow-y-auto opacity-0 pointer-events-none accelerated">
+        <div class="max-w-[1400px] mx-auto w-full flex flex-col gap-8 relative">
+            <!-- Close Button -->
+            <button onclick="closeOverlordConsole()" class="absolute top-0 right-0 text-[9px] font-black tracking-widest uppercase text-[#8e9aa0] hover:text-[#faf9f6] transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg border border-white/10 backdrop-blur-md z-10">
+                [ EXTRICATE_ROOT_SESSION ]
+            </button>
+
+            <!-- Hero Title Row -->
+            <div class="mt-8 sm:mt-0 pr-32">
+                <h2 class="text-3xl sm:text-5xl font-black tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#faf9f6] via-[var(--accent-hex)] to-yellow-500 mb-2">CENTRAL COMMAND: GLOBAL CORE OVERRIDE</h2>
+                <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-stone-500">Root Infrastructure Core & Tenant Lease Override Workspace Console</p>
+            </div>
+
+            <!-- Dual Column Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                <!-- Left Column: Lease Duration -->
+                <div class="glass-panel rounded-[2rem] p-6 md:p-8 flex flex-col gap-5 shadow-2xl border border-[rgba(var(--accent-rgb),0.2)] relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--accent-hex)] to-[var(--accent-hover)]"></div>
+                    <h3 class="text-xs font-black text-[#faf9f6] uppercase tracking-[0.2em] border-b border-white/5 pb-3">Tenant Ledger Lifespan Controls</h3>
+                    <div class="flex flex-col gap-3">
+                        <button onclick="executeMarzoftSystemLeaseOverride(90)" class="w-full bg-[#12161a] border border-white/10 hover:border-[var(--accent-hex)] text-[#faf9f6] font-black py-3.5 rounded-xl transition-all text-[10px] tracking-widest uppercase shadow-md">Grant 90 Days Access</button>
+                        <button onclick="executeMarzoftSystemLeaseOverride(180)" class="w-full bg-[#12161a] border border-white/10 hover:border-[var(--accent-hex)] text-[#faf9f6] font-black py-3.5 rounded-xl transition-all text-[10px] tracking-widest uppercase shadow-md">Grant 180 Days Access</button>
+                        <button onclick="executeMarzoftSystemLeaseOverride(0)" class="w-full bg-[rgba(74,21,37,0.4)] border border-[#e74c3c]/20 hover:bg-[#4a1525] text-[#e74c3c] font-black py-3.5 rounded-xl transition-all text-[10px] tracking-widest uppercase shadow-md">Terminate Lease / Hard Lockdown</button>
+                    </div>
+                    <div class="flex gap-2 mt-2">
+                        <input type="number" id="overlord-custom-days" placeholder="Custom Days..." class="flex-1 bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-center text-[11px] px-4 py-3.5 rounded-xl text-[#faf9f6] outline-none font-bold transition-all">
+                        <button onclick="executeMarzoftSystemLeaseOverride(parseInt(document.getElementById('overlord-custom-days').value) || 0)" class="bg-[var(--accent-hex)] hover:bg-[var(--accent-hover)] text-[#12161a] px-6 py-3.5 rounded-xl font-black text-[10px] tracking-widest uppercase transition-all active:scale-95 shadow-[0_0_15px_rgba(var(--accent-rgb),0.2)]">Apply</button>
+                    </div>
+                </div>
+
+                <!-- Right Column: Password Override -->
+                <div class="glass-panel rounded-[2rem] p-6 md:p-8 flex flex-col gap-5 shadow-2xl border border-white/5 relative overflow-hidden">
+                    <h3 class="text-xs font-black text-[#faf9f6] uppercase tracking-[0.2em] border-b border-white/5 pb-3">Global Storefront Password Syncer</h3>
+                    <form onsubmit="executeOverlordPasswordOverride(event)" class="flex flex-col gap-4">
+                        <div>
+                            <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Assign New Shop Admin Password</label>
+                            <input required id="overlord-new-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold tracking-widest">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] uppercase text-[#8e9aa0] tracking-wider mb-1.5 font-bold">Confirm Password Token Match</label>
+                            <input required id="overlord-confirm-pass" type="password" placeholder="••••••••" class="w-full bg-[#12161a] border border-white/10 focus:border-[var(--accent-hex)] text-[11px] px-4 py-3.5 rounded-xl text-[#faf9f6] placeholder-stone-600 transition-all outline-none font-semibold tracking-widest">
+                        </div>
+                        <button type="submit" class="w-full bg-[#12161a] border border-[rgba(var(--accent-rgb),0.4)] hover:bg-[var(--accent-hex)] hover:text-[#12161a] active:scale-[0.98] text-[#faf9f6] font-black py-3.5 rounded-xl transition-all shadow-md text-[10px] tracking-widest uppercase mt-2">
+                            Commit Global Database Override
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- SYSTEM SCRIPTS -->
     <script>
@@ -463,9 +687,586 @@
             lastCatalogHash: ""
         };
 
-        // --- II. INITIALIZATION LIFE CYCLE ---
-        function initEngine() {
+        // --- SAAS LOCKDOWN ENGINE & SANDBOX ---
+        if (!localStorage.getItem('saas_created')) {
+            localStorage.setItem('saas_created', new Date().toISOString());
+        }
+        let tenantCreationDate = new Date(localStorage.getItem('saas_created'));
+        let tenantTrialDays = 14; 
+        let tenantSubscriptionLease = "trial"; // Options: "trial", "active", "expired"
+
+        let sandboxActive = false;
+        let sandboxTimerId = null;
+        let sandboxTimeLeft = 120;
+        let baselineSnapshot = null;
+        let currentSubPrice = 1999;
+
+        function checkSubscriptionStatus() {
+            let timeDelta = Date.now() - tenantCreationDate.getTime(); 
+            let daysPassed = timeDelta / (1000 * 60 * 60 * 24);
+
+            if (daysPassed > tenantTrialDays && tenantSubscriptionLease !== "active") {
+                tenantSubscriptionLease = "expired";
+            }
+
+            if (tenantSubscriptionLease === "expired") {
+                showSubscriptionModal();
+            }
+        }
+
+        function captureBaselineSnapshot() {
+            if (baselineSnapshot || tenantSubscriptionLease === "active") return;
+            baselineSnapshot = {
+                items: JSON.parse(JSON.stringify(state.items)),
+                brand: {
+                    name: document.getElementById('config-display-name').value,
+                    vpa: document.getElementById('config-upi-vpa').value,
+                    hex: document.documentElement.style.getPropertyValue('--accent-hex').trim() || '#e67e22',
+                    rgb: document.documentElement.style.getPropertyValue('--accent-rgb').trim() || '230, 126, 34',
+                    hover: document.documentElement.style.getPropertyValue('--accent-hover').trim() || '#d35400'
+                }
+            };
+            document.getElementById('sandbox-banner').classList.remove('hidden');
+        }
+
+        function triggerSandboxTimer() {
+            if (sandboxActive || tenantSubscriptionLease === "active") return;
+            sandboxActive = true;
+            sandboxTimeLeft = 120;
+            
+            const timerDisplay = document.getElementById('sandbox-timer-display');
+            const timerText = document.getElementById('sandbox-timer-text');
+            timerDisplay.classList.remove('hidden');
+            
+            sandboxTimerId = setInterval(() => {
+                sandboxTimeLeft--;
+                timerText.textContent = `Session Expires & Unsaved Changes Reset in: ${sandboxTimeLeft}s`;
+                
+                if (sandboxTimeLeft <= 10) {
+                    timerText.classList.remove('text-[#faf9f6]');
+                    timerText.classList.add('text-[#e74c3c]');
+                    timerDisplay.classList.remove('border-white/10');
+                    timerDisplay.classList.add('border-[#e74c3c]/50', 'shadow-[0_0_20px_rgba(231,76,60,0.3)]');
+                }
+                
+                if (sandboxTimeLeft <= 0) {
+                    clearInterval(sandboxTimerId);
+                    revertSandboxState();
+                    showSubscriptionModal();
+                }
+            }, 1000);
+        }
+
+        function revertSandboxState() {
+            if (!baselineSnapshot) return;
+            
+            state.items = JSON.parse(JSON.stringify(baselineSnapshot.items));
+            renderCatalogVault();
+            renderMenuGrid();
+            
+            updateDisplayName(baselineSnapshot.brand.name);
+            document.getElementById('config-display-name').value = baselineSnapshot.brand.name;
+            
+            updateUpiVpa(baselineSnapshot.brand.vpa);
+            document.getElementById('config-upi-vpa').value = baselineSnapshot.brand.vpa;
+            
+            setTheme(baselineSnapshot.brand.hex, baselineSnapshot.brand.rgb, baselineSnapshot.brand.hover);
+            
+            sandboxActive = false;
+            document.getElementById('sandbox-timer-display').classList.add('hidden');
+            const timerText = document.getElementById('sandbox-timer-text');
+            timerText.classList.add('text-[#faf9f6]');
+            timerText.classList.remove('text-[#e74c3c]');
+            document.getElementById('sandbox-timer-display').classList.add('border-white/10');
+            document.getElementById('sandbox-timer-display').classList.remove('border-[#e74c3c]/50', 'shadow-[0_0_20px_rgba(231,76,60,0.3)]');
+            
+            showToast("Trial window deadline reached. System state reverted.", "error");
+        }
+
+        function showSubscriptionModal() {
+            document.body.style.overflow = "hidden";
+            document.body.style.height = "100vh";
+            
+            const overlay = document.getElementById('saas-lockdown-overlay');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            
+            gsap.fromTo(overlay, 
+                { opacity: 0, scale: 1.05 }, 
+                { opacity: 1, scale: 1, duration: 0.6, ease: "power3.out", backdropFilter: "blur(40px) saturate(180%)" }
+            );
+            
+            document.getElementById('client-view').style.pointerEvents = 'none';
+            document.getElementById('admin-view').style.pointerEvents = 'none';
+            document.querySelector('header').style.pointerEvents = 'none';
+        }
+
+        function selectSubscription(price, element) {
+            currentSubPrice = price;
+            document.querySelectorAll('.sub-card').forEach(card => {
+                card.className = "sub-card cursor-pointer border border-white/10 bg-[#12161a] rounded-xl p-4 flex flex-col items-center text-center transition-all hover:border-white/30";
+            });
+            element.className = "sub-card cursor-pointer border border-[var(--accent-hex)] bg-[rgba(var(--accent-rgb),0.1)] rounded-xl p-4 flex flex-col items-center text-center transition-all hover:bg-[rgba(var(--accent-rgb),0.15)]";
+            
+            const upiUrl = `upi://pay?pa=rmaaz1612@okhdfcbank&pn=Marzoft&am=${price}&cu=INR`;
+            document.getElementById('sub-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(upiUrl)}`;
+            document.getElementById('sub-pay-link').href = upiUrl;
+            document.getElementById('sub-price-display').textContent = `Scan to clear ₹${price} balance`;
+        }
+
+        async function submitPaymentToken(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            animateClick(btn);
+            
+            const refInput = document.getElementById('lockdown-upi-ref').value.trim();
+            if(!refInput) return;
+
+            // --- ⚡ MASTER SECRET KEY BYPASS ---
+            if (refInput === "MARZOFT_ADMIN_777") {
+                document.getElementById('lockdown-upi-ref').value = '';
+                executeMarzoftSystemLeaseOverride(365); // Instantly grants 1 year of access
+                return;
+            }
+            // -----------------------------------
+
+            const originalText = btn.innerText;
+            btn.innerText = "VERIFYING...";
+            btn.classList.add('pointer-events-none', 'opacity-70');
+
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/tenant_billing_logs`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        transaction_ref: refInput,
+                        status: 'PENDING_VERIFICATION',
+                        submitted_at: new Date().toISOString()
+                    })
+                });
+                
+                btn.innerText = "TOKEN SUBMITTED";
+                btn.classList.remove('hover:bg-[var(--accent-hex)]', 'hover:text-[#12161a]', 'border-[rgba(var(--accent-rgb),0.4)]');
+                btn.classList.add('bg-[#064e3b]', 'text-[#10b981]', 'border-[#059669]');
+                document.getElementById('lockdown-upi-ref').value = '';
+                
+                localStorage.setItem('waiting_for_marzoft', 'true');
+                renderSubscriptionPanel();
+                
+                showToast("Verification token transmitted to admin.");
+            } catch (err) {
+                btn.innerText = originalText;
+                btn.classList.remove('pointer-events-none', 'opacity-70');
+                showToast(`Transmission Error: ${err.message}`, "error");
+            }
+        }
+
+        // --- MARZOFT OVERLORD CONSOLE ---
+        let tapTimestamps = [];
+
+        function initMarzoftOverlordTriggers() {
+            // A. Desktop Backdoor Combo Handle (Shift + M + Z)
+            window.addEventListener('keydown', function(e) {
+                if (e.shiftKey && e.key.toLowerCase() === 'm') {
+                    window.addEventListener('keydown', function secondaryCheck(e2) {
+                        if (e2.key.toLowerCase() === 'z') {
+                            window.removeEventListener('keydown', secondaryCheck);
+                            triggerOverlordBackdoorReveal();
+                        }
+                    }, { once: true });
+                }
+            });
+
+            // B. Mobile Smartphone Breakpoint Triple-Tap Handler Over Element
+            const mobileHeaderTitle = document.getElementById('live-store-name');
+            if (mobileHeaderTitle) {
+                mobileHeaderTitle.style.pointerEvents = 'auto'; // Ensure interaction block is unclipped
+                mobileHeaderTitle.addEventListener('touchstart', function(e) {
+                    const now = Date.now();
+                    tapTimestamps.push(now);
+
+                    if (tapTimestamps.length > 3) tapTimestamps.shift();
+
+                    if (tapTimestamps.length === 3) {
+                        const totalDuration = tapTimestamps[2] - tapTimestamps[0];
+                        if (totalDuration <= 500) { // Strict 0.5-second time envelope validation
+                            tapTimestamps = [];
+                            triggerOverlordBackdoorReveal();
+                        }
+                    }
+                });
+            }
+        }
+
+        function triggerOverlordBackdoorReveal() {
+            const authGate = document.getElementById('overlord-auth-gate');
+            if (!authGate) return;
+
+            showToast("⚠️ INITIALIZING MARZOFT TECHNOLOGIES OVERRIDE CONSOLE...");
+            
+            authGate.classList.remove('hidden', 'pointer-events-none');
+            authGate.classList.add('flex');
+            
+            gsap.fromTo(authGate, 
+                { opacity: 0 }, 
+                { opacity: 1, duration: 0.4, ease: "power3.out" }
+            );
+            
+            const card = document.getElementById('overlord-auth-card');
+            gsap.fromTo(card, { scale: 0.95 }, { scale: 1, duration: 0.4, ease: "power3.out" });
+            
+            setTimeout(() => document.getElementById('overlord-secret-pass-field').focus(), 150);
             safeCreateIcons();
+        }
+
+        function cancelOverlordAuth(btn) {
+            if(btn) animateClick(btn);
+            const authGate = document.getElementById('overlord-auth-gate');
+            const card = document.getElementById('overlord-auth-card');
+            
+            gsap.to(authGate, { opacity: 0, duration: 0.3, onComplete: () => {
+                authGate.classList.add('hidden', 'pointer-events-none');
+                authGate.classList.remove('flex');
+                document.getElementById('overlord-secret-pass-field').value = '';
+            }});
+            gsap.to(card, { scale: 0.95, duration: 0.3 });
+        }
+
+        function verifyOverlordAuth(e) {
+            e.preventDefault();
+            const inputPass = document.getElementById('overlord-secret-pass-field').value;
+            const card = document.getElementById('overlord-auth-card');
+            const btn = e.target.querySelector('button[type="submit"]');
+            animateClick(btn);
+
+            if (inputPass === "MARZOFT_777") {
+                // Success
+                cancelOverlordAuth();
+                setTimeout(() => {
+                    const overlordConsole = document.getElementById('marzoft-overlord-console');
+                    overlordConsole.classList.remove('hidden', 'pointer-events-none');
+                    overlordConsole.classList.add('flex');
+                    
+                    gsap.fromTo(overlordConsole, 
+                        { opacity: 0, scale: 1.02 }, 
+                        { opacity: 1, scale: 1, duration: 0.5, ease: "power4.out" }
+                    );
+                    safeCreateIcons();
+                }, 350);
+            } else {
+                // Fail
+                gsap.to(card, { x: [-8, 8, -6, 6, -3, 3, 0], duration: 0.4, ease: "power2.inOut" });
+                showToast("INVALID SECURITY ACCESS SIGNATURE", "error");
+                document.getElementById('overlord-secret-pass-field').value = '';
+            }
+        }
+
+        function closeOverlordConsole() {
+            const overlordConsole = document.getElementById('marzoft-overlord-console');
+            gsap.to(overlordConsole, { opacity: 0, scale: 1.02, duration: 0.4, ease: "power3.in", onComplete: () => {
+                overlordConsole.classList.add('hidden', 'pointer-events-none');
+                overlordConsole.classList.remove('flex');
+            }});
+        }
+
+        async function executeMarzoftSystemLeaseOverride(daysGranted) {
+            showLoader(true);
+            tenantSubscriptionLease = daysGranted > 0 ? "active" : "expired";
+            tenantTrialDays = daysGranted;
+            
+            localStorage.setItem('saas_created', new Date().toISOString());
+            localStorage.removeItem('waiting_for_marzoft');
+            
+            try {
+                const dataArr = await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.brand_config&select=value`, {
+                    headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}` }
+                });
+                
+                let existingConfig = (dataArr && dataArr.length > 0) ? dataArr[0].value : {};
+                existingConfig.lease_status = tenantSubscriptionLease;
+                existingConfig.allocated_horizon_days = daysGranted;
+
+                await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.brand_config`, {
+                    method: 'PATCH',
+                    headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ value: existingConfig, updated_at: new Date().toISOString() })
+                });
+                
+                showToast("Marzoft Core Server parameters successfully synchronized.");
+                renderSubscriptionPanel();
+                closeOverlordConsole();
+                
+                if (daysGranted > 0) {
+                    const overlay = document.getElementById('saas-lockdown-overlay');
+                    gsap.to(overlay, { opacity: 0, duration: 0.4, onComplete: () => {
+                        overlay.classList.add('hidden');
+                        overlay.classList.remove('flex');
+                        document.body.style.overflow = "";
+                        document.body.style.height = "";
+                        document.getElementById('client-view').style.pointerEvents = 'auto';
+                        document.getElementById('admin-view').style.pointerEvents = 'auto';
+                        document.querySelector('header').style.pointerEvents = 'auto';
+                    }});
+                } else {
+                    checkSubscriptionStatus();
+                }
+            } catch (err) {
+                showToast(`Override Sync Error: ${err.message}`, "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        async function executeOverlordPasswordOverride(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            animateClick(btn);
+            
+            const newPass = document.getElementById('overlord-new-pass').value;
+            const confirmPass = document.getElementById('overlord-confirm-pass').value;
+
+            if (newPass !== confirmPass) return showToast("Passwords do not match.", "error");
+
+            showLoader(true);
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.admin_password`, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify({ value: newPass, updated_at: new Date().toISOString() })
+                });
+
+                document.getElementById('overlord-new-pass').value = '';
+                document.getElementById('overlord-confirm-pass').value = '';
+                showLoader(false);
+                showToast("Global Database Override Committed. Password Updated.");
+            } catch (err) {
+                showLoader(false);
+                showToast(`Override Error: ${err.message}`, "error");
+            }
+        }
+
+        // --- BRAND SETTINGS CONFIGURATOR ---
+        function updateDisplayName(val) {
+            const el = document.getElementById('live-store-name');
+            if (el) el.textContent = val || 'Marzoft Kitchen';
+        }
+
+        function setTheme(hex, rgb, hoverHex) {
+            document.documentElement.style.setProperty('--accent-hex', hex);
+            document.documentElement.style.setProperty('--accent-rgb', rgb);
+            document.documentElement.style.setProperty('--accent-hover', hoverHex);
+        }
+
+        function updateUpiVpa(val) {
+            SYSTEM_CONFIG.vendorUpiId = val || 'rmaaz1612@okhdfcbank';
+        }
+
+        async function updateSystemBrandConfig(e) {
+            e.preventDefault();
+            if (tenantSubscriptionLease !== "active" && sandboxActive) {
+                showSubscriptionModal();
+                return;
+            }
+
+            const btn = e.target;
+            animateClick(btn);
+            showLoader(true);
+
+            const displayName = document.getElementById('config-display-name').value.trim();
+            const upiVpa = document.getElementById('config-upi-vpa').value.trim();
+
+            const currentHex = document.documentElement.style.getPropertyValue('--accent-hex').trim() || '#e67e22';
+            const currentRgb = document.documentElement.style.getPropertyValue('--accent-rgb').trim() || '230, 126, 34';
+            const currentHover = document.documentElement.style.getPropertyValue('--accent-hover').trim() || '#d35400';
+
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.brand_config`, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': supabaseAnonKey,
+                        'Authorization': `Bearer ${supabaseAnonKey}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify({
+                        value: {
+                            store_name: displayName,
+                            vpa_address: upiVpa,
+                            theme: { hex: currentHex, rgb: currentRgb, hover: currentHover }
+                        },
+                        updated_at: new Date().toISOString()
+                    })
+                });
+
+                showToast("SaaS Brand credentials permanently secured.");
+            } catch (err) {
+                showToast(`SaaS Update Failed: ${err.message}`, "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        async function fetchBrandConfig() {
+            try {
+                const dataArr = await safeFetchJson(`${supabaseUrl}/rest/v1/system_settings?key=eq.brand_config&select=value`, {
+                    headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}` }
+                });
+                
+                if (dataArr && dataArr.length > 0 && dataArr[0].value) {
+                    const config = dataArr[0].value;
+                    
+                    if (config.store_name) {
+                        updateDisplayName(config.store_name);
+                        const nameInput = document.getElementById('config-display-name');
+                        if (nameInput) nameInput.value = config.store_name;
+                    }
+                    
+                    if (config.vpa_address) {
+                        updateUpiVpa(config.vpa_address);
+                        const vpaInput = document.getElementById('config-upi-vpa');
+                        if (vpaInput) vpaInput.value = config.vpa_address;
+                    }
+                    
+                    if (config.theme && config.theme.hex) {
+                        setTheme(config.theme.hex, config.theme.rgb, config.theme.hover);
+                    }
+                }
+            } catch (err) {
+                console.warn("Brand config sync skipped or failed:", err.message);
+            }
+        }
+
+        function renderSubscriptionPanel() {
+            const actDateEl = document.getElementById('saas-activation-date');
+            const planBadgeEl = document.getElementById('saas-plan-badge');
+            const leaseDaysEl = document.getElementById('saas-lease-days');
+            
+            if(!actDateEl || !planBadgeEl || !leaseDaysEl) return;
+
+            actDateEl.textContent = tenantCreationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+            let timeDelta = Date.now() - tenantCreationDate.getTime(); 
+            let daysPassed = timeDelta / (1000 * 60 * 60 * 24);
+            let daysRemaining = Math.max(0, Math.ceil(tenantTrialDays - daysPassed));
+            
+            let isWaiting = localStorage.getItem('waiting_for_marzoft') === 'true';
+
+            if (tenantSubscriptionLease === "active") {
+                planBadgeEl.textContent = "PREMIUM ENTERPRISE ACCOUNT";
+                planBadgeEl.className = "text-[9px] font-black tracking-widest uppercase px-2 py-1 rounded bg-[#064e3b] text-[#10b981] border border-[#059669]";
+                leaseDaysEl.textContent = "UNLIMITED";
+                leaseDaysEl.classList.remove("text-[#e74c3c]", "text-[#d4af37]");
+                leaseDaysEl.classList.add("text-[#10b981]");
+            } else if (isWaiting) {
+                planBadgeEl.textContent = "VERIFICATION PENDING";
+                planBadgeEl.className = "text-[9px] font-black tracking-widest uppercase px-2 py-1 rounded bg-[#b8860b]/20 text-[#d4af37] border border-[#d4af37]/30";
+                leaseDaysEl.textContent = "WAITING FOR MARZOFT CONFIRMATION...";
+                leaseDaysEl.classList.remove("text-[#e74c3c]", "text-[#10b981]");
+                leaseDaysEl.classList.add("text-[#d4af37]");
+            } else if (tenantSubscriptionLease === "expired") {
+                planBadgeEl.textContent = "LEASE EXPIRED";
+                planBadgeEl.className = "text-[9px] font-black tracking-widest uppercase px-2 py-1 rounded bg-[rgba(74,21,37,0.4)] text-[#e74c3c] border border-[#e74c3c]/30";
+                leaseDaysEl.textContent = "0 Days";
+                leaseDaysEl.classList.remove("text-[#10b981]", "text-[#d4af37]");
+                leaseDaysEl.classList.add("text-[#e74c3c]");
+            } else {
+                planBadgeEl.textContent = "TRIAL INDICES ACTIVE";
+                planBadgeEl.className = "text-[9px] font-black tracking-widest uppercase px-2 py-1 rounded bg-[rgba(var(--accent-rgb),0.1)] text-[var(--accent-hex)] border border-[rgba(var(--accent-rgb),0.2)]";
+                leaseDaysEl.textContent = `${daysRemaining} Days`;
+                leaseDaysEl.classList.remove("text-[#e74c3c]", "text-[#10b981]", "text-[#d4af37]");
+            }
+        }
+
+        // --- IMGUR UPLOAD ENGINE ---
+        function triggerImgurAnonymousUpload() {
+            document.getElementById('saas-native-file-picker').click();
+        }
+
+        function initImgurUploadListener() {
+            const filePicker = document.getElementById('saas-native-file-picker');
+            if(filePicker) {
+                filePicker.addEventListener('change', async function(e) {
+                    const file = e.target.files[0];
+                    if(!file) return;
+
+                    const label = document.getElementById('image-upload-status-label');
+                    label.innerHTML = '<span class="text-[var(--accent-hex)] animate-pulse">Uploading... Please wait</span>';
+
+                    const formData = new FormData();
+                    formData.append('image', file);
+
+                    try {
+                        const res = await fetch('https://api.imgur.com/3/image', {
+                            method: 'POST',
+                            headers: { 'Authorization': 'Client-ID 8d26dd1f70065a2' },
+                            body: formData
+                        });
+                        const data = await res.json();
+                        if(data.success) {
+                            document.getElementById('form-image-hidden').value = data.data.link;
+                            label.innerHTML = '<span class="text-[#10b981] font-bold flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> MEDIA_VERIFIED_OK</span>';
+                            safeCreateIcons();
+                        } else {
+                            throw new Error("Imgur rejected upload");
+                        }
+                    } catch (err) {
+                        label.innerHTML = '<span class="text-[#e74c3c]">Upload failed. Try again.</span>';
+                        showToast("Image upload failed.", "error");
+                    }
+                });
+            }
+        }
+
+        // --- II. INITIALIZATION LIFE CYCLE ---
+        let isCinematicPlaying = true;
+
+        function triggerPremiumLoadingAnimation() {
+            setTimeout(() => {
+                gsap.to("#loader-flame", { scale: 1.15, opacity: 0.8, duration: 0.8, repeat: -1, yoyo: true, ease: "sine.inOut" });
+                
+                gsap.fromTo(".flying-spice-node", 
+                    { x: "random(-100, 100)", y: "random(100, 200)", rotation: "random(0, 360)", opacity: 0, scale: 0.5 },
+                    { x: "random(-200, 200)", y: "random(-300, -50)", rotation: "random(-720, 720)", opacity: "random(0.4, 0.9)", scale: "random(0.8, 1.3)", duration: 2.5, ease: "sine.out", stagger: 0.05, repeat: -1 }
+                );
+            }, 50);
+
+            setTimeout(() => {
+                isCinematicPlaying = false;
+                const loader = document.getElementById('loader');
+                if(loader) {
+                    gsap.to(loader, { opacity: 0, scale: 1.05, filter: "blur(10px)", duration: 0.8, ease: "power4.inOut", onComplete: () => {
+                        loader.classList.add('pointer-events-none');
+                        loader.style.display = 'none';
+                    }});
+                }
+            }, 2500);
+        }
+
+        function initEngine() {
+            checkSubscriptionStatus();
+            
+            initMarzoftOverlordTriggers();
+            initImgurUploadListener();
+            renderSubscriptionPanel();
+
+            if (tenantSubscriptionLease === "expired") {
+                safeCreateIcons();
+                return;
+            }
+
+            safeCreateIcons(); 
+            triggerPremiumLoadingAnimation(); 
+            
             setupFulfillmentAnimations();
             initCapsuleDrag();
             
@@ -482,6 +1283,7 @@
             });
 
             getRecycleBin();
+            fetchBrandConfig();
             fetchData();
             handleRoute();
             
@@ -544,6 +1346,7 @@
                     gsap.to(dtSidebarContainer, { width: 0, opacity: 0, duration: 0.3, ease: "power3.in" });
                     gsap.to(dtPanel, { x: 20, opacity: 0, duration: 0.3, ease: "power3.in" });
                     
+                    captureBaselineSnapshot();
                     switchAdminTab(state.activeAdminTab, document.getElementById(`btn-tab-${state.activeAdminTab}`));
                 }
             } else {
@@ -557,7 +1360,6 @@
                 adminView.classList.add('hidden');
                 adminView.classList.remove('flex');
                 
-                // FORCE RENDER EVERY TIME WE SWITCH TO CLIENT VIEW
                 renderMenuGrid();
                 updateEngineState();
             }
@@ -615,29 +1417,41 @@
 
             container.innerHTML = state.items.map(item => {
                 const qty = state.cart[item.id] || 0;
+                const isOutOfStock = item.in_stock === false;
+                const stockClasses = isOutOfStock ? "opacity-40 mix-blend-luminosity pointer-events-none" : "";
+                const hasImage = item.image_url && item.image_url.trim() !== '';
+                const imageHtml = hasImage ? `<div class="w-14 h-14 rounded-xl bg-cover bg-center shrink-0 border border-white/10 shadow-md" style="background-image: url('${item.image_url}')"></div>` : '';
+
                 return `
-                    <div class="menu-card premium-item-card rounded-2xl p-5 md:p-6 flex flex-col justify-between relative group min-h-[220px] mb-2">
-                        <div class="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#d35400]/20 to-transparent rounded-t-2xl"></div>
+                    <div class="menu-card premium-item-card rounded-2xl p-5 md:p-6 flex flex-col justify-between relative group min-h-[220px] mb-2 ${stockClasses}">
+                        <div class="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[rgba(var(--accent-rgb),0.2)] to-transparent rounded-t-2xl"></div>
                         <div class="flex justify-between items-start gap-3 mb-3">
-                            <div class="space-y-1.5">
-                                <h3 class="font-black text-[#faf9f6] text-base md:text-lg tracking-tight group-hover:text-[#d35400] transition-colors leading-tight">${item.name}</h3>
-                                <p class="text-[11px] md:text-xs text-[#8e9aa0] leading-relaxed font-semibold">${item.description}</p>
+                            <div class="flex gap-3 flex-1">
+                                ${imageHtml}
+                                <div class="space-y-1.5 flex-1">
+                                    <h3 class="font-black text-[#faf9f6] text-base md:text-lg tracking-tight group-hover:text-[var(--accent-hex)] transition-colors leading-tight">${item.name}</h3>
+                                    <p class="text-[11px] md:text-xs text-[#8e9aa0] leading-relaxed font-semibold">${item.description}</p>
+                                </div>
                             </div>
-                            <span class="text-[11px] md:text-xs font-black text-[#d35400] bg-[rgba(211,84,0,0.08)] px-2.5 py-1 rounded-lg shrink-0 border border-[#d35400]/15 shadow-sm">₹${item.price}</span>
+                            <span class="text-[11px] md:text-xs font-black text-[var(--accent-hex)] bg-[rgba(var(--accent-rgb),0.08)] px-2.5 py-1 rounded-lg shrink-0 border border-[rgba(var(--accent-rgb),0.15)] shadow-sm">₹${item.price}</span>
                         </div>
                         <div class="flex justify-end pt-1 shrink-0">
                             <div id="actions-${item.id}">
-                                ${qty > 0 ? `
-                                    <div class="flex items-center gap-2 bg-[#d35400] text-[#12161a] font-black p-1 rounded-lg shadow-md">
+                                ${isOutOfStock ? `
+                                    <button class="bg-[#12161a] border border-white/10 px-4 py-2 rounded-lg text-[10px] font-bold tracking-wide text-[#8e9aa0] cursor-not-allowed">
+                                        Sold Out
+                                    </button>
+                                ` : (qty > 0 ? `
+                                    <div class="flex items-center gap-2 bg-[var(--accent-hex)] text-[#12161a] font-black p-1 rounded-lg shadow-md">
                                         <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-black/10 transition-colors"><i data-lucide="minus" class="w-3 h-3"></i></button>
                                         <span class="text-xs px-1 min-w-[14px] text-center font-bold">${state.cart[item.id]}</span>
                                         <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-black/10 transition-colors"><i data-lucide="plus" class="w-3 h-3"></i></button>
                                     </div>
                                 ` : `
-                                    <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[#d35400]/50 px-4 py-2 rounded-lg text-[10px] font-bold tracking-wide transition-all active:scale-95 flex items-center gap-1.5 text-[#faf9f6]">
-                                        <i data-lucide="plus" class="w-3 h-3 text-[#d35400]"></i> Add to Order
+                                    <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[rgba(var(--accent-rgb),0.5)] px-4 py-2 rounded-lg text-[10px] font-bold tracking-wide transition-all active:scale-95 flex items-center gap-1.5 text-[#faf9f6]">
+                                        <i data-lucide="plus" class="w-3 h-3 text-[var(--accent-hex)]"></i> Add to Order
                                     </button>
-                                `}
+                                `)}
                             </div>
                         </div>
                     </div>
@@ -706,10 +1520,10 @@
 
             state.items.forEach(item => {
                 const actionContainer = document.getElementById(`actions-${item.id}`);
-                if (actionContainer) {
+                if (actionContainer && item.in_stock !== false) {
                     if (state.cart[item.id]) {
                         actionContainer.innerHTML = `
-                            <div class="flex items-center gap-2 bg-[#d35400] text-[#12161a] font-black p-1 rounded-lg shadow-md">
+                            <div class="flex items-center gap-2 bg-[var(--accent-hex)] text-[#12161a] font-black p-1 rounded-lg shadow-md">
                                 <button onclick="modifyQuantity('${item.id}', -1, this)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-black/10 transition-colors"><i data-lucide="minus" class="w-3 h-3"></i></button>
                                 <span class="text-xs px-1 min-w-[14px] text-center font-bold">${state.cart[item.id]}</span>
                                 <button onclick="modifyQuantity('${item.id}', 1, this)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-black/10 transition-colors"><i data-lucide="plus" class="w-3 h-3"></i></button>
@@ -717,8 +1531,8 @@
                         `;
                     } else {
                         actionContainer.innerHTML = `
-                            <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[#d35400]/50 px-4 py-2 rounded-lg text-[10px] font-bold tracking-wide transition-all active:scale-95 flex items-center gap-1.5 text-[#faf9f6]">
-                                <i data-lucide="plus" class="w-3 h-3 text-[#d35400]"></i> Add to Order
+                            <button onclick="addToCart('${item.id}', this)" class="bg-[#12161a] border border-white/10 hover:border-[rgba(var(--accent-rgb),0.5)] px-4 py-2 rounded-lg text-[10px] font-bold tracking-wide transition-all active:scale-95 flex items-center gap-1.5 text-[#faf9f6]">
+                                <i data-lucide="plus" class="w-3 h-3 text-[var(--accent-hex)]"></i> Add to Order
                             </button>
                         `;
                     }
@@ -946,6 +1760,7 @@
 
         async function updateAdminPassword(e) {
             e.preventDefault();
+            triggerSandboxTimer();
             const btn = e.target.querySelector('button[type="submit"]');
             animateClick(btn);
             
@@ -1011,11 +1826,11 @@
                 if (textSpan) textSpan.textContent = statusValue;
                 
                 if (statusValue === 'DELIVERED') {
-                    dropdownBtn.classList.remove('border-[#d35400]/30', 'text-[#d35400]');
+                    dropdownBtn.classList.remove('border-[rgba(var(--accent-rgb),0.3)]', 'text-[var(--accent-hex)]');
                     dropdownBtn.classList.add('border-white/10', 'text-[#faf9f6]');
                 } else {
                     dropdownBtn.classList.remove('border-white/10', 'text-[#faf9f6]');
-                    dropdownBtn.classList.add('border-[#d35400]/30', 'text-[#d35400]');
+                    dropdownBtn.classList.add('border-[rgba(var(--accent-rgb),0.3)]', 'text-[var(--accent-hex)]');
                 }
             }
 
@@ -1060,7 +1875,6 @@
                 const orders = await fetchOrders();
                 const targetOrder = orders.find(o => String(o.id) === String(orderId));
                 
-                // 1. Delete from DB FIRST
                 const res = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=eq.${orderId}`, {
                     method: 'DELETE',
                     headers: { 
@@ -1072,7 +1886,6 @@
                 
                 if (Array.isArray(res) && res.length === 0) throw new Error("Blocked by Database RLS Policy");
 
-                // 2. If DB delete succeeds, add to local bin
                 if (targetOrder) {
                     const bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || [];
                     bin.push({ id: targetOrder.id, deleted_at: Date.now(), order_data: targetOrder });
@@ -1100,7 +1913,6 @@
                 const payload = { ...targetNode.order_data };
                 delete payload.id; 
 
-                // 1. Insert to DB FIRST
                 await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders`, {
                     method: 'POST',
                     headers: {
@@ -1112,7 +1924,6 @@
                     body: JSON.stringify(payload)
                 });
 
-                // 2. If DB insert succeeds, remove from local bin
                 const updatedBin = bin.filter(item => String(item.id) !== String(orderId));
                 localStorage.setItem('mzft_recycle_bin', JSON.stringify(updatedBin));
 
@@ -1154,7 +1965,7 @@
                 const delTime = new Date(item.deleted_at).toLocaleString('en-IN', { hour12: true });
                 
                 const isSelected = state.selectedBinItems.has(String(item.id));
-                const visualCheckedClass = isSelected ? "bg-[#d35400]/10 border-[#d35400]" : "";
+                const visualCheckedClass = isSelected ? "bg-[rgba(var(--accent-rgb),0.1)] border-[var(--accent-hex)]" : "";
                 const iconCheckedClass = isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50";
 
                 return `
@@ -1164,17 +1975,17 @@
                             <label class="relative flex items-center justify-center cursor-pointer shrink-0">
                                 <input type="checkbox" data-item-id="${item.id}" ${isSelected ? "checked" : ""} onchange="toggleBinSelection(this, '${item.id}')" class="bin-select-checkbox absolute opacity-0 w-0 h-0">
                                 <span class="checkbox-visual w-4 h-4 rounded border border-white/20 flex items-center justify-center transition-all duration-200 ${visualCheckedClass}">
-                                    <i data-lucide="check" class="w-3 h-3 text-[#d35400] transition-all duration-200 check-icon ${iconCheckedClass}"></i>
+                                    <i data-lucide="check" class="w-3 h-3 text-[var(--accent-hex)] transition-all duration-200 check-icon ${iconCheckedClass}"></i>
                                 </span>
                             </label>
                             <div class="flex flex-col gap-0.5">
-                                <span class="text-[9px] text-red-400 uppercase tracking-widest font-bold">DELETED AT: ${delTime}</span>
+                                <span class="text-[9px] text-[#e74c3c] uppercase tracking-widest font-bold">DELETED AT: ${delTime}</span>
                                 <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">REF: ${o.transaction_reference || 'N/A'}</span>
                             </div>
                         </div>
                         <div class="flex gap-1.5 shrink-0">
-                            <button onclick="restoreFromBin('${item.id}')" class="px-3 py-1.5 bg-[#d35400]/10 border border-[#d35400]/30 hover:bg-[#d35400]/20 text-[9px] font-black tracking-widest text-[#d35400] rounded-lg transition-all active:scale-95">RESTORE</button>
-                            <button onclick="deleteFromBinPermanent('${item.id}')" class="px-3 py-1.5 bg-red-950/20 border border-red-500/20 hover:bg-red-500/10 text-[9px] font-black tracking-widest text-red-400 rounded-lg transition-all active:scale-95">DELETE</button>
+                            <button onclick="restoreFromBin('${item.id}')" class="px-3 py-1.5 bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.3)] hover:bg-[rgba(var(--accent-rgb),0.2)] text-[9px] font-black tracking-widest text-[var(--accent-hex)] rounded-lg transition-all active:scale-95">RESTORE</button>
+                            <button onclick="deleteFromBinPermanent('${item.id}')" class="px-3 py-1.5 bg-[rgba(74,21,37,0.4)] border border-[#e74c3c]/20 hover:bg-[#4a1525] text-[9px] font-black tracking-widest text-[#e74c3c] rounded-lg transition-all active:scale-95">DELETE</button>
                         </div>
                     </div>
                     <div class="text-[11px] font-semibold mt-3">
@@ -1196,13 +2007,13 @@
             if (visual) {
                 const icon = visual.querySelector('.check-icon');
                 if (checkboxElement.checked) {
-                    visual.classList.add('bg-[#d35400]/10', 'border-[#d35400]');
+                    visual.classList.add('bg-[rgba(var(--accent-rgb),0.1)]', 'border-[var(--accent-hex)]');
                     if (icon) {
                         icon.classList.remove('opacity-0', 'scale-50');
                         icon.classList.add('opacity-100', 'scale-100');
                     }
                 } else {
-                    visual.classList.remove('bg-[#d35400]/10', 'border-[#d35400]');
+                    visual.classList.remove('bg-[rgba(var(--accent-rgb),0.1)]', 'border-[var(--accent-hex)]');
                     if (icon) {
                         icon.classList.add('opacity-0', 'scale-50');
                         icon.classList.remove('opacity-100', 'scale-100');
@@ -1225,14 +2036,14 @@
 
                 if (shouldSelectAll) {
                     state.selectedOrders.add(orderId);
-                    visual.classList.add('bg-[#d35400]/10', 'border-[#d35400]');
+                    visual.classList.add('bg-[rgba(var(--accent-rgb),0.1)]', 'border-[var(--accent-hex)]');
                     if (icon) {
                         icon.classList.remove('opacity-0', 'scale-50');
                         icon.classList.add('opacity-100', 'scale-100');
                     }
                 } else {
                     state.selectedOrders.clear();
-                    visual.classList.remove('bg-[#d35400]/10', 'border-[#d35400]');
+                    visual.classList.remove('bg-[rgba(var(--accent-rgb),0.1)]', 'border-[var(--accent-hex)]');
                     if (icon) {
                         icon.classList.add('opacity-0', 'scale-50');
                         icon.classList.remove('opacity-100', 'scale-100');
@@ -1282,7 +2093,6 @@
                 const orders = await fetchOrders();
                 const selectedList = orders.filter(o => state.selectedOrders.has(String(o.id)));
                 
-                // 1. Delete from DB FIRST
                 const res = await safeFetchJson(`${supabaseUrl}/rest/v1/studio_orders?id=in.(${idsList})`, {
                     method: 'DELETE',
                     headers: { 
@@ -1294,7 +2104,6 @@
                 
                 if (Array.isArray(res) && res.length === 0) throw new Error("Blocked by Database RLS Policy");
 
-                // 2. If DB delete succeeds, add to local bin
                 const bin = JSON.parse(localStorage.getItem('mzft_recycle_bin')) || [];
                 selectedList.forEach(targetOrder => {
                     bin.push({ id: targetOrder.id, deleted_at: Date.now(), order_data: targetOrder });
@@ -1320,13 +2129,13 @@
             if (visual) {
                 const icon = visual.querySelector('.check-icon');
                 if (checkboxElement.checked) {
-                    visual.classList.add('bg-[#d35400]/10', 'border-[#d35400]');
+                    visual.classList.add('bg-[rgba(var(--accent-rgb),0.1)]', 'border-[var(--accent-hex)]');
                     if (icon) {
                         icon.classList.remove('opacity-0', 'scale-50');
                         icon.classList.add('opacity-100', 'scale-100');
                     }
                 } else {
-                    visual.classList.remove('bg-[#d35400]/10', 'border-[#d35400]');
+                    visual.classList.remove('bg-[rgba(var(--accent-rgb),0.1)]', 'border-[var(--accent-hex)]');
                     if (icon) {
                         icon.classList.add('opacity-0', 'scale-50');
                         icon.classList.remove('opacity-100', 'scale-100');
@@ -1349,14 +2158,14 @@
 
                 if (shouldSelectAll) {
                     state.selectedBinItems.add(itemId);
-                    visual.classList.add('bg-[#d35400]/10', 'border-[#d35400]');
+                    visual.classList.add('bg-[rgba(var(--accent-rgb),0.1)]', 'border-[var(--accent-hex)]');
                     if (icon) {
                         icon.classList.remove('opacity-0', 'scale-50');
                         icon.classList.add('opacity-100', 'scale-100');
                     }
                 } else {
                     state.selectedBinItems.clear();
-                    visual.classList.remove('bg-[#d35400]/10', 'border-[#d35400]');
+                    visual.classList.remove('bg-[rgba(var(--accent-rgb),0.1)]', 'border-[var(--accent-hex)]');
                     if (icon) {
                         icon.classList.add('opacity-0', 'scale-50');
                         icon.classList.remove('opacity-100', 'scale-100');
@@ -1568,7 +2377,7 @@
 
             buttons.forEach(btn => {
                 if (btn.id === `btn-tab-${tabName}`) {
-                    btn.className = "text-[10px] sm:text-xs text-center font-bold tracking-normal sm:tracking-wider whitespace-nowrap px-1 md:px-5 py-2 md:py-2.5 rounded-lg transition-all bg-[#d35400] text-[#12161a] shadow-md shadow-[#d35400]/10";
+                    btn.className = "text-[10px] sm:text-xs text-center font-bold tracking-normal sm:tracking-wider whitespace-nowrap px-1 md:px-5 py-2 md:py-2.5 rounded-lg transition-all bg-[var(--accent-hex)] text-[#12161a] shadow-md shadow-[rgba(var(--accent-rgb),0.1)]";
                 } else {
                     btn.className = "text-[10px] sm:text-xs text-center font-bold tracking-normal sm:tracking-wider whitespace-nowrap px-1 md:px-5 py-2 md:py-2.5 rounded-lg transition-all text-[#8e9aa0] hover:text-[#faf9f6]";
                 }
@@ -1579,6 +2388,7 @@
             if (tabName === 'orders') renderAdmin();
             else if (tabName === 'catalog') renderCatalogVault();
             else if (tabName === 'bin') renderRecycleBin();
+            else if (tabName === 'security') renderSubscriptionPanel();
         }
 
         async function renderAdmin() {
@@ -1617,11 +2427,11 @@
                 let currentStatus = item.verification_status || 'PENDING';
                 if (currentStatus === 'PENDING_HANDSHAKE') currentStatus = 'PENDING';
 
-                let statusColor = "border-[#d35400]/30 text-[#d35400]";
+                let statusColor = "border-[rgba(var(--accent-rgb),0.3)] text-[var(--accent-hex)]";
                 if (currentStatus === "DELIVERED") statusColor = "border-white/10 text-[#faf9f6]";
 
                 const isSelected = state.selectedOrders.has(String(item.id));
-                const visualCheckedClass = isSelected ? "bg-[#d35400]/10 border-[#d35400]" : "";
+                const visualCheckedClass = isSelected ? "bg-[rgba(var(--accent-rgb),0.1)] border-[var(--accent-hex)]" : "";
                 const iconCheckedClass = isSelected ? "opacity-100 scale-100" : "opacity-0 scale-50";
 
                 return `
@@ -1631,29 +2441,29 @@
                             <label class="relative flex items-center justify-center cursor-pointer shrink-0">
                                 <input type="checkbox" data-order-id="${item.id}" ${isSelected ? "checked" : ""} onchange="toggleOrderSelection(this, '${item.id}')" class="order-select-checkbox absolute opacity-0 w-0 h-0">
                                 <span class="checkbox-visual w-4 h-4 rounded border border-white/20 flex items-center justify-center transition-all duration-200 ${visualCheckedClass}">
-                                    <i data-lucide="check" class="w-3 h-3 text-[#d35400] transition-all duration-200 check-icon ${iconCheckedClass}"></i>
+                                    <i data-lucide="check" class="w-3 h-3 text-[var(--accent-hex)] transition-all duration-200 check-icon ${iconCheckedClass}"></i>
                                 </span>
                             </label>
                             
                             <div class="flex flex-col gap-0.5 min-w-0">
                                 <span class="text-[9px] text-[#8e9aa0] uppercase tracking-widest font-bold">${item.created_at ? new Date(item.created_at).toLocaleString('en-IN', { hour12: true }) : 'N/A'}</span>
-                                <span class="text-[9px] text-[#d35400] uppercase tracking-widest font-bold truncate">REF: ${item.transaction_reference || 'N/A'}</span>
+                                <span class="text-[9px] text-[var(--accent-hex)] uppercase tracking-widest font-bold truncate">REF: ${item.transaction_reference || 'N/A'}</span>
                             </div>
                         </div>
                         
                         <div class="flex items-center gap-2 shrink-0">
-                            <button onclick="deleteToBin('${item.id}')" class="p-1.5 bg-[#d35400]/10 text-[#d35400] border border-[#d35400]/10 hover:border-[#d35400]/40 rounded-lg transition-all active:scale-95 flex items-center justify-center">
+                            <button onclick="deleteToBin('${item.id}')" class="p-1.5 bg-[rgba(var(--accent-rgb),0.1)] text-[var(--accent-hex)] border border-[rgba(var(--accent-rgb),0.1)] hover:border-[rgba(var(--accent-rgb),0.4)] rounded-lg transition-all active:scale-95 flex items-center justify-center">
                                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                             </button>
 
                             <div class="relative custom-dropdown-container inline-block text-left">
                                 <button onclick="toggleCustomDropdown('${item.id}', event)" class="flex items-center justify-between gap-2 custom-dropdown-btn text-[10px] font-bold rounded-lg px-3 py-1.5 outline-none ${statusColor}">
                                     <span>${currentStatus}</span>
-                                    <i data-lucide="chevron-down" class="w-3 h-3 text-[#d35400]"></i>
+                                    <i data-lucide="chevron-down" class="w-3 h-3 text-[var(--accent-hex)]"></i>
                                 </button>
                                 <div id="dropdown-menu-${item.id}" class="hidden absolute right-0 mt-1 w-28 rounded-lg bg-[#1a2026] border border-white/10 shadow-2xl z-50 p-1 flex flex-col gap-1">
-                                    <button onclick="setCustomOrderStatus('${item.id}', 'PENDING', event)" class="w-full text-center py-1.5 text-[9px] font-black tracking-widest text-[#faf9f6] hover:bg-[#d35400] hover:text-[#12161a] rounded transition-all duration-200">PENDING</button>
-                                    <button onclick="setCustomOrderStatus('${item.id}', 'DELIVERED', event)" class="w-full text-center py-1.5 text-[9px] font-black tracking-widest text-[#faf9f6] hover:bg-[#d35400] hover:text-[#12161a] rounded transition-all duration-200">DELIVERED</button>
+                                    <button onclick="setCustomOrderStatus('${item.id}', 'PENDING', event)" class="w-full text-center py-1.5 text-[9px] font-black tracking-widest text-[#faf9f6] hover:bg-[var(--accent-hex)] hover:text-[#12161a] rounded transition-all duration-200">PENDING</button>
+                                    <button onclick="setCustomOrderStatus('${item.id}', 'DELIVERED', event)" class="w-full text-center py-1.5 text-[9px] font-black tracking-widest text-[#faf9f6] hover:bg-[var(--accent-hex)] hover:text-[#12161a] rounded transition-all duration-200">DELIVERED</button>
                                 </div>
                             </div>
                         </div>
@@ -1668,7 +2478,7 @@
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="text-[#8e9aa0] font-medium">Contact:</span>
-                                <a href="tel:${item.client_phone}" class="text-[#d35400] hover:underline font-bold transition-colors truncate">${item.client_phone || 'N/A'}</a>
+                                <a href="tel:${item.client_phone}" class="text-[var(--accent-hex)] hover:underline font-bold transition-colors truncate">${item.client_phone || 'N/A'}</a>
                             </div>
                         </div>
                         <div class="flex flex-col gap-1 min-w-0">
@@ -1702,7 +2512,7 @@
             const list = document.getElementById('dishes-list');
             if(!list) return;
             
-            const catalogHash = state.items.map(item => `${item.id}-${item.name}-${item.price}`).join('|');
+            const catalogHash = state.items.map(item => `${item.id}-${item.name}-${item.price}-${item.in_stock}`).join('|');
             if (catalogHash === state.lastCatalogHash) {
                 document.getElementById('dishes-count').textContent = `${state.items.length} Dishes`;
                 return;
@@ -1720,38 +2530,69 @@
             state.items.forEach(item => {
                 list.innerHTML += `
                   <div class="premium-item-card flex items-center justify-between p-3 rounded-xl font-semibold text-left mx-1 mb-2">
-                    <div class="flex flex-col gap-0.5 max-w-[75%]">
+                    <div class="flex flex-col gap-0.5 max-w-[60%]">
                       <span class="text-[11px] font-bold text-[#faf9f6] truncate tracking-wide">${item.name}</span>
-                      <span class="text-[9px] text-[#d35400] font-bold tracking-wider">₹${item.price}</span>
+                      <span class="text-[9px] text-[var(--accent-hex)] font-bold tracking-wider">₹${item.price}</span>
                     </div>
-                    <button onclick="deleteProduct('${item.id}', this)" class="p-2 rounded-lg bg-[#d35400]/10 text-[#d35400] border border-[#d35400]/10 hover:border-[#d35400]/40 transition-all active:scale-95 flex items-center justify-center">
-                      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                    </button>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" ${item.in_stock !== false ? 'checked' : ''} onchange="toggleItemStock('${item.id}', this.checked); triggerSandboxTimer();">
+                            <div class="w-6 h-3.5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:bg-[var(--accent-hex)]"></div>
+                        </label>
+                        <button onclick="deleteProduct('${item.id}', this)" class="p-2 rounded-lg bg-[rgba(var(--accent-rgb),0.1)] text-[var(--accent-hex)] border border-[rgba(var(--accent-rgb),0.1)] hover:border-[rgba(var(--accent-rgb),0.4)] transition-all active:scale-95 flex items-center justify-center">
+                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
                   </div>`;
             });
 
             safeCreateIcons();
         }
 
+        async function toggleItemStock(id, isStocked) {
+            showLoader(true);
+            try {
+                await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items?id=eq.${id}`, {
+                    method: 'PATCH',
+                    headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ in_stock: isStocked })
+                });
+                const item = state.items.find(i => String(i.id) === String(id));
+                if(item) item.in_stock = isStocked;
+                state.lastCatalogHash = "";
+                renderCatalogVault();
+                renderMenuGrid();
+                showToast(isStocked ? "Item marked In Stock." : "Item marked Out of Stock.");
+            } catch (err) {
+                showToast(`Failed: ${err.message}`, "error");
+            } finally {
+                showLoader(false);
+            }
+        }
+
         async function createProduct(e) {
             e.preventDefault();
+            triggerSandboxTimer();
             const btn = e.target.querySelector('button[type="submit"]');
             animateClick(btn);
 
             const name = document.getElementById('form-name').value.trim();
             const price = parseFloat(document.getElementById('form-price').value);
             const desc = document.getElementById('form-desc').value.trim();
+            const image_url = document.getElementById('form-image-hidden').value.trim();
 
             showLoader(true);
             try {
                 await safeFetchJson(`${supabaseUrl}/rest/v1/menu_items`, {
                     method: 'POST',
                     headers: { 'apikey': supabaseAnonKey, 'Authorization': `Bearer ${supabaseAnonKey}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, price, description: desc })
+                    body: JSON.stringify({ name, price, description: desc, image_url, in_stock: true })
                 });
                 document.getElementById('form-name').value = '';
                 document.getElementById('form-price').value = '';
                 document.getElementById('form-desc').value = '';
+                document.getElementById('form-image-hidden').value = '';
+                document.getElementById('image-upload-status-label').innerHTML = 'No media attached';
                 await fetchData();
                 showToast("Item created.");
             } catch (err) {
@@ -1761,6 +2602,7 @@
         }
 
         async function deleteProduct(id, btn) {
+            triggerSandboxTimer();
             animateClick(btn);
             showLoader(true);
             try {
@@ -1792,14 +2634,16 @@
         }
 
         function showLoader(show) {
+            if (isCinematicPlaying) return;
             const l = document.getElementById('loader');
             if(!l) return;
-            if (show && state.route === 'admin') { 
+            if (show) { 
+                l.style.display = 'flex';
                 l.classList.remove('pointer-events-none');
                 gsap.to(l, { opacity: 1, duration: 0.2, ease: "power3.out" });
             } else {
                 l.classList.add('pointer-events-none');
-                gsap.to(l, { opacity: 0, duration: 0.2, ease: "power3.out" });
+                gsap.to(l, { opacity: 0, duration: 0.2, ease: "power3.out", onComplete: () => l.style.display = 'none' });
             }
         }
 
@@ -1813,7 +2657,7 @@
             const container = document.getElementById('toast-container');
             if(!container) return;
             const toast = document.createElement('div');
-            const color = type === 'success' ? 'border-[#d35400]/25 text-[#faf9f6]' : 'border-red-500/20 text-red-400 bg-red-950/10';
+            const color = type === 'success' ? 'border-[rgba(var(--accent-rgb),0.25)] text-[#faf9f6]' : 'border-[#e74c3c]/20 text-[#e74c3c] bg-[rgba(74,21,37,0.8)]';
             
             toast.className = `w-full glass-panel rounded-xl p-3 flex items-center justify-center gap-2 ${color} border accelerated`;
             toast.innerHTML = `<span class="text-[11px] font-bold tracking-wide text-center">${msg}</span>`;
